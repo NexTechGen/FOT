@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Department of Engineering Technology | Faculty of Technology, University of Jaffna</title>
+  <meta name="description" content="Official website of the Department of Engineering Technology, Faculty of Technology, University of Jaffna. Find information on our three specialisations, staff, academics, research and facilities.">
+  <link rel="stylesheet" href="assets/css/styles.css">
+</head>
+<body data-base="">
+  <a class="skip-link" href="#main">Skip to content</a>
+
+  <header class="site-header">
+    <div class="masthead">
+      <div class="container masthead__inner">
+        <a class="brand" href="index.html">
+          <img class="brand__logo" src="assets/images/UOJ-Logo-Color-scaled.png" alt="" width="48" height="48" decoding="async">
+          <span class="brand__text">
+            <span class="brand__uni">University of Jaffna</span>
+            <span class="brand__dept">Department of Engineering Technology</span>
+            <span class="brand__fac">Faculty of Technology</span>
+          </span>
+        </a>
+        <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="primary-nav">
+          <span class="nav-toggle__bars" aria-hidden="true"><span></span><span></span><span></span></span>
+          <span>Menu</span>
+        </button>
+      </div>
+    </div>
+  </header>
+    <nav id="primary-nav" class="primary-nav" aria-label="Primary">
+      <div class="container">
+        <ul class="nav-list">
+          <li><a href="index.html" aria-current="page">Home</a></li>
+          <li><a href="about/">About</a></li>
+          <li class="has-dropdown">
+            <button class="nav-sub-toggle" type="button" aria-expanded="false" aria-controls="menu-specialisations">Specialisations</button>
+            <ul class="dropdown" id="menu-specialisations">
+              <li><a href="specialisations/automobile-technology/">Automobile Technology</a></li>
+              <li><a href="specialisations/construction-technology/">Construction Technology</a></li>
+              <li><a href="specialisations/electro-technology/">Electro Technology</a></li>
+            </ul>
+          </li>
+          <li><a href="staff/">Staff</a></li>
+          <li><a href="academics/">Academics</a></li>
+          <li class="has-dropdown">
+            <button class="nav-sub-toggle" type="button" aria-expanded="false" aria-controls="menu-resources">Resources</button>
+            <ul class="dropdown" id="menu-resources">
+              <li><a href="research/">Research</a></li>
+              <li><a href="facilities/">Facilities</a></li>
+              <li><a href="news/">News &amp; Events</a></li>
+              <li><a href="downloads/">Downloads</a></li>
+            </ul>
+          </li>
+          <li><a href="contact/">Contact</a></li>
+        </ul>
+      </div>
+    </nav>
+
+  <main id="main">
+
+    <!-- SECTION 1: Faculty of Technology introduction -->
+    <section class="hero" id="faculty" aria-labelledby="faculty-heading">
+      <div class="container hero__grid">
+        <div class="hero__text">
+          <span class="eyebrow">University of Jaffna</span>
+          <h1 id="faculty-heading">Faculty of Technology</h1>
+          <div data-render="faculty-intro"></div>
+          <div class="btn-row mt-5">
+            <a class="btn btn--primary" href="#department">Explore Our Department</a>
+            <a class="btn btn--outline" href="#specialisations">Our Specialisations</a>
+          </div>
+        </div>
+        <div class="hero__media">
+          <img src="assets/images/placeholder-campus.svg" alt="Placeholder image representing the Faculty of Technology campus" width="1200" height="800">
+        </div>
+      </div>
+    </section>
+
+    <!-- SECTION 2: News and announcements -->
+    <section class="section section--tint" id="news" aria-labelledby="news-heading">
+      <div class="container">
+        <div class="section-head">
+          <span class="eyebrow">Latest</span>
+          <h2 id="news-heading">News and announcements</h2>
+        </div>
+        <div data-render="news" data-limit="4"></div>
+        <p class="mt-5"><a class="link-more" href="news/">All news and events</a></p>
+      </div>
+    </section>
+
+    <!-- SECTION 3: Department of Engineering Technology -->
+    <section class="section" id="department" aria-labelledby="department-heading">
+      <div class="container split">
+        <div class="split__media">
+          <img src="assets/images/placeholder-department.svg" alt="Placeholder image representing the Department of Engineering Technology" width="1200" height="800" loading="lazy" decoding="async">
+        </div>
+        <div class="split__body">
+          <span class="eyebrow">Our department</span>
+          <h2 id="department-heading">Welcome to the Department of Engineering Technology</h2>
+          <div data-render="department-intro"></div>
+          <div data-render="department-focus"></div>
+          <p class="mt-5"><a class="link-more" href="about/">About the Department</a></p>
+        </div>
+      </div>
+    </section>
+
+    <!-- SECTION 4: Three specialisations -->
+    <section class="section section--bordered" id="specialisations" aria-labelledby="specialisations-heading">
+      <div class="container">
+        <div class="section-head section-head--center">
+          <span class="eyebrow">Academic focus</span>
+          <h2 id="specialisations-heading">Our Specialisations</h2>
+          <p>The Bachelor of Engineering Technology Honours programme offers three specialisations:</p>
+        </div>
+        <div data-render="specialisations"></div>
+      </div>
+    </section>
+
+    <!-- SECTION 5: Academic overview -->
+    <section class="section" id="academics" aria-labelledby="academics-heading">
+      <div class="container">
+        <div class="section-head">
+          <span class="eyebrow">Study with us</span>
+          <h2 id="academics-heading">Academic overview</h2>
+          <p>Degree programme, programme structure, study areas and student resources.</p>
+        </div>
+        <div data-render="academic-overview"></div>
+      </div>
+    </section>
+
+    <!-- SECTION 6: Laboratories and facilities -->
+    <section class="section" id="facilities" aria-labelledby="facilities-heading">
+      <div class="container">
+        <div class="section-head">
+          <span class="eyebrow">Where we work</span>
+          <h2 id="facilities-heading">Laboratories and other facilities</h2>
+        </div>
+        <div data-render="facilities"></div>
+        <p class="mt-5"><a class="btn btn--outline" href="facilities/">Explore Facilities</a></p>
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="site-footer">
+    <div class="container footer__top">
+      <div>
+        <p class="footer__brand">Department of Engineering Technology</p>
+        <p class="footer__text">Faculty of Technology, University of Jaffna. This site presents the department's three specialisations, staff and academic information.</p>
+      </div>
+      <div>
+        <h2 class="footer__title">Quick links</h2>
+        <ul class="footer__list">
+          <li><a href="about/">About the department</a></li>
+          <li><a href="staff/">Staff directory</a></li>
+          <li><a href="academics/">Academics</a></li>
+          <li><a href="contact/">Contact</a></li>
+        </ul>
+      </div>
+      <div>
+        <h2 class="footer__title">Specialisations</h2>
+        <ul class="footer__list">
+          <li><a href="specialisations/automobile-technology/">Automobile Technology</a></li>
+          <li><a href="specialisations/construction-technology/">Construction Technology</a></li>
+          <li><a href="specialisations/electro-technology/">Electro Technology</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="container footer__bottom">
+      <p>&copy; <span data-current-year>2026</span> Department of Engineering Technology, University of Jaffna.</p>
+      <p>Faculty of Technology</p>
+    </div>
+  </footer>
+
+  <script src="assets/js/content.js" defer></script>
+  <script src="assets/js/staff.js" defer></script>
+  <script src="assets/js/main.js" defer></script>
+</body>
+</html>

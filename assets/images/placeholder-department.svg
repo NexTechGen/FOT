@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 800" width="1200" height="800" role="img" aria-label="Department photograph placeholder">
+  <rect width="1200" height="800" fill="#eef5fb"/>
+  <rect x="12" y="12" width="1176" height="776" fill="none" stroke="#dce5ee" stroke-width="4"/>
+  <g fill="none" stroke="#003b73" stroke-width="8" stroke-linecap="round" stroke-linejoin="round" opacity="0.85">
+    <circle cx="600" cy="360" r="70"/>
+    <path d="M600 290 v-40 M600 430 v40 M530 360 h-40 M670 360 h40"/>
+    <path d="M552 312 l-28 -28 M648 312 l28 -28 M552 408 l-28 28 M648 408 l28 28"/>
+  </g>
+  <text x="600" y="600" text-anchor="middle" font-family="Segoe UI, Arial, sans-serif" font-size="34" font-weight="600" fill="#5c6b7a">Department photograph placeholder</text>
+</svg>

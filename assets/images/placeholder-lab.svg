@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 675" width="1200" height="675" role="img" aria-label="Laboratory photograph placeholder">
+  <rect width="1200" height="675" fill="#eef5fb"/>
+  <rect x="12" y="12" width="1176" height="651" fill="none" stroke="#dce5ee" stroke-width="4"/>
+  <g fill="none" stroke="#003b73" stroke-width="8" stroke-linecap="round" stroke-linejoin="round" opacity="0.85">
+    <path d="M360 240 h180 v190 a90 90 0 0 1 -180 0 z"/>
+    <path d="M420 240 v-40 h60 v40"/>
+    <path d="M360 380 h180"/>
+    <path d="M640 210 h180 v250 h-180 z"/>
+    <path d="M640 300 h180 M640 360 h180"/>
+    <path d="M700 430 v40 h60 v-40"/>
+  </g>
+  <text x="600" y="580" text-anchor="middle" font-family="Segoe UI, Arial, sans-serif" font-size="32" font-weight="600" fill="#5c6b7a">Laboratory / facility photograph placeholder</text>
+</svg>

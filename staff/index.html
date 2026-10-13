@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Staff Directory | Department of Engineering Technology</title>
+  <meta name="description" content="Search and filter the staff of the Department of Engineering Technology, Faculty of Technology, University of Jaffna by name and specialisation.">
+  <link rel="stylesheet" href="../assets/css/styles.css">
+</head>
+<body data-base="../">
+  <a class="skip-link" href="#main">Skip to content</a>
+
+  <header class="site-header">
+    <div class="masthead">
+      <div class="container masthead__inner">
+        <a class="brand" href="../index.html">
+          <img class="brand__logo" src="../assets/images/UOJ-Logo-Color-scaled.png" alt="" width="48" height="48" decoding="async">
+          <span class="brand__text">
+            <span class="brand__uni">University of Jaffna</span>
+            <span class="brand__dept">Department of Engineering Technology</span>
+            <span class="brand__fac">Faculty of Technology</span>
+          </span>
+        </a>
+        <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="primary-nav">
+          <span class="nav-toggle__bars" aria-hidden="true"><span></span><span></span><span></span></span>
+          <span>Menu</span>
+        </button>
+      </div>
+    </div>
+  </header>
+    <nav id="primary-nav" class="primary-nav" aria-label="Primary">
+      <div class="container">
+        <ul class="nav-list">
+          <li><a href="../index.html">Home</a></li>
+          <li><a href="../about/">About</a></li>
+          <li class="has-dropdown">
+            <button class="nav-sub-toggle" type="button" aria-expanded="false" aria-controls="menu-specialisations">Specialisations</button>
+            <ul class="dropdown" id="menu-specialisations">
+              <li><a href="../specialisations/automobile-technology/">Automobile Technology</a></li>
+              <li><a href="../specialisations/construction-technology/">Construction Technology</a></li>
+              <li><a href="../specialisations/electro-technology/">Electro Technology</a></li>
+            </ul>
+          </li>
+          <li><a href="../staff/" aria-current="page">Staff</a></li>
+          <li><a href="../academics/">Academics</a></li>
+          <li class="has-dropdown">
+            <button class="nav-sub-toggle" type="button" aria-expanded="false" aria-controls="menu-resources">Resources</button>
+            <ul class="dropdown" id="menu-resources">
+              <li><a href="../research/">Research</a></li>
+              <li><a href="../facilities/">Facilities</a></li>
+              <li><a href="../news/">News &amp; Events</a></li>
+              <li><a href="../downloads/">Downloads</a></li>
+            </ul>
+          </li>
+          <li><a href="../contact/">Contact</a></li>
+        </ul>
+      </div>
+    </nav>
+
+  <nav class="breadcrumbs" aria-label="Breadcrumb">
+    <div class="container">
+      <ol>
+        <li><a href="../index.html">Home</a></li>
+        <li aria-current="page">Staff</li>
+      </ol>
+    </div>
+  </nav>
+
+  <main id="main">
+    <div class="page-head">
+      <div class="container">
+        <span class="eyebrow">People</span>
+        <h1>Staff Directory</h1>
+        <p>Academic, technical and administrative staff of the Department of Engineering Technology.</p>
+      </div>
+    </div>
+
+    <section class="section" aria-labelledby="directory-heading">
+      <div class="container">
+        <h2 id="directory-heading" class="visually-hidden">Staff directory</h2>
+
+        <div class="filter-bar" role="search" aria-label="Filter staff">
+          <div class="field">
+            <label for="staff-search">Search by name</label>
+            <input type="search" id="staff-search" name="q" autocomplete="off" placeholder="Type a name or designation">
+          </div>
+          <div class="field">
+            <label for="staff-filter">Filter by specialisation</label>
+            <select id="staff-filter" name="specialisation">
+              <option value="">All specialisations</option>
+            </select>
+          </div>
+          <div class="filter-actions">
+            <button class="btn btn--outline" type="button" id="staff-reset">Reset filters</button>
+          </div>
+        </div>
+
+        <p class="results-count" id="staff-count" role="status" aria-live="polite"></p>
+
+        <div id="staff-directory"></div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container footer__top">
+      <div>
+        <p class="footer__brand">Department of Engineering Technology</p>
+        <p class="footer__text">Faculty of Technology, University of Jaffna. This site presents the department's three specialisations, staff and academic information.</p>
+      </div>
+      <div>
+        <h2 class="footer__title">Quick links</h2>
+        <ul class="footer__list">
+          <li><a href="../about/">About the department</a></li>
+          <li><a href="../staff/">Staff directory</a></li>
+          <li><a href="../academics/">Academics</a></li>
+          <li><a href="../contact/">Contact</a></li>
+        </ul>
+      </div>
+      <div>
+        <h2 class="footer__title">Specialisations</h2>
+        <ul class="footer__list">
+          <li><a href="../specialisations/automobile-technology/">Automobile Technology</a></li>
+          <li><a href="../specialisations/construction-technology/">Construction Technology</a></li>
+          <li><a href="../specialisations/electro-technology/">Electro Technology</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="container footer__bottom">
+      <p>&copy; <span data-current-year>2026</span> Department of Engineering Technology, University of Jaffna.</p>
+      <p>Faculty of Technology</p>
+    </div>
+  </footer>
+
+  <script src="../assets/js/content.js" defer></script>
+  <script src="../assets/js/staff.js" defer></script>
+  <script src="../assets/js/main.js" defer></script>
+</body>
+</html>

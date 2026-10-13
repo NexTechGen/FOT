@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 750" width="1200" height="750" role="img" aria-label="Specialisation image placeholder">
+  <rect width="1200" height="750" fill="#eef5fb"/>
+  <rect x="12" y="12" width="1176" height="726" fill="none" stroke="#dce5ee" stroke-width="4"/>
+  <g fill="none" stroke="#003b73" stroke-width="9" stroke-linecap="round" stroke-linejoin="round" opacity="0.85">
+    <rect x="470" y="210" width="260" height="240" rx="14"/>
+    <rect x="540" y="280" width="120" height="100" rx="8"/>
+    <path d="M470 270 h-60 M470 330 h-60 M470 390 h-60 M730 270 h60 M730 330 h60 M730 390 h60"/>
+    <path d="M530 210 v-55 M600 210 v-55 M670 210 v-55 M530 450 v55 M600 450 v55 M670 450 v55"/>
+  </g>
+  <text x="600" y="610" text-anchor="middle" font-family="Segoe UI, Arial, sans-serif" font-size="34" font-weight="600" fill="#5c6b7a">Specialisation image placeholder</text>
+</svg>
