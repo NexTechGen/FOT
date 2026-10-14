@@ -285,11 +285,19 @@ No npm install, no build command and no environment variables are required.
 
 ## 6. Accessibility and browser support
 
-- Mobile-first responsive layout using CSS Grid and Flexbox (tested widths: 320, 375–390, 768,
-  1024 and 1440 px).
+- Mobile-first responsive layout using CSS Grid and Flexbox. All responsive rules use the
+  Bootstrap 5 breakpoints — base (`xs`, < 576), `sm` 576, `md` 768, `lg` 992, `xl` 1200,
+  `xxl` 1400 px — and there are no other width media queries. The navigation collapses below
+  `lg` and is full from 992 px upward. Tested widths: 320, 390, 575, 576, 767, 768, 991, 992,
+  1199, 1200, 1399, 1400 and 1920 px (no horizontal overflow at any width).
+- Touch targets are at least 44 px tall for buttons, navigation, form controls and disclosure
+  summaries (inline text links are exempt per WCAG 2.5.5).
 - Semantic landmarks, one `<h1>` per page, logical heading order and a skip-to-content link.
 - Visible keyboard focus, `aria-current` on the active navigation link, labelled form controls,
-  and dropdown menus that support both click and keyboard (Escape closes; focus is not trapped).
+  and dropdown menus that support hover, click and keyboard (Escape closes; focus is not trapped).
+  Horizontally scrollable `.table-wrap` regions are focusable and labelled.
+- Navigation state is reset when the viewport crosses the `lg` breakpoint, so a half-open mobile
+  menu never leaks into the desktop layout.
 - `prefers-reduced-motion` is respected — animations and transitions are disabled on request.
 - All rendered text is inserted with `textContent`, so the data files cannot inject HTML.
 

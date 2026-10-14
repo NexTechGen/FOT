@@ -204,12 +204,22 @@
     return id;
   }
 
-  /** True when the viewport is in the mobile-navigation range. */
+  /**
+   * True when the viewport is in the mobile-navigation range. This matches the
+   * CSS breakpoint exactly: the collapsible nav is used below lg (992px).
+   */
   function isSmallScreen() {
     if (typeof window.matchMedia === "function") {
-      return window.matchMedia("(max-width: 899px)").matches;
+      return window.matchMedia("(max-width: 991px)").matches;
     }
-    return typeof window.innerWidth === "number" ? window.innerWidth < 900 : false;
+    return typeof window.innerWidth === "number" ? window.innerWidth < 992 : false;
+  }
+
+  /** True when the pointer can hover (mouse / trackpad). */
+  function canHover() {
+    return typeof window.matchMedia === "function"
+      ? window.matchMedia("(hover: hover)").matches
+      : false;
   }
 
   /* --------------------------------------------------------------------------
@@ -1185,6 +1195,12 @@
     }
   }
 
+  /** Reset all navigation state (used when crossing the lg breakpoint). */
+  function resetNavState() {
+    closeAllDropdowns();
+    closeMobileNav();
+  }
+
   function initNav() {
     var nav = document.getElementById("primary-nav");
     var toggle = document.querySelector(".nav-toggle");
@@ -1230,6 +1246,19 @@
           button.setAttribute("aria-expanded", "false");
         }
       });
+
+      // Keep aria-expanded in sync with the CSS hover enhancement so screen
+      // readers agree with what mouse users see.
+      parent.addEventListener("mouseenter", function () {
+        if (!isSmallScreen() && canHover()) {
+          button.setAttribute("aria-expanded", "true");
+        }
+      });
+      parent.addEventListener("mouseleave", function () {
+        if (!isSmallScreen() && !parent.classList.contains("is-open")) {
+          button.setAttribute("aria-expanded", "false");
+        }
+      });
     });
 
     // Escape closes menus and returns focus to the toggling button.
@@ -1255,16 +1284,22 @@
     });
 
     // Outside click closes dropdowns (desktop) and the mobile panel.
+    // NOTE: #primary-nav lives OUTSIDE .site-header, so the nav itself must be
+    // excluded too — otherwise tapping a sub-menu toggle inside the open panel
+    // would immediately close the whole panel.
     document.addEventListener("click", function (event) {
-      if (!event.target.closest(".has-dropdown")) {
+      var target = event.target;
+      if (!target.closest(".has-dropdown")) {
         closeAllDropdowns();
       }
-      var isMobile = isSmallScreen();
+      var insideNav = target.closest("#primary-nav") !== null;
+      var insideHeader = target.closest(".site-header") !== null;
       if (
-        isMobile &&
+        isSmallScreen() &&
         nav &&
         nav.classList.contains("is-open") &&
-        !event.target.closest(".site-header")
+        !insideNav &&
+        !insideHeader
       ) {
         closeMobileNav();
       }
@@ -1278,6 +1313,20 @@
         }
       });
     }
+
+    // Crossing the lg breakpoint resets nav state so the desktop layout never
+    // inherits a half-open mobile panel (or a stale dropdown).
+    if (typeof window.matchMedia === "function") {
+      var breakpoint = window.matchMedia("(min-width: 992px)");
+      var onBreakpointChange = function () {
+        resetNavState();
+      };
+      if (typeof breakpoint.addEventListener === "function") {
+        breakpoint.addEventListener("change", onBreakpointChange);
+      } else if (typeof breakpoint.addListener === "function") {
+        breakpoint.addListener(onBreakpointChange);
+      }
+    }
   }
 
   /* --------------------------------------------------------------------------
@@ -1286,6 +1335,26 @@
   function setCurrentYear() {
     document.querySelectorAll("[data-current-year]").forEach(function (node) {
       node.textContent = String(new Date().getFullYear());
+    });
+  }
+
+  /**
+   * Progressive enhancement for horizontally scrollable tables: expose each
+   * .table-wrap as a labelled, keyboard-focusable scroll region.
+   */
+  function enhanceTables() {
+    document.querySelectorAll(".table-wrap").forEach(function (wrap) {
+      if (!wrap.hasAttribute("tabindex")) {
+        wrap.setAttribute("tabindex", "0");
+      }
+      if (!wrap.hasAttribute("role")) {
+        wrap.setAttribute("role", "region");
+      }
+      if (!wrap.hasAttribute("aria-label")) {
+        var caption = wrap.querySelector("caption");
+        var label = caption ? caption.textContent.trim() : "";
+        wrap.setAttribute("aria-label", label || "Scrollable table");
+      }
     });
   }
 
@@ -1312,6 +1381,7 @@
     renderContact();
     initStaffDirectory();
     setCurrentYear();
+    enhanceTables();
 
     var spId = document.body.getAttribute("data-specialisation");
     if (spId) {
