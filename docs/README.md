@@ -121,14 +121,17 @@ and Netlify serves `404.html` automatically for unknown paths while keeping the 
 address bar. Most other static hosts can be configured to do the same (`ErrorDocument` on Apache,
 `error_page` on nginx).
 
-> **`404.html` uses root-absolute URLs on purpose.** Because the error page is shown for *any*
-> missing URL (e.g. `/foo/bar/`), its stylesheet, images, scripts and links are all written as
-> `/assets/...`, `/about/`, `/` … and its `<body>` uses `data-base="/"`. Relative paths would resolve
-> against the missing folder and break. Keep these absolute if you edit the page.
+> **`404.html` resolves every URL against a `<base>` element.** Because the error page is shown for
+> *any* missing URL (e.g. `/foo/bar/`), a path relative to the browser's own URL would resolve to
+> `/foo/bar/assets/...` and break. Instead the page carries `<base href="/">` (the site root) and
+> writes its stylesheet, images, scripts and links as plain relative paths (`assets/...`, `about/`,
+> `./`). A two-line script flips the base to `./` when the file is opened directly from disk
+> (`file://`), so double-clicking `404.html` also renders correctly. Keep the URLs relative and keep
+> the `<base>` if you edit the page.
 
 Every other page keeps relative paths (with its own `data-base`) so the nested
-`specialisations/.../` pages resolve correctly. Opening `404.html` directly from disk still renders,
-but the root-absolute paths only resolve once the site is served from the domain root.
+`specialisations/.../` pages resolve correctly; the `404.html` `<body>` uses `data-base=""` because
+the `<base>` element already supplies the root.
 
 ---
 
@@ -333,11 +336,11 @@ There is intentionally **no contact form**, because the site has no backend.
 3. Ensure `index.html` is served at the site root.
 4. Serve `404.html` for unknown paths (Netlify does this automatically; Apache uses
    `ErrorDocument`, nginx uses `error_page`). See "Testing the 404 page" in section 2 — `404.html`
-   is deliberately root-absolute.
+   uses a `<base href="/">` element instead of the `data-base` attribute.
 5. Keep the relative paths on the normal pages intact so the nested `specialisations/…/` pages
    resolve their assets. The `data-base` attribute on each page (`""`, `"../"` or `"../../"`)
    handles this; if you add a page at a new depth, set its `data-base` to the correct number of
-   `../` segments. (`404.html` is the one exception: it uses `data-base="/"` and absolute URLs.)
+   `../` segments. (`404.html` is the one exception: it uses `<base href="/">` with relative URLs.)
 
 No npm install, no build command and no environment variables are required.
 

@@ -6,19 +6,29 @@
   <title>Page not found | Department of Engineering Technology</title>
   <meta name="description" content="The page you requested could not be found on the Department of Engineering Technology website, University of Jaffna.">
   <meta name="robots" content="noindex">
-  <!-- The error page is served for ANY missing URL, so its links and assets are
-       root-absolute ("/...") and it uses data-base="/". Relative paths would
-       resolve against the missing path (e.g. /foo/bar/) and break. -->
-  <link rel="stylesheet" href="/assets/css/styles.css">
-  <link rel="icon" href="/assets/images/UOJ-Logo-Color-scaled.ico" type="image/x-icon">
+  <!-- This error page is served for ANY missing URL, so it cannot rely on the
+       browser's own path. Everything below uses URLs relative to one base:
+         - Hosted (Netlify, domain root): base is "/" so links resolve from the
+           site root no matter which missing path triggered the page.
+         - Opened directly from disk (file://): the script flips the base to this
+           file's own folder so the stylesheet, scripts and links still resolve. -->
+  <base href="/">
+  <script>
+    if (location.protocol === "file:") {
+      var baseEl = document.querySelector("base");
+      if (baseEl) { baseEl.setAttribute("href", "./"); }
+    }
+  </script>
+  <link rel="stylesheet" href="assets/css/styles.css">
+  <link rel="icon" href="assets/images/UOJ-Logo-Color-scaled.ico" type="image/x-icon">
 </head>
-<body data-base="/">
+<body data-base="">
 
   <header class="site-header">
     <div class="masthead">
       <div class="container masthead__inner">
-        <a class="brand" href="/">
-          <img class="brand__logo" src="/assets/images/UOJ-Logo-Color-scaled.png" alt="" width="48" height="48" decoding="async">
+        <a class="brand" href="./">
+          <img class="brand__logo" src="assets/images/UOJ-Logo-Color-scaled.png" alt="" width="48" height="48" decoding="async">
           <span class="brand__text">
             <span class="brand__uni" data-render="institution-university">University of Jaffna</span>
             <span class="brand__dept" data-render="institution-department">Department of Engineering Technology</span>
@@ -35,28 +45,28 @@
     <nav id="primary-nav" class="primary-nav" aria-label="Primary">
       <div class="container">
         <ul class="nav-list">
-          <li><a href="/">Home</a></li>
-          <li><a href="/about/">About</a></li>
+          <li><a href="./">Home</a></li>
+          <li><a href="about/">About</a></li>
           <li class="has-dropdown">
             <button class="nav-sub-toggle" type="button" aria-expanded="false" aria-controls="menu-specialisations">Specialisations</button>
             <ul class="dropdown" id="menu-specialisations">
-              <li><a href="/specialisations/automobile-technology/" data-sp-link="sp-01">Automobile Technology</a></li>
-              <li><a href="/specialisations/construction-technology/" data-sp-link="sp-02">Construction Technology</a></li>
-              <li><a href="/specialisations/electro-technology/" data-sp-link="sp-03">Electro Technology</a></li>
+              <li><a href="specialisations/automobile-technology/" data-sp-link="sp-01">Automobile Technology</a></li>
+              <li><a href="specialisations/construction-technology/" data-sp-link="sp-02">Construction Technology</a></li>
+              <li><a href="specialisations/electro-technology/" data-sp-link="sp-03">Electro Technology</a></li>
             </ul>
           </li>
-          <li><a href="/staff/">Staff</a></li>
-          <li><a href="/academics/">Academics</a></li>
-          <li><a href="/news/">News &amp; Events</a></li>
+          <li><a href="staff/">Staff</a></li>
+          <li><a href="academics/">Academics</a></li>
+          <li><a href="news/">News &amp; Events</a></li>
           <li class="has-dropdown">
             <button class="nav-sub-toggle" type="button" aria-expanded="false" aria-controls="menu-resources">Resources</button>
             <ul class="dropdown" id="menu-resources">
-              <li><a href="/research/">Research</a></li>
-              <li><a href="/facilities/">Facilities</a></li>
-              <li><a href="/downloads/">Downloads</a></li>
+              <li><a href="research/">Research</a></li>
+              <li><a href="facilities/">Facilities</a></li>
+              <li><a href="downloads/">Downloads</a></li>
             </ul>
           </li>
-          <li><a href="/contact/">Contact</a></li>
+          <li><a href="contact/">Contact</a></li>
         </ul>
       </div>
     </nav>
@@ -78,8 +88,8 @@
           <p class="lead">Sorry, the page you requested could not be found. It may have been moved, renamed, or removed.</p>
 
           <div class="btn-row mt-5">
-            <a class="btn btn--primary" href="/">Return to the homepage</a>
-            <a class="btn btn--outline" href="/contact/">Contact the department</a>
+            <a class="btn btn--primary" href="./">Return to the homepage</a>
+            <a class="btn btn--outline" href="contact/">Contact the department</a>
           </div>
         </div>
 
@@ -93,7 +103,7 @@
 
         <ul class="error-links">
           <li>
-            <a class="error-link" href="/about/">
+            <a class="error-link" href="about/">
               <span class="error-link__icon" aria-hidden="true">
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" focusable="false">
                   <line x1="3" x2="21" y1="22" y2="22"></line>
@@ -111,7 +121,7 @@
             </a>
           </li>
           <li>
-            <a class="error-link" href="/staff/">
+            <a class="error-link" href="staff/">
               <span class="error-link__icon" aria-hidden="true">
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" focusable="false">
                   <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"></path>
@@ -127,7 +137,7 @@
             </a>
           </li>
           <li>
-            <a class="error-link" href="/academics/">
+            <a class="error-link" href="academics/">
               <span class="error-link__icon" aria-hidden="true">
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" focusable="false">
                   <path d="M21.42 10.922a1 1 0 0 0-.019-1.838L12.83 5.18a2 2 0 0 0-1.66 0L2.6 9.08a1 1 0 0 0 0 1.832l8.57 3.908a2 2 0 0 0 1.66 0z"></path>
@@ -142,7 +152,7 @@
             </a>
           </li>
           <li>
-            <a class="error-link" href="/research/">
+            <a class="error-link" href="research/">
               <span class="error-link__icon" aria-hidden="true">
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" focusable="false">
                   <path d="M14 2v6.343a2 2 0 0 0 .245.96l5.51 10.08A2 2 0 0 1 18 22H6a2 2 0 0 1-1.755-2.96l5.51-10.08A2 2 0 0 0 10 8.343V2"></path>
@@ -157,7 +167,7 @@
             </a>
           </li>
           <li>
-            <a class="error-link" href="/facilities/">
+            <a class="error-link" href="facilities/">
               <span class="error-link__icon" aria-hidden="true">
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" focusable="false">
                   <path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"></path>
@@ -170,7 +180,7 @@
             </a>
           </li>
           <li>
-            <a class="error-link" href="/contact/">
+            <a class="error-link" href="contact/">
               <span class="error-link__icon" aria-hidden="true">
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" focusable="false">
                   <rect width="20" height="16" x="2" y="4" rx="2"></rect>
@@ -192,7 +202,7 @@
   <footer class="site-footer">
     <div class="container footer__top">
       <div class="footer__brand-block">
-        <img class="footer__logo" src="/assets/images/UOJ-Logo-Black-White-scaled.png" alt="" width="72" height="72" loading="lazy" decoding="async">
+        <img class="footer__logo" src="assets/images/UOJ-Logo-Black-White-scaled.png" alt="" width="72" height="72" loading="lazy" decoding="async">
         <div class="footer__brandtext">
           <p class="footer__brand">Department of Engineering Technology</p>
           <p class="footer__text">Faculty of Technology, University of Jaffna. This site presents the department's three specialisations, staff and academic information.</p>
@@ -201,18 +211,18 @@
       <div>
         <h2 class="footer__title">Quick links</h2>
         <ul class="footer__list">
-          <li><a href="/about/">About the department</a></li>
-          <li><a href="/staff/">Staff directory</a></li>
-          <li><a href="/academics/">Academics</a></li>
-          <li><a href="/contact/">Contact</a></li>
+          <li><a href="about/">About the department</a></li>
+          <li><a href="staff/">Staff directory</a></li>
+          <li><a href="academics/">Academics</a></li>
+          <li><a href="contact/">Contact</a></li>
         </ul>
       </div>
       <div>
         <h2 class="footer__title">Specialisations</h2>
         <ul class="footer__list">
-          <li><a href="/specialisations/automobile-technology/" data-sp-link="sp-01">Automobile Technology</a></li>
-          <li><a href="/specialisations/construction-technology/" data-sp-link="sp-02">Construction Technology</a></li>
-          <li><a href="/specialisations/electro-technology/" data-sp-link="sp-03">Electro Technology</a></li>
+          <li><a href="specialisations/automobile-technology/" data-sp-link="sp-01">Automobile Technology</a></li>
+          <li><a href="specialisations/construction-technology/" data-sp-link="sp-02">Construction Technology</a></li>
+          <li><a href="specialisations/electro-technology/" data-sp-link="sp-03">Electro Technology</a></li>
         </ul>
       </div>
     </div>
@@ -221,8 +231,8 @@
     </div>
   </footer>
 
-  <script src="/assets/js/content.js" defer></script>
-  <script src="/assets/js/staff.js" defer></script>
-  <script src="/assets/js/main.js" defer></script>
+  <script src="assets/js/content.js" defer></script>
+  <script src="assets/js/staff.js" defer></script>
+  <script src="assets/js/main.js" defer></script>
 </body>
 </html>
