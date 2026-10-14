@@ -294,7 +294,7 @@ No npm install, no build command and no environment variables are required.
   1199, 1200, 1399, 1400 and 1920 px (no horizontal overflow at any width).
 - Touch targets are at least 44 px tall for buttons, navigation, form controls and disclosure
   summaries (inline text links are exempt per WCAG 2.5.5).
-- Semantic landmarks, one `<h1>` per page, logical heading order and a skip-to-content link.
+- Semantic landmarks, one `<h1>` per page and logical heading order.
 - Visible keyboard focus, `aria-current` on the active navigation link, labelled form controls,
   and dropdown menus that support hover, click and keyboard (Escape closes; focus is not trapped).
   Horizontally scrollable `.table-wrap` regions are focusable and labelled.
