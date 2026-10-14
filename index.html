@@ -6,6 +6,7 @@
   <title>Department of Engineering Technology | Faculty of Technology, University of Jaffna</title>
   <meta name="description" content="Official website of the Department of Engineering Technology, Faculty of Technology, University of Jaffna. Find information on our three specialisations, staff, academics, research and facilities.">
   <link rel="stylesheet" href="assets/css/styles.css">
+  <link rel="icon" href="assets/images/UOJ-Logo-Color-scaled.ico" type="image/x-icon">
 </head>
 <body data-base="">
 
@@ -76,15 +77,10 @@
       </div>
     </section>
 
-    <!-- SECTION 2: News and announcements -->
-    <section class="section section--tint" id="news" aria-labelledby="news-heading">
+    <!-- SECTION 2: Message from the Dean -->
+    <section class="section section--tint" id="dean" aria-label="Message from the Dean">
       <div class="container">
-        <div class="section-head">
-          <span class="eyebrow">Latest</span>
-          <h2 id="news-heading">News and announcements</h2>
-        </div>
-        <div data-render="news" data-limit="4"></div>
-        <p class="mt-5"><a class="link-more" href="news/">All news and events</a></p>
+        <div data-render="dean"></div>
       </div>
     </section>
 
@@ -135,8 +131,20 @@
           <span class="eyebrow">Where we work</span>
           <h2 id="facilities-heading">Laboratories and other facilities</h2>
         </div>
-        <div data-render="facilities"></div>
+        <div data-render="facilities" data-limit="2"></div>
         <p class="mt-5"><a class="btn btn--outline" href="facilities/">Explore Facilities</a></p>
+      </div>
+    </section>
+
+    <!-- SECTION 7: News and announcements -->
+    <section class="section section--tint" id="news" aria-labelledby="news-heading">
+      <div class="container">
+        <div class="section-head">
+          <span class="eyebrow">Latest</span>
+          <h2 id="news-heading">News and announcements</h2>
+        </div>
+        <div data-render="news" data-limit="4"></div>
+        <p class="mt-5"><a class="link-more" href="news/">All news and events</a></p>
       </div>
     </section>
 
@@ -144,9 +152,12 @@
 
   <footer class="site-footer">
     <div class="container footer__top">
-      <div>
-        <p class="footer__brand">Department of Engineering Technology</p>
-        <p class="footer__text">Faculty of Technology, University of Jaffna. This site presents the department's three specialisations, staff and academic information.</p>
+      <div class="footer__brand-block">
+        <img class="footer__logo" src="assets/images/UOJ-Logo-Black-White-scaled.png" alt="" width="72" height="72" loading="lazy" decoding="async">
+        <div class="footer__brandtext">
+          <p class="footer__brand">Department of Engineering Technology</p>
+          <p class="footer__text">Faculty of Technology, University of Jaffna. This site presents the department's three specialisations, staff and academic information.</p>
+        </div>
       </div>
       <div>
         <h2 class="footer__title">Quick links</h2>
@@ -167,8 +178,7 @@
       </div>
     </div>
     <div class="container footer__bottom">
-      <p>&copy; <span data-current-year>2026</span> Department of Engineering Technology, University of Jaffna.</p>
-      <p>Faculty of Technology</p>
+      <p>&copy; <span data-current-year>2026</span> Department of Engineering Technology, Faculty of Technology - <a href="https://jfn.ac.lk/" target="_blank" rel="noopener noreferrer">University of Jaffna</a>.</p>
     </div>
   </footer>
 

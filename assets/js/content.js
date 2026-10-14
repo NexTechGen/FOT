@@ -10,8 +10,8 @@
  * Everything that appears on more than one page, or that official staff are
  * likely to update, lives here so it only has to be edited once:
  *   - Faculty introduction (homepage section 1)
- *   - Dean's message (About page)
- *   - Department introduction (homepage section 2)
+ *   - Dean's message (homepage section 2 & About page)
+ *   - Department introduction (homepage section 3)
  *   - Head of Department message (About page)
  *   - The three specialisations and their dedicated page content
  *   - Academic overview tiles
@@ -69,7 +69,7 @@ window.DEPARTMENT_CONTENT = {
   },
 
   /* --------------------------------------------------------------------------
-   * 3. Message from the Dean (ABOUT PAGE)
+   * 3. Message from the Dean (HOME PAGE SECTION 2 & ABOUT PAGE)
    *    Keep this SEPARATE from the Head of Department message below.
    * ------------------------------------------------------------------------*/
   dean: {
@@ -85,7 +85,7 @@ window.DEPARTMENT_CONTENT = {
   },
 
   /* --------------------------------------------------------------------------
-   * 4. Department of Engineering Technology introduction (HOME PAGE SECTION 2)
+   * 4. Department of Engineering Technology introduction (HOME PAGE SECTION 3)
    * ------------------------------------------------------------------------*/
   department: {
     heading: "Welcome to the Department of Engineering Technology",
@@ -240,7 +240,7 @@ window.DEPARTMENT_CONTENT = {
   ],
 
   /* --------------------------------------------------------------------------
-   * 7. Academic overview tiles (HOME PAGE SECTION 4 & academics page)
+   * 7. Academic overview tiles (HOME PAGE SECTION 5 & academics page)
    *    Only edit `url` if the destination genuinely exists.
    * ------------------------------------------------------------------------*/
   academicOverview: [
@@ -287,7 +287,7 @@ window.DEPARTMENT_CONTENT = {
   },
 
   /* --------------------------------------------------------------------------
-   * 9. Laboratories and facilities (HOME PAGE SECTION 5 & facilities page)
+   * 9. Laboratories and facilities (HOME PAGE SECTION 6 & facilities page)
    * ------------------------------------------------------------------------*/
   facilities: [
     {
@@ -309,7 +309,7 @@ window.DEPARTMENT_CONTENT = {
   ],
 
   /* --------------------------------------------------------------------------
-   * 10. News and announcements (HOME PAGE SECTION 6 & news page)
+   * 10. News and announcements (HOME PAGE SECTION 7 & news page)
    *     EMPTY BY DESIGN. Add real, dated announcements only. Each item:
    *       { id, title, date (ISO "YYYY-MM-DD"), category, summary, body }
    *     Until items are added, a clear empty state is shown instead of
@@ -372,7 +372,7 @@ window.DEPARTMENT_CONTENT = {
   ],
 
   /* --------------------------------------------------------------------------
-   * 12. Contact details (contact page & HOME PAGE SECTION 7)
+   * 12. Contact details (contact page)
    *     Leave the square-bracket placeholders until official details are
    *     supplied. main.js only turns them into mailto:/tel: links when a real
    *     value is present.

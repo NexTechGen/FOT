@@ -25,7 +25,7 @@ University of Jaffna
 
 ```
 department-website/
-├── index.html                      # Home (Faculty intro → News → Department → Specialisations → Academic overview → Facilities)
+├── index.html                      # Home (Faculty intro → Dean's message → Department → Specialisations → Academic overview → Facilities → News)
 ├── 404.html
 ├── about/
 │   └── index.html                  # Dean's message, academic organisation, HoD message, vision & mission, history
@@ -57,7 +57,7 @@ department-website/
 │   │   ├── content.js              # EDITABLE content: specialisations, dean/HoD messages, news, facilities, downloads, contact
 │   │   ├── staff.js                # EDITABLE staff records (single source of truth)
 │   │   └── main.js                 # Behaviour + rendering (navigation, staff filter, page rendering)
-│   ├── images/                     # Local images (SVG placeholders included)
+│   ├── images/                     # Images: header logo (colour), footer logo (black & white), favicon (.ico), SVG placeholders
 │   └── documents/                  # Put official PDFs and documents here
 └── docs/
     ├── README.md
@@ -73,7 +73,13 @@ Every page links to others with **clean URLs** (e.g. `about/`, `staff/`,
 folder) that the scripts use to build correct asset and content paths.
 
 The official University of Jaffna logo (`assets/images/UOJ-Logo-Color-scaled.png`) is the header
-brand mark. On desktop the blue navigation bar is `position: sticky` and stays pinned to the top of
+brand mark, and `assets/images/UOJ-Logo-Black-White-scaled.png` is the footer mark. Both have been
+optimised to match their rendered sizes (the header mark displays at 40–48 px and the footer mark at
+72 px) so they stay sharp on high-density screens without shipping the full-resolution originals.
+The footer mark is monochrome black artwork; it is rendered white against the dark footer with
+`filter: brightness(0) invert(1)` (`.footer__logo` in `assets/css/styles.css`). The favicon
+(`assets/images/UOJ-Logo-Color-scaled.ico`) is linked from the `<head>` of every page. On desktop
+the blue navigation bar is `position: sticky` and stays pinned to the top of
 the viewport, while the masthead scrolls out of view. On mobile (below `lg`) the roles reverse: the
 masthead — with the "Menu" button — is sticky, and the breadcrumbs bar (on every page except the
 home page and 404) pins directly beneath it.
@@ -264,8 +270,11 @@ pages themselves (`specialisations/automobile-technology/index.html`) do not nee
 
 ## 4. Verified links and external URLs
 
-Only **verified** external links should be added. The footer intentionally contains no external
-university links until official URLs are confirmed (see `CONTENT_CHECKLIST.md`).
+Only **verified** external links should be added. The only external link on the site is
+`University of Jaffna` in the footer, which points to the official `https://jfn.ac.lk/`
+(in the same pattern used on the faculty site, opened in a new tab with
+`rel="noopener noreferrer"`). Add further University/Faculty URLs only once they are
+confirmed (see `CONTENT_CHECKLIST.md`).
 There is intentionally **no contact form**, because the site has no backend.
 
 ---
@@ -332,5 +341,7 @@ blue (`#233C98`, as used on `jfn.ac.lk`):
 See **`CONTENT_CHECKLIST.md`** for the full list of placeholders that must be replaced before the
 site can be considered complete (messages, contact details, photographs, documents, research and
 news). Note that the **Career Opportunities** text supplied for the home page has no matching
-section and was therefore not placed, and only two of the supplied facility names are shown on the
-site (the remaining eight have no card slots).
+section and was therefore not placed. The facilities list is data-driven: the home page shows the
+first two facility entries (via `data-limit="2"`) while the Facilities page lists every entry in
+`content.js`. Only two facility entries have been supplied so far, so the remaining eight names
+have no card until an entry is added for each (see `CONTENT_CHECKLIST.md`).

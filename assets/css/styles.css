@@ -1549,7 +1549,7 @@ details.disclosure summary::marker {
 }
 
 .page-head p {
-  max-width: var(--reading);
+  max-width: none;
   color: var(--muted);
   margin-bottom: 0;
 }
@@ -1866,6 +1866,26 @@ tbody tr:last-child td {
   margin-bottom: var(--space-3);
 }
 
+/* Footer brand column: logo on the left, text on the right. */
+.footer__brand-block {
+  display: flex;
+  align-items: center;
+  gap: var(--space-4);
+}
+
+.footer__logo {
+  display: block;
+  width: 72px;
+  height: 72px;
+  flex: 0 0 auto;
+  /* Monochrome (black) artwork rendered white for the dark footer. */
+  filter: brightness(0) invert(1);
+}
+
+.footer__brandtext {
+  min-width: 0;
+}
+
 .footer__brand {
   font-size: 1.0625rem;
   font-weight: 700;
@@ -1904,17 +1924,25 @@ tbody tr:last-child td {
   font-size: 0.875rem;
   display: flex;
   flex-direction: column;
+  align-items: center;
+  text-align: center;
   gap: var(--space-2);
-  justify-content: space-between;
   color: #b9cde0;
 }
 
 @media (min-width: 768px) {
   .footer__bottom {
     flex-direction: row;
+    justify-content: center;
+    align-items: center;
     gap: var(--space-2) var(--space-5);
     flex-wrap: wrap;
   }
+}
+
+.footer__bottom a {
+  text-decoration: underline;
+  text-underline-offset: 2px;
 }
 
 /* ----------------------------------------------------------------------------

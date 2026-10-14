@@ -14,16 +14,18 @@ Legend: ☐ = outstanding, ✔ = supplied (tick when done).
 ## 1. Identity and branding
 
 - ✔ **Official university logo** — supplied (`assets/images/UOJ-Logo-Color-scaled.png`) and used as
-  the header brand mark on every page.
+  the header brand mark on every page. The black-and-white variant
+  (`assets/images/UOJ-Logo-Black-White-scaled.png`) is the footer mark, and
+  `assets/images/UOJ-Logo-Color-scaled.ico` is the page favicon.
 - ✔ **Official brand colours** — the palette in `assets/css/styles.css` now uses the official
   University of Jaffna blue `#233C98` (as used on `jfn.ac.lk`). Confirm the derived shades
   (`#172B75`, `#EAEEF5`) are acceptable before launch.
-- ☐ **Verified external links** — the footer contains no external URLs. Add only verified
-  University/Faculty URLs when confirmed.
+- ☐ **Verified external links** — the only external link is the footer `University of Jaffna`
+  link to `https://jfn.ac.lk/`. Add further verified University/Faculty URLs only when confirmed.
 - ☐ **Production domain** — intentionally not set. Do not add canonical URLs until a real domain
   is assigned.
 
-## 2. Faculty (homepage section 1) and Dean (About page)
+## 2. Faculty (homepage section 1) and Dean (homepage section 2, About page)
 
 - File: `assets/js/content.js`
 - ☐ `faculty.intro` — approved Faculty of Technology introduction.
@@ -32,7 +34,7 @@ Legend: ☐ = outstanding, ✔ = supplied (tick when done).
 - ☐ `dean.photo` — Dean's photograph (currently a portrait placeholder).
 - ☐ `dean.message` — the **approved** Dean's message (do not write one on the Dean's behalf).
 
-## 3. Department (homepage section 2) and Head of Department (About page)
+## 3. Department (homepage section 3) and Head of Department (About page)
 
 - File: `assets/js/content.js` and `assets/js/staff.js`
 - ✔ `department.intro` — supplied (used on the home page and the About page).
@@ -40,8 +42,8 @@ Legend: ☐ = outstanding, ✔ = supplied (tick when done).
 - ☐ `department.image` — department photograph.
 - ☐ Head of Department record in `staff.js` (name, designation, photo, email).
 - ☐ `hod.message` — approved Head of Department message (separate from the Dean's message).
-- The Dean's message and the Head of Department message both appear on the **About** page
-  (`about/index.html`).
+- The Dean's message also appears on the **home page** (homepage section 2) and on the **About**
+  page (`about/index.html`); the Head of Department message appears on the **About** page.
 
 ## 4. Specialisations (all pages)
 
@@ -94,12 +96,14 @@ Legend: ☐ = outstanding, ✔ = supplied (tick when done).
 ## 8. Facilities
 
 - File: `assets/js/content.js`
-- ✔ Two facility names supplied and shown on the site: **Engineering Workshop** and **Automobile
-  Electronics and Mechatronics Laboratory**.
+- ✔ Two facility entries supplied and shown on the site: **Engineering Workshop** and **Automobile
+  Electronics and Mechatronics Laboratory**. The home page shows the first two entries; the
+  Facilities page lists **every** entry in the `facilities` array.
 - ☐ Descriptions for both facilities (currently placeholder text).
 - ☐ The other eight supplied names — Material, Applied Mechanics & Thermodynamics, Electrical,
   Construction, Automobile, Electronics, Heavy Construction and Surveying laboratories — have
-  **no card slots** on the site. Add more facility entries (or a full list) to show them.
+  **no entries yet**. Add an object for each to the `facilities` array to show them (they will then
+  appear on the Facilities page automatically).
 - ☐ Facility photographs (currently SVG placeholders).
 - ☐ Correct specialisation associations.
 

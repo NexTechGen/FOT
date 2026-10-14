@@ -29,16 +29,48 @@
   var NEWS = CONTENT.news || [];
   var RESEARCH = CONTENT.research || { themes: [], projects: [], publications: [] };
 
-  /** Resolve a site-root-relative path for the current page depth. */
-  function resolve(path) {
-    if (!path) {
+  /* URL schemes that are acceptable for each kind of field. Anything else
+   * (javascript:, vbscript:, data:, ...) is rejected so a data file can never
+   * inject executable links. */
+  var LINK_SCHEMES = { "http:": true, "https:": true, "mailto:": true, "tel:": true };
+  var IMAGE_SCHEMES = { "http:": true, "https:": true };
+
+  /** Return the lower-case scheme (e.g. "https:") of a URL, or "" if none. */
+  function urlScheme(value) {
+    var match = /^([a-z][a-z0-9+.\-]*):/i.exec(value);
+    return match ? match[1].toLowerCase() + ":" : "";
+  }
+
+  /** Control characters can hide a scheme from the check above, so reject them. */
+  function hasControlChars(value) {
+    return /[\u0000-\u001f\u007f]/.test(value);
+  }
+
+  /**
+   * Resolve a URL from the data files for the current page depth.
+   * kind: "link" (default) allows http/https/mailto/tel; "image" allows only
+   * http/https. Returns "" for missing or disallowed values so callers can
+   * fall back to an unavailable state instead of emitting a broken link.
+   */
+  function resolve(path, kind) {
+    if (path == null) {
       return "";
     }
-    if (/^(?:[a-z]+:)?\/\//i.test(path) || path.charAt(0) === "#" || path.charAt(0) === "/") {
-      return path;
+    var value = String(path).trim();
+    if (!value || hasControlChars(value)) {
+      return "";
+    }
+    var scheme = urlScheme(value);
+    if (scheme) {
+      var allowed = kind === "image" ? IMAGE_SCHEMES : LINK_SCHEMES;
+      return allowed[scheme] ? value : "";
+    }
+    // Scheme-less: protocol-relative, root-relative or in-page anchor.
+    if (value.slice(0, 2) === "//" || value.charAt(0) === "/" || value.charAt(0) === "#") {
+      return value;
     }
     var base = document.body.getAttribute("data-base") || "";
-    return base + path;
+    return base + value;
   }
 
   /** Create an element. opts: { text, cls, attrs, children } */
@@ -228,11 +260,12 @@
 
   function staffAvatar(member) {
     var wrap = el("span", { cls: "avatar" });
-    if (member.photo) {
+    var photoSrc = resolve(member.photo, "image");
+    if (photoSrc) {
       append(wrap, [
         el("img", {
           attrs: {
-            src: resolve(member.photo),
+            src: photoSrc,
             alt: "Portrait of " + member.name,
             width: "64",
             height: "64",
@@ -339,7 +372,8 @@
     var block = el("div", { cls: "message-block" + (options.tint ? " message-block--tint" : "") });
 
     var media = el("div", { cls: "message-block__media" });
-    var imgSrc = options.photo ? resolve(options.photo) : resolve("assets/images/placeholder-portrait.svg");
+    var imgSrc = resolve(options.photo, "image") ||
+      resolve("assets/images/placeholder-portrait.svg", "image");
     media.appendChild(
       el("img", {
         attrs: {
@@ -380,7 +414,7 @@
     var media = el("div", { cls: "card__media", children: [
       el("img", {
         attrs: {
-          src: resolve(sp.image),
+          src: resolve(sp.image, "image") || resolve("assets/images/placeholder-department.svg", "image"),
           alt: sp.imageAlt || ("Image for " + sp.name),
           width: "800",
           height: "500",
@@ -393,15 +427,19 @@
     var body = el("div", { cls: "card__body" });
     body.appendChild(el("h3", { cls: "card__title", text: sp.name }));
     body.appendChild(el("p", { cls: "card__text", text: sp.description }));
-    body.appendChild(
-      el("p", { cls: "card__footer", children: [
-        el("a", {
-          cls: "link-more",
-          text: "Explore Specialisation",
-          attrs: { href: resolve(sp.pageUrl) }
-        })
-      ] })
-    );
+
+    var pageHref = resolve(sp.pageUrl, "link");
+    var footer = el("p", { cls: "card__footer" });
+    if (pageHref) {
+      footer.appendChild(el("a", {
+        cls: "link-more",
+        text: "Explore Specialisation",
+        attrs: { href: pageHref }
+      }));
+    } else {
+      footer.appendChild(el("span", { cls: "placeholder-note", text: "Explore Specialisation" }));
+    }
+    body.appendChild(footer);
 
     append(card, [media, body]);
     return card;
@@ -412,7 +450,7 @@
     card.appendChild(
       el("img", {
         attrs: {
-          src: resolve(facility.image),
+          src: resolve(facility.image, "image") || resolve("assets/images/placeholder-lab.svg", "image"),
           alt: facility.imageAlt || ("Image for " + facility.name),
           width: "800",
           height: "450",
@@ -444,8 +482,8 @@
     row.appendChild(el("p", { cls: "doc__title", text: doc.title }));
 
     var meta = el("div", { cls: "doc__meta" });
-    var hasFile = !!doc.url;
-    if (hasFile) {
+    var docHref = resolve(doc.url, "link");
+    if (docHref) {
       if (doc.format) {
         meta.appendChild(el("span", { cls: "badge", text: doc.format }));
       }
@@ -456,7 +494,7 @@
         el("a", {
           cls: "link-more",
           text: "Open document",
-          attrs: { href: resolve(doc.url), target: "_blank", rel: "noopener" }
+          attrs: { href: docHref, target: "_blank", rel: "noopener" }
         })
       );
     } else {
@@ -592,9 +630,12 @@
       clear(target);
       var list = el("ul", { cls: "checklist" });
       SPECIALISATIONS.forEach(function (sp) {
+        var href = resolve(sp.pageUrl, "link");
         list.appendChild(
           el("li", { children: [
-            el("a", { text: sp.name, attrs: { href: resolve(sp.pageUrl) } })
+            href
+              ? el("a", { text: sp.name, attrs: { href: href } })
+              : el("span", { cls: "placeholder-note", text: sp.name })
           ] })
         );
       });
@@ -620,22 +661,26 @@
     target.appendChild(grid);
   }
 
-  function renderFacilities(targetSelector, limit) {
-    var target = document.querySelector(targetSelector);
-    if (!target) {
+  function renderFacilities() {
+    var targets = document.querySelectorAll('[data-render="facilities"]');
+    if (!targets.length) {
       return;
     }
-    clear(target);
-    var items = FACILITIES.slice(0, limit || FACILITIES.length);
-    if (!items.length) {
-      target.appendChild(emptyState("Facilities coming soon", "Laboratory and facility information has not been published yet."));
-      return;
-    }
-    var list = el("div", { cls: "feature-list" });
-    items.forEach(function (facility) {
-      list.appendChild(facilityCard(facility));
+    targets.forEach(function (target) {
+      clear(target);
+      var attr = target.getAttribute("data-limit");
+      var limit = attr ? parseInt(attr, 10) : NaN;
+      var items = isFinite(limit) && limit > 0 ? FACILITIES.slice(0, limit) : FACILITIES.slice();
+      if (!items.length) {
+        target.appendChild(emptyState("Facilities coming soon", "Laboratory and facility information has not been published yet."));
+        return;
+      }
+      var list = el("div", { cls: "feature-list" });
+      items.forEach(function (facility) {
+        list.appendChild(facilityCard(facility));
+      });
+      target.appendChild(list);
     });
-    target.appendChild(list);
   }
 
   function researchSection() {
@@ -751,12 +796,16 @@
       clear(target);
       var grid = el("div", { cls: "grid grid--4" });
       items.forEach(function (item) {
+        var href = resolve(item.url, "link");
+        var children = [
+          el("h3", { cls: "tile__title", text: item.title }),
+          el("p", { cls: "tile__text", text: item.description }),
+          el("span", { cls: "tile__more", text: "Learn more" })
+        ];
         grid.appendChild(
-          el("a", { cls: "tile", attrs: { href: resolve(item.url) }, children: [
-            el("h3", { cls: "tile__title", text: item.title }),
-            el("p", { cls: "tile__text", text: item.description }),
-            el("span", { cls: "tile__more", text: "Learn more" })
-          ] })
+          href
+            ? el("a", { cls: "tile", attrs: { href: href }, children: children })
+            : el("div", { cls: "tile", children: children })
         );
       });
       target.appendChild(grid);
@@ -841,13 +890,14 @@
 
       target.appendChild(dl);
 
-      if (c.mapUrl) {
+      var mapHref = resolve(c.mapUrl, "link");
+      if (mapHref) {
         target.appendChild(
           el("p", { cls: "mt-4", children: [
             el("a", {
               cls: "link-more",
               text: "Open location on map",
-              attrs: { href: c.mapUrl, target: "_blank", rel: "noopener" }
+              attrs: { href: mapHref, target: "_blank", rel: "noopener" }
             })
           ] })
         );
@@ -898,7 +948,10 @@
 
     var imageTarget = document.querySelector('[data-sp="image"]');
     if (imageTarget) {
-      imageTarget.setAttribute("src", resolve(sp.image));
+      imageTarget.setAttribute(
+        "src",
+        resolve(sp.image, "image") || resolve("assets/images/placeholder-department.svg", "image")
+      );
       imageTarget.setAttribute("alt", sp.imageAlt || ("Image for " + sp.name));
     }
 
@@ -952,8 +1005,22 @@
       var coord = getStaffById(sp.coordinatorStaffId);
       if (coord) {
         var card = buildStaffCard(coord, "compact");
-        var role = el("p", { cls: "staff-card__designation", text: "Specialisation Coordinator" });
-        card.querySelector(".staff-card__head").appendChild(role);
+        var head = card.querySelector(".staff-card__head");
+        var roleText = "Specialisation Coordinator";
+        // The card already shows the member's designation; only add the
+        // coordinator role label when it is not already displayed.
+        var alreadyShown = false;
+        Array.prototype.forEach.call(
+          head.querySelectorAll(".staff-card__designation"),
+          function (node) {
+            if (node.textContent.trim() === roleText) {
+              alreadyShown = true;
+            }
+          }
+        );
+        if (!alreadyShown) {
+          head.appendChild(el("p", { cls: "staff-card__designation", text: roleText }));
+        }
         coordinator.appendChild(card);
       } else {
         coordinator.appendChild(
@@ -1397,7 +1464,7 @@
     renderSpecialisationCards();
     renderSpecialisationLinks();
     renderStaffPreview();
-    renderFacilities('[data-render="facilities"]', 2);
+    renderFacilities();
     renderResearch();
     renderNews();
     renderAcademicOverview();
