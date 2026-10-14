@@ -7,10 +7,10 @@
  * Loaded with `defer` AFTER content.js and BEFORE main.js.
  * Exposes: window.DEPARTMENT_STAFF
  *
- * Every staff record is maintained ONLY here. The homepage staff preview, the
- * staff directory, each specialisation page and the Head of Department section
- * are all rendered from this one list. To update a person, edit their record
- * once and it updates everywhere.
+ * Every staff record is maintained ONLY here. The staff directory, each
+ * specialisation page and the Head of Department section are all rendered from
+ * this one list. To update a person, edit their record once and it updates
+ * everywhere.
  *
  * Record shape (all fields optional except id / name):
  *   id                string   stable unique id (never change once in use)

@@ -113,6 +113,89 @@
     });
   }
 
+  /* --------------------------------------------------------------------------
+   * Inline SVG icons (Lucide, ISC licence), stored as <path> data so they can
+   * be created with the DOM API only — no innerHTML is ever used. content.js
+   * may set `icon` on academic tiles to any name below; anything unknown
+   * falls back to DEFAULT_ICON.
+   * ------------------------------------------------------------------------*/
+  var SVG_NS = "http://www.w3.org/2000/svg";
+  var DEFAULT_ICON = "graduation-cap";
+  var ICONS = {
+    "graduation-cap": [
+      "M21.42 10.922a1 1 0 0 0-.019-1.838L12.83 5.18a2 2 0 0 0-1.66 0L2.6 9.08a1 1 0 0 0 0 1.832l8.57 3.908a2 2 0 0 0 1.66 0z",
+      "M22 10v6",
+      "M6 12.5V16a6 3 0 0 0 12 0v-3.5"
+    ],
+    "book-open": [
+      "M12 5v16",
+      "M20.001 19A2 2 0 0 0 22 17V5a2 2 0 0 0-1.999-2L16 3.002A5 5 0 0 0 12 5a5 5 0 0 0-4-2H4a2 2 0 0 0-2 2v12a2 2 0 0 0 1.999 2H8a5 5 0 0 1 4 2 5 5 0 0 1 4-2z"
+    ],
+    "layers": [
+      "M12.83 2.18a2 2 0 0 0-1.66 0L2.6 6.08a1 1 0 0 0 0 1.83l8.58 3.91a2 2 0 0 0 1.66 0l8.58-3.9a1 1 0 0 0 0-1.83z",
+      "M2 12a1 1 0 0 0 .58.91l8.6 3.91a2 2 0 0 0 1.65 0l8.58-3.9A1 1 0 0 0 22 12",
+      "M2 17a1 1 0 0 0 .58.91l8.6 3.91a2 2 0 0 0 1.65 0l8.58-3.9A1 1 0 0 0 22 17"
+    ],
+    "list-checks": [
+      "M13 5h8",
+      "M13 12h8",
+      "M13 19h8",
+      "m3 17 2 2 4-4",
+      "m3 7 2 2 4-4"
+    ],
+    "folder-open": [
+      "m6 14 1.5-2.9A2 2 0 0 1 9.24 10H20a2 2 0 0 1 1.94 2.5l-1.54 6a2 2 0 0 1-1.95 1.5H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h3.9a2 2 0 0 1 1.69.9l.81 1.2a2 2 0 0 0 1.67.9H18a2 2 0 0 1 2 2v2"
+    ],
+    "file-text": [
+      "M6 22a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h8a2.4 2.4 0 0 1 1.704.706l3.588 3.588A2.4 2.4 0 0 1 20 8v12a2 2 0 0 1-2 2z",
+      "M14 2v5a1 1 0 0 0 1 1h5",
+      "M10 9H8",
+      "M16 13H8",
+      "M16 17H8"
+    ],
+    "award": [
+      "m15.477 12.89 1.515 8.526a.5.5 0 0 1-.81.47l-3.58-2.687a1 1 0 0 0-1.197 0l-3.586 2.686a.5.5 0 0 1-.81-.469l1.514-8.526",
+      "M12 2a6 6 0 1 0 0 12 6 6 0 0 0 0-12z"
+    ],
+    "users": [
+      "M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2",
+      "M16 3.128a4 4 0 0 1 0 7.744",
+      "M22 21v-2a4 4 0 0 0-3-3.87",
+      "M9 11a4 4 0 1 0 0-8 4 4 0 0 0 0 8z"
+    ],
+    "download": [
+      "M12 15V3",
+      "M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4",
+      "m7 10 5 5 5-5"
+    ],
+    "chevron-right": [
+      "m9 18 6-6-6-6"
+    ]
+  };
+
+  /** Build an inline <svg> icon (decorative). Returns null when name is empty. */
+  function svgIcon(name) {
+    var paths = ICONS[name] || ICONS[DEFAULT_ICON];
+    if (!paths) {
+      return null;
+    }
+    var svg = document.createElementNS(SVG_NS, "svg");
+    svg.setAttribute("viewBox", "0 0 24 24");
+    svg.setAttribute("fill", "none");
+    svg.setAttribute("stroke", "currentColor");
+    svg.setAttribute("stroke-width", "2");
+    svg.setAttribute("stroke-linecap", "round");
+    svg.setAttribute("stroke-linejoin", "round");
+    svg.setAttribute("aria-hidden", "true");
+    svg.setAttribute("focusable", "false");
+    paths.forEach(function (d) {
+      var path = document.createElementNS(SVG_NS, "path");
+      path.setAttribute("d", d);
+      svg.appendChild(path);
+    });
+    return svg;
+  }
+
   /** First two initials of a name, ignoring bracket characters. */
   function initials(name) {
     var cleaned = String(name || "").replace(/[[\]]/g, " ").trim();
@@ -262,18 +345,28 @@
     var wrap = el("span", { cls: "avatar" });
     var photoSrc = resolve(member.photo, "image");
     if (photoSrc) {
-      append(wrap, [
-        el("img", {
-          attrs: {
-            src: photoSrc,
-            alt: "Portrait of " + member.name,
-            width: "64",
-            height: "64",
-            loading: "lazy",
-            decoding: "async"
-          }
-        })
-      ]);
+      var img = el("img", {
+        attrs: {
+          src: photoSrc,
+          alt: "Portrait of " + member.name,
+          width: "64",
+          height: "64",
+          loading: "lazy",
+          decoding: "async"
+        }
+      });
+      // A broken photo falls back to the same initials avatar used when no
+      // photo is supplied. `once` removes the listener after the first error,
+      // so there is no possibility of an error loop.
+      img.addEventListener(
+        "error",
+        function () {
+          wrap.setAttribute("aria-hidden", "true");
+          wrap.textContent = initials(member.name);
+        },
+        { once: true }
+      );
+      wrap.appendChild(img);
     } else {
       wrap.setAttribute("aria-hidden", "true");
       wrap.textContent = initials(member.name);
@@ -372,20 +465,31 @@
     var block = el("div", { cls: "message-block" + (options.tint ? " message-block--tint" : "") });
 
     var media = el("div", { cls: "message-block__media" });
-    var imgSrc = resolve(options.photo, "image") ||
-      resolve("assets/images/placeholder-portrait.svg", "image");
-    media.appendChild(
-      el("img", {
-        attrs: {
-          src: imgSrc,
-          alt: options.photoAlt || ("Placeholder portrait of " + options.name),
-          width: "600",
-          height: "750",
-          loading: "lazy",
-          decoding: "async"
-        }
-      })
-    );
+    var placeholder = resolve("assets/images/placeholder-portrait.svg", "image");
+    var imgSrc = resolve(options.photo, "image") || placeholder;
+    var portrait = el("img", {
+      attrs: {
+        src: imgSrc,
+        alt: options.photoAlt || ("Placeholder portrait of " + options.name),
+        width: "600",
+        height: "750",
+        loading: "lazy",
+        decoding: "async"
+      }
+    });
+    // A supplied-but-broken photo must not leave a broken image. `once` removes
+    // the listener after the first error, so there can never be an error loop
+    // even if the placeholder itself fails to load.
+    if (placeholder && imgSrc !== placeholder) {
+      portrait.addEventListener(
+        "error",
+        function () {
+          portrait.setAttribute("src", placeholder);
+        },
+        { once: true }
+      );
+    }
+    media.appendChild(portrait);
 
     var body = el("div", { cls: "message-block__body" });
     body.appendChild(el("span", { cls: "eyebrow", text: options.eyebrow }));
@@ -529,6 +633,28 @@
     });
   }
 
+  /**
+   * Faculty photograph. The markup ships with the placeholder SVG as a no-JS
+   * fallback; when the data supplies a usable image, the src/alt are updated so
+   * content.js stays the single editable source.
+   */
+  function renderFacultyMedia() {
+    var targets = document.querySelectorAll('[data-render="faculty-image"]');
+    if (!targets.length) {
+      return;
+    }
+    var faculty = CONTENT.faculty || {};
+    var src = resolve(faculty.image, "image");
+    targets.forEach(function (target) {
+      if (src) {
+        target.setAttribute("src", src);
+      }
+      if (faculty.imageAlt) {
+        target.setAttribute("alt", faculty.imageAlt);
+      }
+    });
+  }
+
   function renderDepartmentIntro() {
     var target = document.querySelector('[data-render="department-intro"]');
     if (target) {
@@ -546,6 +672,81 @@
     }
   }
 
+  /**
+   * Department photograph. Shown in the homepage department section and the
+   * About page's academic-organisation panel. The placeholder SVG is the no-JS
+   * fallback; a usable data value updates src/alt.
+   */
+  function renderDepartmentMedia() {
+    var targets = document.querySelectorAll('[data-render="department-image"]');
+    if (!targets.length) {
+      return;
+    }
+    var department = CONTENT.department || {};
+    var src = resolve(department.image, "image");
+    targets.forEach(function (target) {
+      if (src) {
+        target.setAttribute("src", src);
+      }
+      if (department.imageAlt) {
+        target.setAttribute("alt", department.imageAlt);
+      }
+    });
+  }
+
+  /**
+   * Institution / faculty / department identity text. This is the single
+   * editable source for the masthead brand, the homepage hero headings and the
+   * contact page identity line. The static HTML ships with the same wording so
+   * the pages still read correctly without JavaScript.
+   */
+  function renderIdentity() {
+    var institution = CONTENT.institution || {};
+    var faculty = CONTENT.faculty || {};
+    var department = CONTENT.department || {};
+    var contact = CONTENT.contact || {};
+    var fields = [
+      ["institution-university", institution.university],
+      ["institution-department", institution.department],
+      ["institution-faculty", institution.faculty],
+      ["faculty-label", faculty.label],
+      ["faculty-heading", faculty.heading],
+      ["department-heading", department.heading],
+      ["contact-department-line", contact.departmentLine],
+      ["contact-faculty-line", contact.facultyLine]
+    ];
+    fields.forEach(function (pair) {
+      if (pair[1] == null || pair[1] === "") {
+        return;
+      }
+      document.querySelectorAll('[data-render="' + pair[0] + '"]').forEach(function (node) {
+        node.textContent = String(pair[1]);
+      });
+    });
+  }
+
+  /**
+   * Specialisation names in the existing navigation and footer link lists
+   * (identified by data-sp-link="sp-0X"). The visible text is always refreshed
+   * from the data; the link target is only rewritten when it resolves to a
+   * valid URL, so a bad value can never break the (no-JS-equivalent) links.
+   */
+  function renderSpecialisationNav() {
+    document.querySelectorAll("[data-sp-link]").forEach(function (node) {
+      var sp = getSpecialisationById(node.getAttribute("data-sp-link"));
+      if (!sp) {
+        return;
+      }
+      if (sp.name) {
+        node.textContent = String(sp.name);
+      }
+      var href = resolve(sp.pageUrl, "link");
+      if (href) {
+        node.setAttribute("href", href);
+      }
+    });
+  }
+
   function renderDean() {
     var target = document.querySelector('[data-render="dean"]');
     if (!target) {
@@ -560,18 +761,9 @@
       title: dean.title,
       photo: dean.photo,
       photoAlt: dean.photoAlt,
-      message: dean.message || [],
-      tint: true
+      message: dean.message || []
     });
     target.appendChild(full);
-
-    // Surface the approved Faculty introduction labels used on the cards
-    var note = document.querySelector('[data-render="dean-note"]');
-    if (note) {
-      clear(note);
-      note.textContent =
-        CONTENT.faculty && CONTENT.faculty.deptNote ? CONTENT.faculty.deptNote : "";
-    }
   }
 
   function renderHod() {
@@ -614,11 +806,95 @@
       return;
     }
     clear(target);
-    var grid = el("div", { cls: "grid grid--3" });
+    var grid = el("div", {
+      cls: "grid grid--3 sp-scroller",
+      attrs: { tabindex: "0", role: "group", "aria-label": "Our specialisations" }
+    });
     SPECIALISATIONS.forEach(function (sp) {
       grid.appendChild(specialisationCard(sp));
     });
     target.appendChild(grid);
+    initialiseSpecialisationCarousel(target, grid);
+  }
+
+  // Small screens show one specialisation card at a time, centred, swiped
+  // left/right. The dots below track the scroll position and jump to a card.
+  // CSS hides the dots from 768px up, where the same grid lays the cards out
+  // as columns instead.
+  function initialiseSpecialisationCarousel(target, scroller) {
+    var cards = Array.prototype.slice.call(scroller.children);
+    if (cards.length < 2) {
+      return;
+    }
+
+    var dots = el("div", {
+      cls: "sp-dots",
+      attrs: { role: "group", "aria-label": "Choose a specialisation" }
+    });
+
+    function prefersReducedMotion() {
+      return window.matchMedia
+        ? window.matchMedia("(prefers-reduced-motion: reduce)").matches
+        : false;
+    }
+
+    function maxScroll() {
+      return scroller.scrollWidth - scroller.clientWidth;
+    }
+
+    function offsetFor(index) {
+      var max = maxScroll();
+      return max <= 0 ? 0 : (max * index) / (cards.length - 1);
+    }
+
+    function currentIndex() {
+      var max = maxScroll();
+      return max <= 0 ? 0 : Math.round((scroller.scrollLeft / max) * (cards.length - 1));
+    }
+
+    var buttons = cards.map(function (card, index) {
+      var title = card.querySelector(".card__title");
+      var name = (title && title.textContent) || "Specialisation " + (index + 1);
+      var button = el("button", {
+        cls: "sp-dots__btn",
+        attrs: { type: "button", "aria-label": "Show: " + name }
+      });
+      button.addEventListener("click", function () {
+        scroller.scrollTo({
+          left: offsetFor(index),
+          behavior: prefersReducedMotion() ? "auto" : "smooth"
+        });
+      });
+      dots.appendChild(button);
+      return button;
+    });
+
+    target.appendChild(dots);
+
+    function sync() {
+      var active = currentIndex();
+      buttons.forEach(function (button, index) {
+        if (index === active) {
+          button.setAttribute("aria-current", "true");
+        } else {
+          button.removeAttribute("aria-current");
+        }
+      });
+    }
+
+    var ticking = false;
+    scroller.addEventListener("scroll", function () {
+      if (ticking) {
+        return;
+      }
+      ticking = true;
+      window.requestAnimationFrame(function () {
+        sync();
+        ticking = false;
+      });
+    }, { passive: true });
+
+    sync();
   }
 
   function renderSpecialisationLinks() {
@@ -643,22 +919,48 @@
     });
   }
 
-  function renderStaffPreview() {
-    var target = document.querySelector('[data-render="staff-preview"]');
+  // Academics > "Study areas and specialisations": each specialisation is a
+  // single browsable card whose whole surface is the link, so the hit area
+  // matches what is visible (the footer hint sits inside the same anchor).
+  // No image here — the cards carry the name, description and curriculum link.
+  // On small screens the cards swiper left/right exactly like the home page
+  // specialisation cards (same .sp-scroller / .sp-dots behaviour). Falls back
+  // to a static card when a page URL is unavailable.
+  function renderSpecialisationShowcase() {
+    var target = document.querySelector('[data-render="specialisation-showcase"]');
     if (!target) {
       return;
     }
     clear(target);
-    var members = (STAFF.members || []).slice(0, 4);
-    if (!members.length) {
-      target.appendChild(emptyState("Staff directory coming soon", "Staff records have not been published yet."));
-      return;
-    }
-    var grid = el("div", { cls: "grid grid--4" });
-    members.forEach(function (member) {
-      grid.appendChild(buildStaffCard(member, "compact"));
+    var grid = el("div", {
+      cls: "grid grid--3 sp-scroller",
+      attrs: { tabindex: "0", role: "group", "aria-label": "Study areas and specialisations" }
+    });
+    SPECIALISATIONS.forEach(function (sp, index) {
+      grid.appendChild(studyAreaCard(sp, index));
     });
     target.appendChild(grid);
+    initialiseSpecialisationCarousel(target, grid);
+  }
+
+  function studyAreaCard(sp, index) {
+    var href = resolve(sp.pageUrl, "link");
+
+    var body = el("div", { cls: "card__body", children: [
+      el("p", { cls: "eyebrow", text: "Specialisation " + (index + 1 < 10 ? "0" : "") + (index + 1) }),
+      el("h3", { cls: "card__title", text: sp.name }),
+      sp.description ? el("p", { cls: "card__text", text: sp.description }) : null,
+      el("p", { cls: "card__footer", children: [
+        href
+          ? el("span", { cls: "link-more", text: "View curriculum" })
+          : el("span", { cls: "placeholder-note", text: "Curriculum coming soon" })
+      ] })
+    ] });
+
+    if (!href) {
+      return el("div", { cls: "card card--plain", children: [body] });
+    }
+    return el("a", { cls: "card card--link", attrs: { href: href }, children: [body] });
   }
 
   function renderFacilities() {
@@ -762,7 +1064,7 @@
       );
     }
     NEWS.slice(0, limit || NEWS.length).forEach(function (item) {
-      var card = el("a", { cls: "news-item", attrs: { href: resolve("news/") + "#" + item.id } });
+      var card = el("a", { cls: "news-item", attrs: { href: resolve("news/") + "#" + item.id, id: item.id } });
       var meta = el("div", { cls: "news-item__meta", children: [
         el("span", { cls: "news-item__date", text: formatDate(item.date) }),
         el("span", { cls: "badge", text: item.category || "News" })
@@ -798,15 +1100,30 @@
       items.forEach(function (item) {
         var href = resolve(item.url, "link");
         var children = [
+          el("span", {
+            cls: "tile__icon",
+            children: [svgIcon(item.icon)]
+          }),
           el("h3", { cls: "tile__title", text: item.title }),
-          el("p", { cls: "tile__text", text: item.description }),
-          el("span", { cls: "tile__more", text: "Learn more" })
+          el("p", { cls: "tile__text", text: item.description })
         ];
-        grid.appendChild(
-          href
-            ? el("a", { cls: "tile", attrs: { href: href }, children: children })
-            : el("div", { cls: "tile", children: children })
-        );
+        if (href) {
+          children.push(
+            el("span", {
+              cls: "tile__more",
+              children: [
+                el("span", { cls: "tile__more-label", text: "Learn more" }),
+                el("span", {
+                  cls: "tile__more-arrow",
+                  children: [svgIcon("chevron-right")]
+                })
+              ]
+            })
+          );
+          grid.appendChild(el("a", { cls: "tile", attrs: { href: href }, children: children }));
+        } else {
+          grid.appendChild(el("div", { cls: "tile tile--static", children: children }));
+        }
       });
       target.appendChild(grid);
     });
@@ -1457,13 +1774,17 @@
     document.body.classList.add("has-js");
 
     initNav();
+    renderIdentity();
     renderFacultyIntro();
+    renderFacultyMedia();
     renderDepartmentIntro();
+    renderDepartmentMedia();
     renderDean();
     renderHod();
     renderSpecialisationCards();
     renderSpecialisationLinks();
-    renderStaffPreview();
+    renderSpecialisationShowcase();
+    renderSpecialisationNav();
     renderFacilities();
     renderResearch();
     renderNews();

@@ -16,9 +16,9 @@
         <a class="brand" href="index.html">
           <img class="brand__logo" src="assets/images/UOJ-Logo-Color-scaled.png" alt="" width="48" height="48" decoding="async">
           <span class="brand__text">
-            <span class="brand__uni">University of Jaffna</span>
-            <span class="brand__dept">Department of Engineering Technology</span>
-            <span class="brand__fac">Faculty of Technology</span>
+            <span class="brand__uni" data-render="institution-university">University of Jaffna</span>
+            <span class="brand__dept" data-render="institution-department">Department of Engineering Technology</span>
+            <span class="brand__fac" data-render="institution-faculty">Faculty of Technology</span>
           </span>
         </a>
         <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="primary-nav">
@@ -36,19 +36,19 @@
           <li class="has-dropdown">
             <button class="nav-sub-toggle" type="button" aria-expanded="false" aria-controls="menu-specialisations">Specialisations</button>
             <ul class="dropdown" id="menu-specialisations">
-              <li><a href="specialisations/automobile-technology/">Automobile Technology</a></li>
-              <li><a href="specialisations/construction-technology/">Construction Technology</a></li>
-              <li><a href="specialisations/electro-technology/">Electro Technology</a></li>
+              <li><a href="specialisations/automobile-technology/" data-sp-link="sp-01">Automobile Technology</a></li>
+              <li><a href="specialisations/construction-technology/" data-sp-link="sp-02">Construction Technology</a></li>
+              <li><a href="specialisations/electro-technology/" data-sp-link="sp-03">Electro Technology</a></li>
             </ul>
           </li>
           <li><a href="staff/">Staff</a></li>
           <li><a href="academics/">Academics</a></li>
+          <li><a href="news/">News &amp; Events</a></li>
           <li class="has-dropdown">
             <button class="nav-sub-toggle" type="button" aria-expanded="false" aria-controls="menu-resources">Resources</button>
             <ul class="dropdown" id="menu-resources">
               <li><a href="research/">Research</a></li>
               <li><a href="facilities/">Facilities</a></li>
-              <li><a href="news/">News &amp; Events</a></li>
               <li><a href="downloads/">Downloads</a></li>
             </ul>
           </li>
@@ -63,8 +63,8 @@
     <section class="hero" id="faculty" aria-labelledby="faculty-heading">
       <div class="container hero__grid">
         <div class="hero__text">
-          <span class="eyebrow">University of Jaffna</span>
-          <h1 id="faculty-heading">Faculty of Technology</h1>
+          <span class="eyebrow" data-render="faculty-label">University of Jaffna</span>
+          <h1 id="faculty-heading" data-render="faculty-heading">Faculty of Technology</h1>
           <div data-render="faculty-intro"></div>
           <div class="btn-row mt-5">
             <a class="btn btn--primary" href="#department">Explore Our Department</a>
@@ -72,15 +72,20 @@
           </div>
         </div>
         <div class="hero__media">
-          <img src="assets/images/placeholder-campus.svg" alt="Placeholder image representing the Faculty of Technology campus" width="1200" height="800">
+          <img data-render="faculty-image" src="assets/images/placeholder-campus.svg" alt="Placeholder image representing the Faculty of Technology campus" width="1200" height="800">
         </div>
       </div>
     </section>
 
-    <!-- SECTION 2: Message from the Dean -->
-    <section class="section section--tint" id="dean" aria-label="Message from the Dean">
+    <!-- SECTION 2: News and announcements -->
+    <section class="section section--tint" id="news" aria-labelledby="news-heading">
       <div class="container">
-        <div data-render="dean"></div>
+        <div class="section-head">
+          <span class="eyebrow">Latest</span>
+          <h2 id="news-heading">News and announcements</h2>
+        </div>
+        <div data-render="news" data-limit="4"></div>
+        <p class="mt-5"><a class="link-more" href="news/">All news and events</a></p>
       </div>
     </section>
 
@@ -88,20 +93,20 @@
     <section class="section" id="department" aria-labelledby="department-heading">
       <div class="container split">
         <div class="split__media">
-          <img src="assets/images/placeholder-department.svg" alt="Placeholder image representing the Department of Engineering Technology" width="1200" height="800" loading="lazy" decoding="async">
+          <img data-render="department-image" src="assets/images/placeholder-department.svg" alt="Placeholder image representing the Department of Engineering Technology" width="1200" height="800" loading="lazy" decoding="async">
         </div>
         <div class="split__body">
           <span class="eyebrow">Our department</span>
-          <h2 id="department-heading">Welcome to the Department of Engineering Technology</h2>
+          <h2 id="department-heading" data-render="department-heading">Welcome to the Department of Engineering Technology</h2>
           <div data-render="department-intro"></div>
           <div data-render="department-focus"></div>
-          <p class="mt-5"><a class="link-more" href="about/">About the Department</a></p>
+          <p class="mt-5"><a class="btn btn--outline" href="about/">About the Department</a></p>
         </div>
       </div>
     </section>
 
     <!-- SECTION 4: Three specialisations -->
-    <section class="section section--bordered" id="specialisations" aria-labelledby="specialisations-heading">
+    <section class="section section--tint" id="specialisations" aria-labelledby="specialisations-heading">
       <div class="container">
         <div class="section-head section-head--center">
           <span class="eyebrow">Academic focus</span>
@@ -125,7 +130,7 @@
     </section>
 
     <!-- SECTION 6: Laboratories and facilities -->
-    <section class="section" id="facilities" aria-labelledby="facilities-heading">
+    <section class="section section--tint" id="facilities" aria-labelledby="facilities-heading">
       <div class="container">
         <div class="section-head">
           <span class="eyebrow">Where we work</span>
@@ -133,18 +138,6 @@
         </div>
         <div data-render="facilities" data-limit="2"></div>
         <p class="mt-5"><a class="btn btn--outline" href="facilities/">Explore Facilities</a></p>
-      </div>
-    </section>
-
-    <!-- SECTION 7: News and announcements -->
-    <section class="section section--tint" id="news" aria-labelledby="news-heading">
-      <div class="container">
-        <div class="section-head">
-          <span class="eyebrow">Latest</span>
-          <h2 id="news-heading">News and announcements</h2>
-        </div>
-        <div data-render="news" data-limit="4"></div>
-        <p class="mt-5"><a class="link-more" href="news/">All news and events</a></p>
       </div>
     </section>
 
@@ -171,9 +164,9 @@
       <div>
         <h2 class="footer__title">Specialisations</h2>
         <ul class="footer__list">
-          <li><a href="specialisations/automobile-technology/">Automobile Technology</a></li>
-          <li><a href="specialisations/construction-technology/">Construction Technology</a></li>
-          <li><a href="specialisations/electro-technology/">Electro Technology</a></li>
+          <li><a href="specialisations/automobile-technology/" data-sp-link="sp-01">Automobile Technology</a></li>
+          <li><a href="specialisations/construction-technology/" data-sp-link="sp-02">Construction Technology</a></li>
+          <li><a href="specialisations/electro-technology/" data-sp-link="sp-03">Electro Technology</a></li>
         </ul>
       </div>
     </div>

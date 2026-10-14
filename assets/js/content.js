@@ -45,6 +45,8 @@ window.DEPARTMENT_CONTENT = {
     university: "University of Jaffna",
     faculty: "Faculty of Technology",
     department: "Department of Engineering Technology",
+    // RESERVED — not rendered anywhere (no consumer in main.js). Kept for
+    // future use; do not assume editing it changes the site.
     tagline: "Engineering innovation for the North of Sri Lanka"
   },
 
@@ -63,13 +65,16 @@ window.DEPARTMENT_CONTENT = {
     ],
     image: "assets/images/placeholder-campus.svg",
     imageAlt: "Placeholder image representing the Faculty of Technology campus",
+    // RESERVED — not rendered. No page defines a [data-render="dean-note"]
+    // target, and the same information is already covered by the department
+    // copy, so this value is intentionally unused.
     deptNote:
       "This website belongs to the Department of Engineering Technology, " +
       "one of the departments within the Faculty of Technology."
   },
 
   /* --------------------------------------------------------------------------
-   * 3. Message from the Dean (HOME PAGE SECTION 2 & ABOUT PAGE)
+   * 3. Message from the Dean (ABOUT PAGE)
    *    Keep this SEPARATE from the Head of Department message below.
    * ------------------------------------------------------------------------*/
   dean: {
@@ -119,8 +124,11 @@ window.DEPARTMENT_CONTENT = {
 
   /* --------------------------------------------------------------------------
    * 6. The three specialisations
-   *    - `name` is used by the cards AND must match the static navigation
-   *      links in each HTML file (the nav keeps working without JavaScript).
+   *    - `name` is used by the cards, the navigation dropdown, the footer link
+   *      lists AND must match the static navigation links in each HTML file
+   *      (the nav keeps working without JavaScript).
+   *    - `shortName` is RESERVED and not rendered anywhere; every consumer uses
+   *      the full `name`, so edit `name` (not `shortName`) to change a label.
    *    - `coordinatorStaffId` points at a staff record in staff.js.
    *    - Staff lists are DERIVED from staff.js (members' specialisationIds),
    *      never duplicated here.
@@ -240,28 +248,36 @@ window.DEPARTMENT_CONTENT = {
   ],
 
   /* --------------------------------------------------------------------------
-   * 7. Academic overview tiles (HOME PAGE SECTION 5 & academics page)
+   * 7. Academic overview tiles (HOME PAGE SECTION 5 only)
    *    Only edit `url` if the destination genuinely exists.
+   *    `icon` is optional — pick a name from the set below (rendered as an
+   *    inline SVG next to the title); unknown names fall back to a default:
+   *      "graduation-cap", "book-open", "layers", "list-checks",
+   *      "folder-open", "file-text", "award", "users", "download".
    * ------------------------------------------------------------------------*/
   academicOverview: [
     {
       title: "Degree Programme",
       description: "A four-year Bachelor of Engineering Technology Honours degree comprising eight semesters.",
+      icon: "graduation-cap",
       url: "academics/#overview"
     },
     {
       title: "Study Areas",
       description: "Automobile Technology, Construction Technology and Electro Technology.",
+      icon: "layers",
       url: "academics/#study-areas"
     },
     {
       title: "Programme Structure",
       description: "The first two semesters are common; specialisation studies begin in Semester 3.",
+      icon: "list-checks",
       url: "academics/#curriculum"
     },
     {
       title: "Student Resources",
       description: "[Guides, forms and documents available to students.]",
+      icon: "folder-open",
       url: "downloads/"
     }
   ],

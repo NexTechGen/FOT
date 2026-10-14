@@ -5,7 +5,8 @@ content was not supplied. Nothing in square brackets `[...]` is real content —
 or removed by the department before publication.
 
 For each item below, once the approved content is supplied, make the change in the file listed and
-undeploy/redeploy the site (see `README.md`).
+publish the updated files to the web server the normal way (see `README.md`). No undeploying or
+taking the site offline is required.
 
 Legend: ☐ = outstanding, ✔ = supplied (tick when done).
 
@@ -25,7 +26,7 @@ Legend: ☐ = outstanding, ✔ = supplied (tick when done).
 - ☐ **Production domain** — intentionally not set. Do not add canonical URLs until a real domain
   is assigned.
 
-## 2. Faculty (homepage section 1) and Dean (homepage section 2, About page)
+## 2. Faculty (homepage section 1) and Dean (About page)
 
 - File: `assets/js/content.js`
 - ☐ `faculty.intro` — approved Faculty of Technology introduction.
@@ -37,13 +38,14 @@ Legend: ☐ = outstanding, ✔ = supplied (tick when done).
 ## 3. Department (homepage section 3) and Head of Department (About page)
 
 - File: `assets/js/content.js` and `assets/js/staff.js`
-- ✔ `department.intro` — supplied (used on the home page and the About page).
+- ✔ `department.intro` — supplied (used on the home page only).
 - ✔ `department.focus` — supplied.
 - ☐ `department.image` — department photograph.
 - ☐ Head of Department record in `staff.js` (name, designation, photo, email).
 - ☐ `hod.message` — approved Head of Department message (separate from the Dean's message).
-- The Dean's message also appears on the **home page** (homepage section 2) and on the **About**
-  page (`about/index.html`); the Head of Department message appears on the **About** page.
+- The Dean's message appears on the **About** page only (`about/index.html`); the Head of Department
+  message also appears on the **About** page. (News and announcements sit directly after the
+  Faculty section on the home page.)
 
 ## 4. Specialisations (all pages)
 
@@ -81,6 +83,10 @@ Legend: ☐ = outstanding, ✔ = supplied (tick when done).
 - ☐ Credits and admission requirements (only if officially approved).
 - ☐ Module codes and regulations.
 - ☐ Student resources / handbooks.
+
+> Note: the four **Academic overview** cards on the home page are edited in
+> `assets/js/content.js` (`academicOverview`); each card has an optional `icon` (see §3.11 of
+> `README.md`). The card text is independent of the academic prose on `academics/index.html`.
 
 > Note: the supplied **Career Opportunities** text has no matching page or section on the site,
 > so it was not placed.

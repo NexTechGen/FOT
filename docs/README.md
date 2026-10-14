@@ -25,7 +25,7 @@ University of Jaffna
 
 ```
 department-website/
-├── index.html                      # Home (Faculty intro → Dean's message → Department → Specialisations → Academic overview → Facilities → News)
+├── index.html                      # Home (Faculty intro → News & announcements → Department → Specialisations → Academic overview → Facilities)
 ├── 404.html
 ├── about/
 │   └── index.html                  # Dean's message, academic organisation, HoD message, vision & mission, history
@@ -126,14 +126,29 @@ server settings. Opening `404.html` directly always works regardless.
 ## 3. Editing the site
 
 > **There is no browser-based admin panel.** All updates are made by editing the source files
-> and then **uploading / redeploying** the changed files to the web server. Nothing updates on the
-> live site until the edited files are uploaded.
+> and then **uploading** the changed files to the web server (no build step, no undeploy/redeploy
+> and no downtime). Nothing updates on the live site until the edited files are uploaded.
 
 All editable, repeated content lives in two files:
 
 - `assets/js/content.js` — specialisations, Dean's and Head of Department messages, academic
   overview, research, facilities, news, downloads, contact details.
 - `assets/js/staff.js` — every staff record.
+
+### What is editable (JS) vs static HTML
+
+- **Editable in the data files** — change these only in `content.js` / `staff.js`: specialisation
+  names, Dean/HoD messages, staff records, academic overview, research, facilities, news,
+  downloads, contact details, **and** the institutional identity text (university / faculty /
+  department), the home hero and department headings, and the contact identity lines.
+- **Static HTML** — the header, navigation structure, footer structure, breadcrumbs and the general
+  page prose (About, Academics, etc.). These are plain HTML in each page; edit the page file
+  directly if the wording needs to change.
+- A few values exist in **both** places on purpose: the data file is the source of truth and the
+  matching static HTML is the **no-JS fallback** (see §3.10 for the specialisation names). Editing
+  the data file is enough.
+- Values marked **RESERVED** in `content.js` (`institution.tagline`, `specialisations[].shortName`,
+  `faculty.deptNote`) are stored but not shown anywhere yet — do not expect them to appear.
 
 Text wrapped in `[square brackets]` is an **editable placeholder**. Replace it with approved
 official content only. Never invent names, qualifications, statistics, dates, messages, module
@@ -192,7 +207,8 @@ role.)
 
 ### 3.6 Update the Dean's message
 
-In `assets/js/content.js`, edit the `dean` object:
+The Dean's message is shown on the **About** page (not the home page). In
+`assets/js/content.js`, edit the `dean` object:
 
 ```js
 dean: {
@@ -256,15 +272,36 @@ Only set `url` to a file that **actually exists**. Entries with an empty `url` a
 
 ### 3.10 Change/rename a specialisation
 
-Specialisation names appear in three places by design:
+Rename the specialisation in **one place**: `assets/js/content.js` (`specialisations[].name`).
+That name drives the cards, the specialisation page's `<h1>`, breadcrumb and title, **and** the
+existing navigation dropdown and footer link lists on every page (those links are tagged with
+`data-sp-link` and refreshed at runtime).
 
-1. `assets/js/content.js` (`specialisations[].name`) — drives cards and specialisation pages.
-2. The static **navigation dropdown** in every HTML file.
-3. The **footer** in every HTML file.
+Each page also ships the same names as static HTML in its nav and footer so the links still work
+with JavaScript disabled. Those static copies are only the **no-JS fallback** — you do not have to
+edit them, though you may update them to match if you want the no-JS view to show the new name.
+The specialisation page folder (`specialisations/automobile-technology/index.html`) and its
+`pageUrl` value in `content.js` do not need to change unless the URL itself changes.
 
-Navigation is kept in HTML so that it works without JavaScript. When you rename a specialisation,
-update `content.js` **and** the matching text in the nav and footer of each page. The dedicated
-pages themselves (`specialisations/automobile-technology/index.html`) do not need to change filename.
+### 3.11 Edit the Academic overview tiles
+
+The four cards in the home page **Academic overview** section are driven by the
+`academicOverview` array in `assets/js/content.js`. Each entry has:
+
+```js
+{
+  title: "Degree Programme",
+  description: "A four-year Bachelor of Engineering Technology Honours degree ...",
+  icon: "graduation-cap",          // optional — see the list below
+  url: "academics/#overview"        // link destination, or "" for a non-clickable card
+}
+```
+
+The `icon` is shown in a round blue badge above the title. Choose one of:
+`"graduation-cap"`, `"book-open"`, `"layers"`, `"list-checks"`, `"folder-open"`, `"file-text"`,
+`"award"`, `"users"`, `"download"`. An unknown or missing value falls back to a default icon, so a
+typo can never break the layout. If `url` does not resolve to a valid destination the card is
+rendered as a plain, non-clickable box (the "Learn more" link is omitted).
 
 ---
 

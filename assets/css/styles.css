@@ -309,6 +309,45 @@ summary:focus-visible,
   color: var(--muted);
 }
 
+/* CTA row: heading + supporting text with a single action. Two columns (text,
+   action) from md up; a single stacked column below, where the button becomes a
+   full-width tap target. Used by the Academic documents section. */
+.cta-row {
+  display: grid;
+  gap: var(--space-4);
+  align-items: center;
+}
+
+.cta-row__text {
+  min-width: 0;
+}
+
+.cta-row__text h2 {
+  margin-bottom: var(--space-2);
+}
+
+.cta-row__text > :last-child {
+  margin-bottom: 0;
+  color: var(--muted);
+}
+
+.cta-row__action {
+  margin: 0;
+}
+
+@media (max-width: 767.98px) {
+  .cta-row__action .btn {
+    width: 100%;
+  }
+}
+
+@media (min-width: 768px) {
+  .cta-row {
+    grid-template-columns: minmax(0, 1fr) auto;
+    gap: var(--space-6);
+  }
+}
+
 .eyebrow {
   display: inline-block;
   font-size: 0.8125rem;
@@ -321,7 +360,7 @@ summary:focus-visible,
 }
 
 .section-head {
-  max-width: 60ch;
+  max-width: none;
   margin-bottom: var(--space-5);
 }
 
@@ -1034,6 +1073,11 @@ summary:focus-visible,
   .grid--4 {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
+
+  /* Keep the academic tiles evenly sized when they wrap onto a second row. */
+  .grid--4 {
+    grid-auto-rows: 1fr;
+  }
 }
 
 /* lg: three columns for grid--3 (staff, specialisations, themes) and four for
@@ -1046,6 +1090,79 @@ summary:focus-visible,
 
   .grid--4 {
     grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+}
+
+/* Small screens: the specialisation cards become a one-at-a-time swiper. Each
+   card fills the width and scroll-snaps to the centre, so exactly one card is
+   visible (no half-cards). Pagination dots below show the position; the normal
+   2-/3-column grid returns from 768px up (see above). */
+@media (max-width: 767.98px) {
+  .sp-scroller {
+    display: flex;
+    gap: var(--space-5);
+    overflow-x: auto;
+    overflow-y: hidden;
+    overscroll-behavior-x: contain;
+    -webkit-overflow-scrolling: touch;
+    scroll-snap-type: x mandatory;
+    padding: var(--space-1) 0 var(--space-4);
+    scrollbar-width: none;
+  }
+
+  .sp-scroller::-webkit-scrollbar {
+    display: none;
+  }
+
+  .sp-scroller > * {
+    flex: 0 0 100%;
+    scroll-snap-align: center;
+  }
+}
+
+/* Swiper pagination dots (small screens only) */
+.sp-dots {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-1);
+  margin-top: var(--space-3);
+}
+
+.sp-dots__btn {
+  position: relative;
+  width: 24px;
+  height: 24px;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.sp-dots__btn::before {
+  content: "";
+  position: absolute;
+  inset: 8px;
+  border-radius: 50%;
+  border: 1px solid var(--blue);
+  background: transparent;
+  transition: background 0.15s ease, transform 0.15s ease;
+}
+
+.sp-dots__btn:hover::before {
+  background: var(--blue-light);
+}
+
+.sp-dots__btn[aria-current="true"]::before {
+  background: var(--blue);
+  transform: scale(1.2);
+}
+
+@media (min-width: 768px) {
+  .sp-dots {
+    display: none;
   }
 }
 
@@ -1120,6 +1237,19 @@ summary:focus-visible,
   box-shadow: var(--shadow-sm);
 }
 
+/* Whole-card link (Academics study areas): the anchor wraps the card so its
+   entire surface is clickable. Headings must not inherit the link underline,
+   and the title picks up the brand colour on hover as the affordance. */
+.card--link {
+  text-decoration: none;
+  color: inherit;
+  height: 100%;
+}
+
+.card--link:hover .card__title {
+  color: var(--blue);
+}
+
 /* Department intro split */
 .split {
   display: grid;
@@ -1155,7 +1285,10 @@ summary:focus-visible,
 
 /* Academic overview tiles */
 .tile {
-  display: block;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+  height: 100%;
   padding: var(--space-4);
   background: var(--white);
   border: 1px solid var(--border);
@@ -1163,7 +1296,9 @@ summary:focus-visible,
   text-decoration: none;
   color: var(--text);
   box-shadow: var(--shadow-sm);
-  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+  transition: border-color 0.15s ease, box-shadow 0.15s ease,
+    transform 0.15s ease;
+  min-width: 0;
 }
 
 @media (min-width: 992px) {
@@ -1172,14 +1307,46 @@ summary:focus-visible,
   }
 }
 
-.tile:hover {
+.tile:hover,
+.tile:focus-visible {
   border-color: var(--blue);
   box-shadow: var(--shadow);
+  transform: translateY(-3px);
+}
+
+.tile:focus-visible {
+  outline: 3px solid var(--focus);
+  outline-offset: 2px;
+}
+
+/* Non-interactive card (no valid destination) stays put on hover. */
+.tile--static:hover {
+  transform: none;
+  box-shadow: var(--shadow-sm);
+  border-color: var(--border);
+}
+
+.tile__icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 3rem;
+  height: 3rem;
+  flex: 0 0 auto;
+  border-radius: var(--radius);
+  background: var(--blue-light);
+  color: var(--blue);
+}
+
+.tile__icon svg {
+  width: 1.5rem;
+  height: 1.5rem;
 }
 
 .tile__title {
   color: var(--blue-dark);
-  margin-bottom: var(--space-2);
+  margin: 0;
+  font-size: 1.125rem;
   overflow-wrap: break-word;
 }
 
@@ -1187,13 +1354,31 @@ summary:focus-visible,
   color: var(--muted);
   margin: 0;
   font-size: 0.9375rem;
+  flex: 1 1 auto;
 }
 
 .tile__more {
-  display: inline-block;
-  margin-top: var(--space-3);
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-1);
+  margin-top: var(--space-2);
   color: var(--blue);
   font-weight: 600;
+}
+
+.tile__more-arrow {
+  display: inline-flex;
+  transition: transform 0.15s ease;
+}
+
+.tile:hover .tile__more-arrow,
+.tile:focus-visible .tile__more-arrow {
+  transform: translateX(3px);
+}
+
+.tile__more-arrow svg {
+  width: 1.125rem;
+  height: 1.125rem;
 }
 
 /* ----------------------------------------------------------------------------
@@ -1735,6 +1920,100 @@ tbody tr:last-child td {
 .badge--muted {
   background: #f4f7fa;
   color: var(--muted);
+}
+
+/* Programme path (two-phase study structure) */
+.path {
+  list-style: none;
+  margin: 0 0 var(--space-5);
+  padding: 0;
+  display: grid;
+  gap: var(--space-4);
+}
+
+.path__step {
+  position: relative;
+  display: grid;
+  grid-template-columns: 2.5rem minmax(0, 1fr);
+  gap: var(--space-4);
+}
+
+.path__step:not(:last-child)::after {
+  content: "";
+  position: absolute;
+  left: calc(1.25rem - 1px);
+  top: calc(2.5rem + 0.25rem);
+  bottom: calc(-1 * var(--space-4) + 0.25rem);
+  width: 2px;
+  background: var(--border);
+}
+
+.path__marker {
+  display: grid;
+  place-items: center;
+  width: 2.5rem;
+  height: 2.5rem;
+  border-radius: 999px;
+  background: var(--blue);
+  color: var(--white);
+  font-weight: 700;
+  font-size: 1rem;
+  line-height: 1;
+}
+
+.path__body {
+  min-width: 0;
+  padding-top: 0.2rem;
+}
+
+.path__meta {
+  display: inline-block;
+  margin: 0 0 var(--space-2);
+  padding: 0.1rem var(--space-2);
+  border-radius: 999px;
+  background: var(--blue-light);
+  border: 1px solid var(--border);
+  color: var(--blue-dark);
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+}
+
+.path__title {
+  margin: 0 0 var(--space-1);
+  font-size: 1.125rem;
+}
+
+.path__text {
+  margin: 0;
+  color: var(--muted);
+}
+
+.path__cta-label {
+  margin: var(--space-4) 0 var(--space-2);
+  font-size: 0.8125rem;
+  font-weight: 700;
+  letter-spacing: 0.09em;
+  text-transform: uppercase;
+  color: var(--blue);
+}
+
+.path__tags {
+  list-style: none;
+  margin: var(--space-2) 0 0;
+  padding: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+}
+
+.path__tags a {
+  text-decoration: none;
+}
+
+.path__tags a:hover,
+.path__tags a:focus-visible {
+  border-color: var(--blue);
 }
 
 /* ----------------------------------------------------------------------------

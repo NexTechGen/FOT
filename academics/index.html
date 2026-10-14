@@ -16,9 +16,9 @@
         <a class="brand" href="../index.html">
           <img class="brand__logo" src="../assets/images/UOJ-Logo-Color-scaled.png" alt="" width="48" height="48" decoding="async">
           <span class="brand__text">
-            <span class="brand__uni">University of Jaffna</span>
-            <span class="brand__dept">Department of Engineering Technology</span>
-            <span class="brand__fac">Faculty of Technology</span>
+            <span class="brand__uni" data-render="institution-university">University of Jaffna</span>
+            <span class="brand__dept" data-render="institution-department">Department of Engineering Technology</span>
+            <span class="brand__fac" data-render="institution-faculty">Faculty of Technology</span>
           </span>
         </a>
         <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="primary-nav">
@@ -36,19 +36,19 @@
           <li class="has-dropdown">
             <button class="nav-sub-toggle" type="button" aria-expanded="false" aria-controls="menu-specialisations">Specialisations</button>
             <ul class="dropdown" id="menu-specialisations">
-              <li><a href="../specialisations/automobile-technology/">Automobile Technology</a></li>
-              <li><a href="../specialisations/construction-technology/">Construction Technology</a></li>
-              <li><a href="../specialisations/electro-technology/">Electro Technology</a></li>
+              <li><a href="../specialisations/automobile-technology/" data-sp-link="sp-01">Automobile Technology</a></li>
+              <li><a href="../specialisations/construction-technology/" data-sp-link="sp-02">Construction Technology</a></li>
+              <li><a href="../specialisations/electro-technology/" data-sp-link="sp-03">Electro Technology</a></li>
             </ul>
           </li>
           <li><a href="../staff/">Staff</a></li>
           <li><a href="../academics/" aria-current="page">Academics</a></li>
+          <li><a href="../news/">News &amp; Events</a></li>
           <li class="has-dropdown">
             <button class="nav-sub-toggle" type="button" aria-expanded="false" aria-controls="menu-resources">Resources</button>
             <ul class="dropdown" id="menu-resources">
               <li><a href="../research/">Research</a></li>
               <li><a href="../facilities/">Facilities</a></li>
-              <li><a href="../news/">News &amp; Events</a></li>
               <li><a href="../downloads/">Downloads</a></li>
             </ul>
           </li>
@@ -100,7 +100,7 @@
           <h2 id="study-areas-heading">Study areas and specialisations</h2>
           <p>The department's teaching is organised around three specialisations. Each specialisation has its own dedicated page.</p>
         </div>
-        <div data-render="specialisation-links"></div>
+        <div data-render="specialisation-showcase"></div>
       </div>
     </section>
 
@@ -114,9 +114,31 @@
           <div>
             <div class="prose">
               <p>The first two semesters are common to all Engineering Technology students. Specialisation studies begin in Semester 3 and continue through the remaining years of the four-year degree programme.</p>
-              <p>Year 1, Semesters 1&ndash;2: Common programme. Years 2&ndash;4, Semesters 3&ndash;8: Specialisation studies.</p>
             </div>
-            <p><a class="link-more" href="../specialisations/automobile-technology/">View a specialisation curriculum</a></p>
+            <ol class="path">
+              <li class="path__step">
+                <span class="path__marker" aria-hidden="true">1</span>
+                <div class="path__body">
+                  <p class="path__meta">Year 1 &middot; Semesters 1&ndash;2</p>
+                  <h3 class="path__title">Common programme</h3>
+                  <p class="path__text">Shared by every Engineering Technology student before specialisation begins.</p>
+                </div>
+              </li>
+              <li class="path__step">
+                <span class="path__marker" aria-hidden="true">2</span>
+                <div class="path__body">
+                  <p class="path__meta">Years 2&ndash;4 &middot; Semesters 3&ndash;8</p>
+                  <h3 class="path__title">Specialisation studies</h3>
+                  <p class="path__text">Students continue in one of the department's three specialisations.</p>
+                </div>
+              </li>
+            </ol>
+            <p class="path__cta-label">View a specialisation curriculum</p>
+            <ul class="path__tags">
+              <li><a class="tag" href="../specialisations/automobile-technology/">Automobile Technology</a></li>
+              <li><a class="tag" href="../specialisations/construction-technology/">Construction Technology</a></li>
+              <li><a class="tag" href="../specialisations/electro-technology/">Electro Technology</a></li>
+            </ul>
           </div>
         </div>
       </div>
@@ -124,13 +146,13 @@
 
     <section class="section section--bordered" id="documents" aria-labelledby="documents-heading">
       <div class="container">
-        <div class="content-columns">
-          <div class="section-head">
+        <div class="cta-row">
+          <div class="cta-row__text">
             <h2 id="documents-heading">Academic documents</h2>
             <p>Official academic documents, when available, are listed in the Downloads section.</p>
           </div>
-          <div>
-            <p><a class="btn btn--outline" href="../downloads/">Go to Downloads</a></p>
+          <div class="cta-row__action">
+            <a class="btn btn--outline" href="../downloads/">Go to Downloads</a>
           </div>
         </div>
       </div>
@@ -158,9 +180,9 @@
       <div>
         <h2 class="footer__title">Specialisations</h2>
         <ul class="footer__list">
-          <li><a href="../specialisations/automobile-technology/">Automobile Technology</a></li>
-          <li><a href="../specialisations/construction-technology/">Construction Technology</a></li>
-          <li><a href="../specialisations/electro-technology/">Electro Technology</a></li>
+          <li><a href="../specialisations/automobile-technology/" data-sp-link="sp-01">Automobile Technology</a></li>
+          <li><a href="../specialisations/construction-technology/" data-sp-link="sp-02">Construction Technology</a></li>
+          <li><a href="../specialisations/electro-technology/" data-sp-link="sp-03">Electro Technology</a></li>
         </ul>
       </div>
     </div>
