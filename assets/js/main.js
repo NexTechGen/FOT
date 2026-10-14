@@ -1339,6 +1339,30 @@
   }
 
   /**
+   * Keep the CSS variable for the sticky mobile masthead height in sync with
+   * the real measured height (the brand text can wrap at very narrow widths).
+   * The masthead, the nav panel and the breadcrumbs all key off this value.
+   */
+  function initStickyHeader() {
+    var header = document.querySelector(".site-header");
+    if (!header) {
+      return;
+    }
+    var apply = function () {
+      document.documentElement.style.setProperty(
+        "--header-sticky-offset",
+        header.offsetHeight + "px"
+      );
+    };
+    apply();
+    if (typeof ResizeObserver === "function") {
+      new ResizeObserver(apply).observe(header);
+    }
+    window.addEventListener("resize", apply);
+    window.addEventListener("orientationchange", apply);
+  }
+
+  /**
    * Progressive enhancement for horizontally scrollable tables: expose each
    * .table-wrap as a labelled, keyboard-focusable scroll region.
    */
@@ -1382,6 +1406,7 @@
     initStaffDirectory();
     setCurrentYear();
     enhanceTables();
+    initStickyHeader();
 
     var spId = document.body.getAttribute("data-specialisation");
     if (spId) {

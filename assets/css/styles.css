@@ -69,7 +69,10 @@
   --font-body: "Segoe UI", Roboto, "Helvetica Neue", Arial, system-ui, sans-serif;
   --font-head: "Segoe UI", Roboto, "Helvetica Neue", Arial, system-ui, sans-serif;
 
-  --header-sticky-offset: 0px;
+  /* Height of the sticky mobile masthead. A sensible default is provided so the
+     layout is correct without JavaScript; main.js refines it to the measured
+     height (the brand text can wrap at very narrow widths). */
+  --header-sticky-offset: 3.75rem;
 }
 
 /* ----------------------------------------------------------------------------
@@ -622,10 +625,28 @@ summary:focus-visible,
 /* Collapsible panel below lg (992px) ONLY when JavaScript is available.
    Without JavaScript the full list stays visible so navigation still works. */
 @media (max-width: 991px) {
+  /* Sticky masthead: keeps the brand and the "Menu" button reachable at all
+     times while scrolling on phones and tablets. */
+  .site-header {
+    position: sticky;
+    top: 0;
+    z-index: 200;
+  }
+
+  /* Keep in-page anchor targets clear of the sticky masthead + breadcrumbs. */
+  html {
+    scroll-padding-top: calc(var(--header-sticky-offset) + 3rem);
+  }
+
+  /* The panel pins directly beneath the sticky masthead. */
+  .primary-nav {
+    top: var(--header-sticky-offset);
+  }
+
   body.has-js .primary-nav {
     display: none;
-    /* Keeps an open menu scrollable on short (landscape) screens. */
-    max-height: calc(100dvh - 4.5rem);
+    /* The open menu scrolls inside the space left below the sticky masthead. */
+    max-height: calc(100dvh - var(--header-sticky-offset));
     overflow-y: auto;
     -webkit-overflow-scrolling: touch;
     overscroll-behavior: contain;
@@ -1518,6 +1539,16 @@ details.disclosure summary::marker {
 
 .breadcrumbs a:hover {
   text-decoration: underline;
+}
+
+/* Sticky breadcrumbs on phones/tablets: they pin directly beneath the sticky
+   masthead so the current location stays visible while scrolling. */
+@media (max-width: 991px) {
+  .breadcrumbs {
+    position: sticky;
+    top: var(--header-sticky-offset);
+    z-index: 90;
+  }
 }
 
 .page-head {

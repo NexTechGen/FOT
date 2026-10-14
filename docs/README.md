@@ -73,8 +73,10 @@ Every page links to others with **clean URLs** (e.g. `about/`, `staff/`,
 folder) that the scripts use to build correct asset and content paths.
 
 The official University of Jaffna logo (`assets/images/UOJ-Logo-Color-scaled.png`) is the header
-brand mark. The masthead (logo + identity text) scrolls out of view, while the blue navigation bar
-is `position: sticky` and stays pinned to the top of the viewport on all pages.
+brand mark. On desktop the blue navigation bar is `position: sticky` and stays pinned to the top of
+the viewport, while the masthead scrolls out of view. On mobile (below `lg`) the roles reverse: the
+masthead — with the "Menu" button — is sticky, and the breadcrumbs bar (on every page except the
+home page and 404) pins directly beneath it.
 
 ---
 
@@ -298,6 +300,11 @@ No npm install, no build command and no environment variables are required.
   Horizontally scrollable `.table-wrap` regions are focusable and labelled.
 - Navigation state is reset when the viewport crosses the `lg` breakpoint, so a half-open mobile
   menu never leaks into the desktop layout.
+- Below `lg`, the `.masthead` is sticky (`top: 0`) and the breadcrumbs bar pins directly beneath it.
+  The masthead height is measured at runtime and published as the `--header-sticky-offset` CSS
+  variable (kept in sync with a `ResizeObserver`), so the nav panel and breadcrumbs stay aligned
+  even when the brand text wraps at very narrow widths. In-page anchors respect the sticky bars via
+  `scroll-padding-top`.
 - `prefers-reduced-motion` is respected — animations and transitions are disabled on request.
 - All rendered text is inserted with `textContent`, so the data files cannot inject HTML.
 
