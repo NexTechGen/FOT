@@ -43,7 +43,7 @@ Legend: ☐ = outstanding, ✔ = supplied (tick when done).
 - ☐ `department.image` — department photograph.
 - ☐ Head of Department record in `staff.js` (name, designation, photo, email).
 - ☐ `hod.message` — approved Head of Department message (separate from the Dean's message).
-- The Dean's message appears on the **About** page only (`about/index.html`); the Head of Department
+- The Dean's message appears on the **About** page only (`pages/about.html`); the Head of Department
   message also appears on the **About** page. (News and announcements sit directly after the
   Faculty section on the home page.)
 
@@ -73,8 +73,8 @@ Legend: ☐ = outstanding, ✔ = supplied (tick when done).
 
 ## 6. Academics
 
-- Files: `academics/index.html`, `assets/js/content.js`
-- ✔ **Degree Programme** — supplied and published on `academics/index.html` (four-year Bachelor of
+- Files: `pages/academics.html`, `assets/js/content.js`
+- ✔ **Degree Programme** — supplied and published on `pages/academics.html` (four-year Bachelor of
   Engineering Technology Honours, eight semesters, three specialisations). The Sydney Accord /
   SLQF Level 6 wording is kept as **published department information**, not as an accreditation
   claim.
@@ -86,7 +86,7 @@ Legend: ☐ = outstanding, ✔ = supplied (tick when done).
 
 > Note: the four **Academic overview** cards on the home page are edited in
 > `assets/js/content.js` (`academicOverview`); each card has an optional `icon` (see §3.11 of
-> `README.md`). The card text is independent of the academic prose on `academics/index.html`.
+> `README.md`). The card text is independent of the academic prose on `pages/academics.html`.
 
 > Note: the supplied **Career Opportunities** text has no matching page or section on the site,
 > so it was not placed.

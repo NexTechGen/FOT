@@ -781,7 +781,7 @@
         el("a", {
           cls: "link-more",
           text: "View staff profile",
-          attrs: { href: resolve("staff/") + "#profile-" + hod.id }
+          attrs: { href: resolve("pages/staff.html") + "#profile-" + hod.id }
         })
       ] });
     }
@@ -1064,7 +1064,7 @@
       );
     }
     NEWS.slice(0, limit || NEWS.length).forEach(function (item) {
-      var card = el("a", { cls: "news-item", attrs: { href: resolve("news/") + "#" + item.id, id: item.id } });
+      var card = el("a", { cls: "news-item", attrs: { href: resolve("pages/news.html") + "#" + item.id, id: item.id } });
       var meta = el("div", { cls: "news-item__meta", children: [
         el("span", { cls: "news-item__date", text: formatDate(item.date) }),
         el("span", { cls: "badge", text: item.category || "News" })

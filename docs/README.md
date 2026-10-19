@@ -4,9 +4,9 @@ Official website for the **Department of Engineering Technology**, **Faculty of 
 **University of Jaffna**.
 
 Built with **HTML5, CSS3 and vanilla JavaScript only**. No frameworks, no backend, no database,
-no build step, no package installation required. The site uses **clean URLs** (one folder per page,
-each containing an `index.html`), so it should be previewed through a simple static file server
-(see section 2).
+no build step, no package installation required. The home page and `404.html` sit at the site root;
+every other page is a flat HTML file inside `pages/`. Links work when files are opened directly
+from disk, and a simple static file server (see section 2) mirrors real hosting exactly.
 
 Institutional hierarchy used throughout the site:
 
@@ -27,29 +27,18 @@ University of Jaffna
 department-website/
 ├── index.html                      # Home (Faculty intro → News & announcements → Department → Specialisations → Academic overview → Facilities)
 ├── 404.html
-├── about/
-│   └── index.html                  # Dean's message, academic organisation, HoD message, vision & mission, history
-├── staff/
-│   └── index.html                  # Searchable / filterable staff directory
-├── academics/
-│   └── index.html
-├── research/
-│   └── index.html
-├── facilities/
-│   └── index.html
-├── news/
-│   └── index.html
-├── downloads/
-│   └── index.html
-├── contact/
-│   └── index.html
-├── specialisations/
-│   ├── automobile-technology/
-│   │   └── index.html
-│   ├── construction-technology/
-│   │   └── index.html
-│   └── electro-technology/
-│       └── index.html
+├── pages/                          # Every inner page is a flat HTML file in this one folder
+│   ├── about.html                  # Dean's message, academic organisation, HoD message, vision & mission, history
+│   ├── staff.html                  # Searchable / filterable staff directory
+│   ├── academics.html
+│   ├── research.html
+│   ├── facilities.html
+│   ├── news.html
+│   ├── downloads.html
+│   ├── contact.html
+│   ├── automobile-technology.html
+│   ├── construction-technology.html
+│   └── electro-technology.html
 ├── assets/
 │   ├── css/
 │   │   └── styles.css              # All styling (mobile-first)
@@ -67,10 +56,10 @@ department-website/
 The header, navigation, footer and core page text are plain HTML in every page. Repeated or
 frequently-updated information is rendered by JavaScript from the two data files.
 
-Every page links to others with **clean URLs** (e.g. `about/`, `staff/`,
-`specialisations/automobile-technology/`). Each page's `<body>` carries a `data-base` attribute
-(`""` at the site root, `"../"` inside a top-level folder, `"../../"` inside a specialisation
-folder) that the scripts use to build correct asset and content paths.
+Every page links to others with plain relative `.html` URLs (e.g. `about.html`,
+`automobile-technology.html` within `pages/`, or `index.html` for the home page). Each page's
+`<body>` carries a `data-base` attribute (`""` at the site root, `"../"` inside `pages/`) that the
+scripts use to build correct asset and content paths.
 
 The official University of Jaffna logo (`assets/images/UOJ-Logo-Color-scaled.png`) is the header
 brand mark, and `assets/images/UOJ-Logo-Black-White-scaled.png` is the footer mark. Both have been
@@ -91,9 +80,9 @@ home page and 404) pins directly beneath it.
 You can preview the site in any of these ways:
 
 **Option A — open directly**
-Opening individual files from disk (e.g. double-clicking `index.html`) works for that single page,
-but the clean folder URLs (`about/`, `staff/`, …) only resolve to their `index.html` under a server.
-Use Option B for full local preview.
+All pages use plain relative links (e.g. `pages/about.html`, `../assets/css/styles.css`), so
+double-clicking `index.html` or any file in `pages/` works without a server. Use Option B when you
+want to mirror real hosting exactly (and to test `404.html`).
 
 **Option B — simple static server (recommended, mirrors real hosting)**
 
@@ -124,14 +113,14 @@ address bar. Most other static hosts can be configured to do the same (`ErrorDoc
 > **`404.html` resolves every URL against a `<base>` element.** Because the error page is shown for
 > *any* missing URL (e.g. `/foo/bar/`), a path relative to the browser's own URL would resolve to
 > `/foo/bar/assets/...` and break. Instead the page carries `<base href="/">` (the site root) and
-> writes its stylesheet, images, scripts and links as plain relative paths (`assets/...`, `about/`,
-> `./`). A two-line script flips the base to `./` when the file is opened directly from disk
-> (`file://`), so double-clicking `404.html` also renders correctly. Keep the URLs relative and keep
-> the `<base>` if you edit the page.
+> writes its stylesheet, images, scripts and links as plain relative paths (`assets/...`,
+> `pages/about.html`, `./`). A two-line script flips the base to `./` when the file is opened
+> directly from disk (`file://`), so double-clicking `404.html` also renders correctly. Keep the
+> URLs relative and keep the `<base>` if you edit the page.
 
-Every other page keeps relative paths (with its own `data-base`) so the nested
-`specialisations/.../` pages resolve correctly; the `404.html` `<body>` uses `data-base=""` because
-the `<base>` element already supplies the root.
+Every other page keeps relative paths (with its own `data-base`) so the pages inside `pages/`
+resolve their assets correctly; the `404.html` `<body>` uses `data-base=""` because the `<base>`
+element already supplies the root.
 
 ---
 
@@ -159,8 +148,8 @@ All editable, repeated content lives in two files:
 - A few values exist in **both** places on purpose: the data file is the source of truth and the
   matching static HTML is the **no-JS fallback** (see §3.10 for the specialisation names). Editing
   the data file is enough.
-- Values marked **RESERVED** in `content.js` (`institution.tagline`, `specialisations[].shortName`,
-  `faculty.deptNote`) are stored but not shown anywhere yet — do not expect them to appear.
+- Values marked **RESERVED** in `content.js` (`institution.tagline`, `specialisations[].shortName`)
+  are stored but not shown anywhere yet — do not expect them to appear.
 
 Text wrapped in `[square brackets]` is an **editable placeholder**. Replace it with approved
 official content only. Never invent names, qualifications, statistics, dates, messages, module
@@ -292,8 +281,8 @@ existing navigation dropdown and footer link lists on every page (those links ar
 Each page also ships the same names as static HTML in its nav and footer so the links still work
 with JavaScript disabled. Those static copies are only the **no-JS fallback** — you do not have to
 edit them, though you may update them to match if you want the no-JS view to show the new name.
-The specialisation page folder (`specialisations/automobile-technology/index.html`) and its
-`pageUrl` value in `content.js` do not need to change unless the URL itself changes.
+The specialisation page file (`pages/automobile-technology.html`) and its `pageUrl` value in
+`content.js` do not need to change unless the URL itself changes.
 
 ### 3.11 Edit the Academic overview tiles
 
@@ -337,8 +326,8 @@ There is intentionally **no contact form**, because the site has no backend.
 4. Serve `404.html` for unknown paths (Netlify does this automatically; Apache uses
    `ErrorDocument`, nginx uses `error_page`). See "Testing the 404 page" in section 2 — `404.html`
    uses a `<base href="/">` element instead of the `data-base` attribute.
-5. Keep the relative paths on the normal pages intact so the nested `specialisations/…/` pages
-   resolve their assets. The `data-base` attribute on each page (`""`, `"../"` or `"../../"`)
+5. Keep the relative paths on the normal pages intact so the pages inside `pages/` resolve their
+   assets. The `data-base` attribute on each page (`""` at the root, `"../"` inside `pages/`)
    handles this; if you add a page at a new depth, set its `data-base` to the correct number of
    `../` segments. (`404.html` is the one exception: it uses `<base href="/">` with relative URLs.)
 

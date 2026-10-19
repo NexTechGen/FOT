@@ -64,13 +64,7 @@ window.DEPARTMENT_CONTENT = {
       "statistics, dates or accreditation claims that have not been approved.]"
     ],
     image: "assets/images/placeholder-campus.svg",
-    imageAlt: "Placeholder image representing the Faculty of Technology campus",
-    // RESERVED — not rendered. No page defines a [data-render="dean-note"]
-    // target, and the same information is already covered by the department
-    // copy, so this value is intentionally unused.
-    deptNote:
-      "This website belongs to the Department of Engineering Technology, " +
-      "one of the departments within the Faculty of Technology."
+    imageAlt: "Placeholder image representing the Faculty of Technology campus"
   },
 
   /* --------------------------------------------------------------------------
@@ -138,7 +132,7 @@ window.DEPARTMENT_CONTENT = {
       id: "sp-01",
       name: "Automobile Technology",
       shortName: "Automobile Technology",
-      pageUrl: "specialisations/automobile-technology/",
+      pageUrl: "pages/automobile-technology.html",
       description:
         "[Short description of the first specialisation. One or two sentences.]",
       image: "assets/images/specialisation-01.svg",
@@ -175,7 +169,7 @@ window.DEPARTMENT_CONTENT = {
       id: "sp-02",
       name: "Construction Technology",
       shortName: "Construction Technology",
-      pageUrl: "specialisations/construction-technology/",
+      pageUrl: "pages/construction-technology.html",
       description:
         "[Short description of the second specialisation. One or two sentences.]",
       image: "assets/images/specialisation-02.svg",
@@ -212,7 +206,7 @@ window.DEPARTMENT_CONTENT = {
       id: "sp-03",
       name: "Electro Technology",
       shortName: "Electro Technology",
-      pageUrl: "specialisations/electro-technology/",
+      pageUrl: "pages/electro-technology.html",
       description:
         "[Short description of the third specialisation. One or two sentences.]",
       image: "assets/images/specialisation-03.svg",
@@ -260,25 +254,25 @@ window.DEPARTMENT_CONTENT = {
       title: "Degree Programme",
       description: "A four-year Bachelor of Engineering Technology Honours degree comprising eight semesters.",
       icon: "graduation-cap",
-      url: "academics/#overview"
+      url: "pages/academics.html#overview"
     },
     {
       title: "Study Areas",
       description: "Automobile Technology, Construction Technology and Electro Technology.",
       icon: "layers",
-      url: "academics/#study-areas"
+      url: "pages/academics.html#study-areas"
     },
     {
       title: "Programme Structure",
       description: "The first two semesters are common; specialisation studies begin in Semester 3.",
       icon: "list-checks",
-      url: "academics/#curriculum"
+      url: "pages/academics.html#curriculum"
     },
     {
       title: "Student Resources",
       description: "[Guides, forms and documents available to students.]",
       icon: "folder-open",
-      url: "downloads/"
+      url: "pages/downloads.html"
     }
   ],
 
