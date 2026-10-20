@@ -1144,14 +1144,15 @@
   }
 
   function newsSection(limit) {
-    var wrap = el("div", { cls: "grid grid--2" });
+    var wrap = el("div", { cls: "news-list" });
     if (!NEWS.length) {
       return emptyState(
         "No announcements published yet",
         "News and events will appear here once they are published by the department. Please check back later."
       );
     }
-    NEWS.slice(0, limit || NEWS.length).forEach(function (item) {
+    var count = isFinite(limit) && limit > 0 ? limit : NEWS.length;
+    NEWS.slice(0, count).forEach(function (item) {
       var card = el("article", { cls: "news-item", attrs: { id: item.id } });
       var meta = el("div", { cls: "news-item__meta", children: [
         el("span", { cls: "news-item__date", text: formatDate(item.date) }),
@@ -1160,32 +1161,169 @@
       card.appendChild(meta);
       card.appendChild(
         el("h3", { cls: "news-item__title", children: [
-          el("a", {
+          el("button", {
             cls: "news-item__link",
             text: item.title,
-            attrs: { href: resolve("pages/news.html") + "#" + item.id }
+            attrs: { type: "button", "data-news-open": item.id }
           })
         ] })
       );
-      card.appendChild(el("p", { cls: "news-item__text", text: item.summary || "" }));
-
-      // Optional attached document (e.g. exam time table). No url => no link.
-      var doc = item.doc || {};
-      var docHref = resolve(doc.url, "link");
-      if (docHref && doc.title) {
-        card.appendChild(
-          el("p", { cls: "news-item__doc", children: [
-            el("a", {
-              cls: "link-more",
-              text: "Download " + doc.title,
-              attrs: { href: docHref, target: "_blank", rel: "noopener" }
-            })
-          ] })
-        );
-      }
+      // Preview line: the body shown as a single truncated line (3 dots).
+      card.appendChild(
+        el("p", { cls: "news-item__text", text: oneLine(item.body || item.summary || "") })
+      );
       wrap.appendChild(card);
     });
     return wrap;
+  }
+
+  /** Collapse text to a single tidy line (browsers add the "…" via CSS). */
+  function oneLine(text) {
+    return String(text || "").replace(/\s+/g, " ").trim();
+  }
+
+  /**
+   * Full-notice modal. One shared <dialog> is created lazily and filled with
+   * the clicked notice: subject, full body and an optional download link.
+   */
+  var newsDialog = null;
+
+  function ensureNewsDialog() {
+    if (newsDialog) {
+      return newsDialog;
+    }
+    var dialog = el("dialog", { cls: "news-modal", attrs: { "aria-labelledby": "news-modal-title" } });
+    var shell = el("div", { cls: "news-modal__shell" });
+
+    var closeBtn = el("button", {
+      cls: "news-modal__close",
+      attrs: { type: "button", "aria-label": "Close notice" },
+      children: [el("span", { attrs: { "aria-hidden": "true" }, text: "\u00D7" })]
+    });
+    shell.appendChild(closeBtn);
+
+    var meta = el("div", { cls: "news-item__meta", attrs: { id: "news-modal-meta" } });
+    shell.appendChild(meta);
+
+    var title = el("h2", { cls: "news-modal__title", attrs: { id: "news-modal-title" } });
+    shell.appendChild(title);
+
+    var body = el("div", { cls: "news-modal__body prose", attrs: { id: "news-modal-body" } });
+    shell.appendChild(body);
+
+    var docWrap = el("div", { cls: "news-modal__doc", attrs: { id: "news-modal-doc" } });
+    shell.appendChild(docWrap);
+
+    dialog.appendChild(shell);
+
+    closeBtn.addEventListener("click", function () {
+      dialog.close();
+    });
+    // Click on the backdrop (outside the shell) closes the dialog.
+    dialog.addEventListener("click", function (event) {
+      if (event.target === dialog) {
+        dialog.close();
+      }
+    });
+    // Drop the deep-link hash once closed so a reload shows the list again.
+    dialog.addEventListener("close", function () {
+      if (window.location.hash) {
+        try {
+          history.replaceState(null, "", window.location.pathname + window.location.search);
+        } catch (err) {
+          // history.replaceState can throw on file:// or sandboxed documents;
+          // falling back to clearing the hash directly keeps things working.
+          window.location.hash = "";
+        }
+      }
+    });
+
+    newsDialog = dialog;
+    document.body.appendChild(dialog);
+    return dialog;
+  }
+
+  function openNewsItem(id) {
+    var item = null;
+    for (var i = 0; i < NEWS.length; i += 1) {
+      if (NEWS[i].id === id) {
+        item = NEWS[i];
+        break;
+      }
+    }
+    if (!item) {
+      return;
+    }
+
+    var dialog = ensureNewsDialog();
+
+    var meta = dialog.querySelector("#news-modal-meta");
+    clear(meta);
+    meta.appendChild(el("span", { cls: "news-item__date", text: formatDate(item.date) }));
+    meta.appendChild(el("span", { cls: "badge", text: item.category || "News" }));
+
+    dialog.querySelector("#news-modal-title").textContent = item.title || "";
+
+    var body = dialog.querySelector("#news-modal-body");
+    clear(body);
+    var paragraphs = item.body || item.summary || "";
+    if (Object.prototype.toString.call(paragraphs) === "[object Array]") {
+      paragraphs.forEach(function (p) {
+        body.appendChild(el("p", { text: p }));
+      });
+    } else if (paragraphs) {
+      body.appendChild(el("p", { text: paragraphs }));
+    }
+
+    var docWrap = dialog.querySelector("#news-modal-doc");
+    clear(docWrap);
+    var doc = item.doc || {};
+    var docHref = resolve(doc.url, "link");
+    if (docHref && doc.title) {
+      docWrap.appendChild(
+        el("a", {
+          cls: "link-more",
+          text: "Download " + doc.title,
+          attrs: { href: docHref, target: "_blank", rel: "noopener" }
+        })
+      );
+    }
+
+    if (typeof dialog.showModal === "function") {
+      // showModal() throws InvalidStateError if the dialog is already open
+      // (e.g. a hashchange fires while the modal is showing).
+      if (!dialog.open) {
+        dialog.showModal();
+      }
+    } else if (!dialog.hasAttribute("open")) {
+      dialog.setAttribute("open", "");
+    }
+  }
+
+  function initNews() {
+    var targets = document.querySelectorAll('[data-render="news"]');
+    if (!targets.length) {
+      return;
+    }
+    // One delegated listener handles every notice card (present or future).
+    document.addEventListener("click", function (event) {
+      var trigger = event.target.closest ? event.target.closest("[data-news-open]") : null;
+      if (!trigger) {
+        return;
+      }
+      event.preventDefault();
+      openNewsItem(trigger.getAttribute("data-news-open"));
+    });
+
+    // Deep link: opening .../news.html#news-<id> shows that notice directly.
+    var openFromHash = function () {
+      var id = (window.location.hash || "").replace(/^#/, "");
+      if (id) {
+        openNewsItem(id);
+      }
+    };
+    window.addEventListener("hashchange", openFromHash);
+    openFromHash();
   }
 
   function renderNews() {
@@ -2011,6 +2149,7 @@
     renderFacilities();
     renderResearch();
     renderNews();
+    initNews();
     renderAcademicOverview();
     renderAcademicsPage();
     renderDownloads();

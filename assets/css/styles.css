@@ -1616,6 +1616,14 @@ details.disclosure summary::marker {
 /* ----------------------------------------------------------------------------
  * 12. News
  * --------------------------------------------------------------------------*/
+/* Notices list: one full-width card per row on every screen size. */
+.news-list {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: var(--space-5);
+  min-width: 0;
+}
+
 .news-item {
   position: relative;
   display: block;
@@ -1628,29 +1636,31 @@ details.disclosure summary::marker {
   color: var(--text);
   box-shadow: var(--shadow-sm);
   transition: border-color 0.15s ease, box-shadow 0.15s ease;
+  cursor: pointer;
 }
 
-/* Title link stretched across the whole card (keeps the download link
-   independently clickable and avoids a nested <a>). */
+/* Title is a button that opens the full-notice modal. It is stretched over
+   the whole card so the entire notice is clickable. */
 .news-item__link {
+  display: block;
+  width: 100%;
+  padding: 0;
+  border: 0;
+  background: none;
+  font: inherit;
   color: inherit;
-  text-decoration: none;
+  text-align: left;
+  cursor: pointer;
+}
+
+.news-item__link:focus {
+  outline: none;
 }
 
 .news-item__link::after {
   content: "";
   position: absolute;
   inset: 0;
-}
-
-/* Attached document row (e.g. exam time table) — sits above the
-   stretched title link. */
-.news-item__doc {
-  position: relative;
-  z-index: 1;
-  margin: var(--space-3) 0 0;
-  padding-top: var(--space-3);
-  border-top: 1px solid var(--border);
 }
 
 @media (min-width: 992px) {
@@ -1669,8 +1679,15 @@ details.disclosure summary::marker {
   text-decoration: underline;
 }
 
-/* Category tag on a news card — solid brand blue */
-.news-item .badge {
+/* Visible keyboard focus ring on the focused title button. */
+.news-item:focus-within {
+  outline: 2px solid var(--blue);
+  outline-offset: 2px;
+}
+
+/* Category tag on a news card and in the notice modal — solid brand blue */
+.news-item .badge,
+.news-modal .badge {
   background: var(--blue);
   border-color: var(--blue);
   color: var(--white);
@@ -1696,10 +1713,97 @@ details.disclosure summary::marker {
   overflow-wrap: break-word;
 }
 
+/* Preview line: the body is truncated to ONE line ending with an ellipsis. */
 .news-item__text {
   margin: 0;
   color: var(--muted);
   font-size: 0.9375rem;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* ----------------------------------------------------------------------------
+ * 12b. News notice modal (full notice: subject, body, download)
+ * --------------------------------------------------------------------------*/
+.news-modal {
+  padding: 0;
+  border: 0;
+  background: transparent;
+  margin: auto;
+  max-width: min(720px, calc(100vw - 2 * var(--space-4)));
+  width: 100%;
+  max-height: calc(100vh - 2 * var(--space-5));
+}
+
+.news-modal::backdrop {
+  background: rgba(16, 24, 40, 0.55);
+}
+
+.news-modal__shell {
+  position: relative;
+  margin: 0 auto;
+  padding: var(--space-6);
+  background: var(--white);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow);
+  max-height: calc(100vh - 2 * var(--space-5));
+  overflow-y: auto;
+}
+
+.news-modal__close {
+  position: sticky;
+  top: 0;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.25rem;
+  height: 2.25rem;
+  margin: calc(-1 * var(--space-2)) calc(-1 * var(--space-2)) 0 auto;
+  padding: 0;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  background: var(--white);
+  color: var(--muted);
+  font-size: 1.25rem;
+  line-height: 1;
+  cursor: pointer;
+  transition: border-color 0.15s ease, color 0.15s ease;
+}
+
+.news-modal__close:hover,
+.news-modal__close:focus {
+  border-color: var(--blue);
+  color: var(--blue);
+  outline: none;
+}
+
+.news-modal__title {
+  margin: 0 0 var(--space-3);
+  color: var(--blue-dark);
+  overflow-wrap: break-word;
+}
+
+.news-modal__body {
+  color: var(--text);
+}
+
+.news-modal__body p {
+  margin: 0 0 var(--space-3);
+}
+
+.news-modal__body p:last-child {
+  margin-bottom: 0;
+}
+
+.news-modal__doc {
+  margin-top: var(--space-5);
+}
+
+.news-modal__doc:empty {
+  display: none;
 }
 
 /* ----------------------------------------------------------------------------
