@@ -15,7 +15,8 @@
  *   - Head of Department message (About page)
  *   - The three specialisations and their dedicated page content
  *   - Academic overview tiles
- *   - Research themes / projects / publications
+ *   - Research publications by staff and students (shown on the Research page
+ *     and filtered per specialisation)
  *   - Laboratories and facilities
  *   - News and announcements
  *   - Downloads (grouped by category)
@@ -63,7 +64,7 @@ window.DEPARTMENT_CONTENT = {
       "[Optional second paragraph. Keep it concise and factual — do not add " +
       "statistics, dates or accreditation claims that have not been approved.]"
     ],
-    image: "assets/images/placeholder-campus.svg",
+    image: "assets/images/FOT-image.png",
     imageAlt: "Placeholder image representing the Faculty of Technology campus"
   },
 
@@ -94,8 +95,8 @@ window.DEPARTMENT_CONTENT = {
       "develop engineering technologists who contribute to national development " +
       "by sharing technical knowledge and applying it to practical problems."
     ],
-    image: "assets/images/placeholder-department.svg",
-    imageAlt: "Placeholder image representing the Department of Engineering Technology",
+    image: "assets/images/FOT-image-02.png",
+    imageAlt: "Faculty of Technology",
     focus:
       "Through academic study, practical learning, and research, the department " +
       "prepares graduates to contribute to industrial advancement and national " +
@@ -117,6 +118,37 @@ window.DEPARTMENT_CONTENT = {
   },
 
   /* --------------------------------------------------------------------------
+   * 5b. About page body text (ABOUT PAGE)
+   *     The academic-organisation section (heading, intro, overview link and
+   *     image) is fully driven from here. The specialisation links shown
+   *     underneath are generated automatically from `specialisations` below.
+   *     Vision / mission / history are plain-text paragraphs.
+   * ------------------------------------------------------------------------*/
+  about: {
+    organisation: {
+      heading: "Academic organisation",
+      intro: [
+        "[Describe how the department is organised academically, for example " +
+        "its specialisations and teaching units.]"
+      ],
+      linkText: "See the academic overview",
+      linkUrl: "academics.html",
+      image: "assets/images/FOT-image-02.png",
+      imageAlt: "Faculty of Technology"
+    },
+    vision:
+      "[Insert the approved vision statement of the department here. Do not " +
+      "publish a vision statement that has not been officially approved.]",
+    mission:
+      "[Insert the approved mission statement of the department here. Do not " +
+      "publish a mission statement that has not been officially approved.]",
+    history: [
+      "[Insert the approved history of the department here, including only " +
+      "verified dates and milestones.]"
+    ]
+  },
+
+  /* --------------------------------------------------------------------------
    * 6. The three specialisations
    *    - `name` is used by the cards, the navigation dropdown, the footer link
    *      lists AND must match the static navigation links in each HTML file
@@ -126,6 +158,14 @@ window.DEPARTMENT_CONTENT = {
    *    - `coordinatorStaffId` points at a staff record in staff.js.
    *    - Staff lists are DERIVED from staff.js (members' specialisationIds),
    *      never duplicated here.
+   *    - `curriculum` items: { name, code, doc }.
+   *        name  — subject name (shown as "name - code" on the page)
+   *        code  — official subject/module code
+   *        doc   — path to that subject's curriculum/syllabus PDF inside
+   *                assets/documents/ (e.g. "assets/documents/etm1102.pdf").
+   *                Leave "" until the file is uploaded — an empty value shows
+   *        no link (never a dead link). A plain string item is also accepted
+   *        and shown as-is.
    * ------------------------------------------------------------------------*/
   specialisations: [
     {
@@ -152,16 +192,45 @@ window.DEPARTMENT_CONTENT = {
         "[Main study area 04]"
       ],
       curriculum: [
-        { title: "[Level / Year 01]", items: ["[Curriculum area 01]", "[Curriculum area 02]"] },
-        { title: "[Level / Year 02]", items: ["[Curriculum area 03]", "[Curriculum area 04]"] }
+        { title: "[Year 01 / Semester 01]", items: [
+          { name: "[Subject name 01]", code: "[Subject code 01]", doc: "" },
+          { name: "[Subject name 02]", code: "[Subject code 02]", doc: "" }
+        ] },
+        { title: "[Year 01 / Semester 02]", items: [
+          { name: "[Subject name 03]", code: "[Subject code 03]", doc: "" },
+          { name: "[Subject name 04]", code: "[Subject code 04]", doc: "" }
+        ] },
+        { title: "[Year 02 / Semester 01]", items: [
+          { name: "[Subject name 05]", code: "[Subject code 05]", doc: "" },
+          { name: "[Subject name 06]", code: "[Subject code 06]", doc: "" }
+        ] },
+        { title: "[Year 02 / Semester 02]", items: [
+          { name: "[Subject name 07]", code: "[Subject code 07]", doc: "" },
+          { name: "[Subject name 08]", code: "[Subject code 08]", doc: "" }
+        ] },
+        { title: "[Year 03 / Semester 01]", items: [
+          { name: "[Subject name 09]", code: "[Subject code 09]", doc: "" },
+          { name: "[Subject name 10]", code: "[Subject code 10]", doc: "" }
+        ] },
+        { title: "[Year 03 / Semester 02]", items: [
+          { name: "[Subject name 11]", code: "[Subject code 11]", doc: "" },
+          { name: "[Subject name 12]", code: "[Subject code 12]", doc: "" }
+        ] },
+        { title: "[Year 04 / Semester 01]", items: [
+          { name: "[Subject name 13]", code: "[Subject code 13]", doc: "" },
+          { name: "[Subject name 14]", code: "[Subject code 14]", doc: "" }
+        ] },
+        { title: "[Year 04 / Semester 02]", items: [
+          { name: "[Subject name 15]", code: "[Subject code 15]", doc: "" },
+          { name: "[Subject name 16]", code: "[Subject code 16]", doc: "" }
+        ] }
       ],
       curriculumNote:
         "[Curriculum shown is indicative. Official module codes, credits and " +
         "regulations must be added by the department.]",
       laboratoryIds: ["lab-01", "lab-02"],
       research: {
-        summary: "[Brief description of research and project activity in this specialisation.]",
-        projects: ["[Project or research area placeholder]"]
+        summary: "[Brief description of research and project activity in this specialisation.]"
       },
       downloadIds: ["dl-01"]
     },
@@ -189,16 +258,45 @@ window.DEPARTMENT_CONTENT = {
         "[Main study area 04]"
       ],
       curriculum: [
-        { title: "[Level / Year 01]", items: ["[Curriculum area 01]", "[Curriculum area 02]"] },
-        { title: "[Level / Year 02]", items: ["[Curriculum area 03]", "[Curriculum area 04]"] }
+        { title: "[Year 01 / Semester 01]", items: [
+          { name: "[Subject name 01]", code: "[Subject code 01]", doc: "" },
+          { name: "[Subject name 02]", code: "[Subject code 02]", doc: "" }
+        ] },
+        { title: "[Year 01 / Semester 02]", items: [
+          { name: "[Subject name 03]", code: "[Subject code 03]", doc: "" },
+          { name: "[Subject name 04]", code: "[Subject code 04]", doc: "" }
+        ] },
+        { title: "[Year 02 / Semester 01]", items: [
+          { name: "[Subject name 05]", code: "[Subject code 05]", doc: "" },
+          { name: "[Subject name 06]", code: "[Subject code 06]", doc: "" }
+        ] },
+        { title: "[Year 02 / Semester 02]", items: [
+          { name: "[Subject name 07]", code: "[Subject code 07]", doc: "" },
+          { name: "[Subject name 08]", code: "[Subject code 08]", doc: "" }
+        ] },
+        { title: "[Year 03 / Semester 01]", items: [
+          { name: "[Subject name 09]", code: "[Subject code 09]", doc: "" },
+          { name: "[Subject name 10]", code: "[Subject code 10]", doc: "" }
+        ] },
+        { title: "[Year 03 / Semester 02]", items: [
+          { name: "[Subject name 11]", code: "[Subject code 11]", doc: "" },
+          { name: "[Subject name 12]", code: "[Subject code 12]", doc: "" }
+        ] },
+        { title: "[Year 04 / Semester 01]", items: [
+          { name: "[Subject name 13]", code: "[Subject code 13]", doc: "" },
+          { name: "[Subject name 14]", code: "[Subject code 14]", doc: "" }
+        ] },
+        { title: "[Year 04 / Semester 02]", items: [
+          { name: "[Subject name 15]", code: "[Subject code 15]", doc: "" },
+          { name: "[Subject name 16]", code: "[Subject code 16]", doc: "" }
+        ] }
       ],
       curriculumNote:
         "[Curriculum shown is indicative. Official module codes, credits and " +
         "regulations must be added by the department.]",
       laboratoryIds: ["lab-01"],
       research: {
-        summary: "[Brief description of research and project activity in this specialisation.]",
-        projects: ["[Project or research area placeholder]"]
+        summary: "[Brief description of research and project activity in this specialisation.]"
       },
       downloadIds: ["dl-02"]
     },
@@ -226,16 +324,45 @@ window.DEPARTMENT_CONTENT = {
         "[Main study area 04]"
       ],
       curriculum: [
-        { title: "[Level / Year 01]", items: ["[Curriculum area 01]", "[Curriculum area 02]"] },
-        { title: "[Level / Year 02]", items: ["[Curriculum area 03]", "[Curriculum area 04]"] }
+        { title: "[Year 01 / Semester 01]", items: [
+          { name: "[Subject name 01]", code: "[Subject code 01]", doc: "" },
+          { name: "[Subject name 02]", code: "[Subject code 02]", doc: "" }
+        ] },
+        { title: "[Year 01 / Semester 02]", items: [
+          { name: "[Subject name 03]", code: "[Subject code 03]", doc: "" },
+          { name: "[Subject name 04]", code: "[Subject code 04]", doc: "" }
+        ] },
+        { title: "[Year 02 / Semester 01]", items: [
+          { name: "[Subject name 05]", code: "[Subject code 05]", doc: "" },
+          { name: "[Subject name 06]", code: "[Subject code 06]", doc: "" }
+        ] },
+        { title: "[Year 02 / Semester 02]", items: [
+          { name: "[Subject name 07]", code: "[Subject code 07]", doc: "" },
+          { name: "[Subject name 08]", code: "[Subject code 08]", doc: "" }
+        ] },
+        { title: "[Year 03 / Semester 01]", items: [
+          { name: "[Subject name 09]", code: "[Subject code 09]", doc: "" },
+          { name: "[Subject name 10]", code: "[Subject code 10]", doc: "" }
+        ] },
+        { title: "[Year 03 / Semester 02]", items: [
+          { name: "[Subject name 11]", code: "[Subject code 11]", doc: "" },
+          { name: "[Subject name 12]", code: "[Subject code 12]", doc: "" }
+        ] },
+        { title: "[Year 04 / Semester 01]", items: [
+          { name: "[Subject name 13]", code: "[Subject code 13]", doc: "" },
+          { name: "[Subject name 14]", code: "[Subject code 14]", doc: "" }
+        ] },
+        { title: "[Year 04 / Semester 02]", items: [
+          { name: "[Subject name 15]", code: "[Subject code 15]", doc: "" },
+          { name: "[Subject name 16]", code: "[Subject code 16]", doc: "" }
+        ] }
       ],
       curriculumNote:
         "[Curriculum shown is indicative. Official module codes, credits and " +
         "regulations must be added by the department.]",
       laboratoryIds: ["lab-01", "lab-02"],
       research: {
-        summary: "[Brief description of research and project activity in this specialisation.]",
-        projects: ["[Project or research area placeholder]"]
+        summary: "[Brief description of research and project activity in this specialisation.]"
       },
       downloadIds: ["dl-03"]
     }
@@ -277,23 +404,88 @@ window.DEPARTMENT_CONTENT = {
   ],
 
   /* --------------------------------------------------------------------------
-   * 8. Research (research page only)
-   *    Leave these as clearly labelled placeholders until verified content is
-   *    supplied. Do not invent projects, awards or publications.
+   * 7b. Academics page body (pages/academics.html)
+   *     Drives the Degree Programme, Study areas and Programme Structure
+   *     sections of the Academics page. Section headings stay in the HTML.
+   *     The specialisation showcase and the tag links under the semester
+   *     steps are generated automatically from `specialisations` above.
+   * ------------------------------------------------------------------------*/
+  academics: {
+    overview: {
+      intro: [
+        "The Department of Engineering Technology offers a four-year Bachelor " +
+        "of Engineering Technology Honours undergraduate degree comprising " +
+        "eight semesters. Students can pursue one of three specialisations: " +
+        "Automobile Technology, Construction Technology, or Electro Technology.",
+        "The published department information describes the programme as " +
+        "designed to comply with Sydney Accord requirements and Sri Lanka " +
+        "Qualifications Framework (SLQF) Level 6."
+      ],
+      note:
+        "Compliance with Sydney Accord requirements and SLQF Level 6 is stated " +
+        "as published department information and is not presented here as a " +
+        "claim of accreditation. Confirm current details with the department."
+    },
+    studyAreas: {
+      intro:
+        "The department's teaching is organised around three specialisations. " +
+        "Each specialisation has its own dedicated page."
+    },
+    curriculum: {
+      intro: "The semester structure of the four-year Bachelor of Engineering Technology Honours degree.",
+      prose: [
+        "The first two semesters are common to all Engineering Technology " +
+        "students. Specialisation studies begin in Semester 3 and continue " +
+        "through the remaining years of the four-year degree programme."
+      ],
+      steps: [
+        {
+          meta: "Year 1 · Semesters 1–2",
+          title: "Common programme",
+          text: "Shared by every Engineering Technology student before specialisation begins."
+        },
+        {
+          meta: "Years 2–4 · Semesters 3–8",
+          title: "Specialisation studies",
+          text: "Students continue in one of the department's three specialisations."
+        }
+      ],
+      tagsLabel: "View a specialisation curriculum"
+    }
+  },
+
+  /* --------------------------------------------------------------------------
+   * 8. Research (research page AND specialisation pages)
+   *    A single list of research/publications produced by department staff and
+   *    students. Add verified items only — never invent authors or papers.
+   *    Each entry:
+   *      {
+   *        title,          // research/paper title
+   *        authors,        // full author list, e.g. "A. Perera, B. Kumar, C. Silva"
+   *        type,           // "Journal article" | "Conference paper" | "Thesis" | ""
+   *        venue,          // journal / conference name
+   *        year,           // "2025"
+   *        status,         // "Published" | "Ongoing" | "" (leave "" to hide)
+   *        specialisationIds: ["sp-01"],   // which specialisation pages show it
+   *        url             // DOI or link, or "" (shows as plain text)
+   *      }
+   *    The Research page lists every entry; each specialisation page lists the
+   *    entries whose specialisationIds include that specialisation.
    * ------------------------------------------------------------------------*/
   research: {
-    intro:
-      "[Insert the approved description of the department's research activity.]",
-    themes: [
-      { title: "[Research theme 01]", description: "[Description of research theme 01.]" },
-      { title: "[Research theme 02]", description: "[Description of research theme 02.]" },
-      { title: "[Research theme 03]", description: "[Description of research theme 03.]" }
-    ],
-    projects: [
-      { title: "[Student project 01]", description: "[Description of project 01.]" },
-      { title: "[Student project 02]", description: "[Description of project 02.]" }
-    ],
-    publications: []
+    intro: "",
+    items: [
+      {
+        title: "[Research or publication title]",
+        authors: "[Author names, co-authors]",
+        type: "[Journal article / Conference paper / Thesis]",
+        venue: "[Journal or conference name]",
+        year: "",
+        status: "",
+        specialisationIds: ["sp-01"],
+        url: ""
+      }
+    ]
   },
 
   /* --------------------------------------------------------------------------
@@ -320,12 +512,28 @@ window.DEPARTMENT_CONTENT = {
 
   /* --------------------------------------------------------------------------
    * 10. News and announcements (HOME PAGE SECTION 7 & news page)
-   *     EMPTY BY DESIGN. Add real, dated announcements only. Each item:
-   *       { id, title, date (ISO "YYYY-MM-DD"), category, summary, body }
-   *     Until items are added, a clear empty state is shown instead of
-   *     fictional news.
+   *     Add real, dated announcements only. Each item:
+   *       { id, title, date (ISO "YYYY-MM-DD"), category, summary, body, doc }
+   *     `id` must be unique and stable (it becomes the #anchor link).
+   *     Optional `doc` attaches a downloadable file (e.g. exam time table):
+   *       { title, url }
+   *     Only set `url` to a file that ACTUALLY EXISTS in assets/documents/;
+   *     an empty url shows no download link (never a dead link).
    * ------------------------------------------------------------------------*/
-  news: [],
+  news: [
+    {
+      id: "news-2026-10-26",
+      title: "Practical examinations for 1-2, 2-2 and 4-2 students",
+      date: "2026-10-26",
+      category: "Notice",
+      summary: "Practical examinations for 1-2, 2-2 and 4-2 students commence on 26 October 2026.",
+      body: "Practical examinations for students of 1-2, 2-2 and 4-2 will commence on 26 October 2026. Students are advised to be present at the laboratory with their student identity cards.",
+      doc: {
+        title: "Examination time table",
+        url: ""
+      }
+    }
+  ],
 
   /* --------------------------------------------------------------------------
    * 11. Downloads (downloads page and specialisation pages)
@@ -394,6 +602,11 @@ window.DEPARTMENT_CONTENT = {
     email: "[department email address]",
     phone: "[telephone number]",
     mapUrl: "",
-    mapLabel: "[Verify location before adding a map link]"
+    mapLabel: "[Verify location before adding a map link]",
+    visiting: {
+      intro: ["[Insert visiting instructions here, such as directions and opening hours, once they have been verified.]"],
+      image: "assets/images/FOT-image.png",
+      imageAlt: "Placeholder image of the University of Jaffna campus"
+    }
   }
 };

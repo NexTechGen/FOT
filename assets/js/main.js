@@ -27,7 +27,7 @@
   var FACILITIES = CONTENT.facilities || [];
   var DOWNLOADS = CONTENT.downloads || [];
   var NEWS = CONTENT.news || [];
-  var RESEARCH = CONTENT.research || { themes: [], projects: [], publications: [] };
+  var RESEARCH = CONTENT.research || { items: [] };
 
   /* URL schemes that are acceptable for each kind of field. Anything else
    * (javascript:, vbscript:, data:, ...) is rejected so a data file can never
@@ -235,7 +235,11 @@
     if (!match) {
       return String(iso || "");
     }
-    return parseInt(match[3], 10) + " " + months[parseInt(match[2], 10) - 1] + " " + match[1];
+    var monthIndex = parseInt(match[2], 10) - 1;
+    if (monthIndex < 0 || monthIndex > 11) {
+      return String(iso || "");
+    }
+    return parseInt(match[3], 10) + " " + months[monthIndex] + " " + match[1];
   }
 
   function getSpecialisationById(id) {
@@ -307,16 +311,6 @@
       }
       return true;
     });
-  }
-
-  function categoryLabel(id) {
-    var cats = STAFF.categories || [];
-    for (var i = 0; i < cats.length; i += 1) {
-      if (cats[i].id === id) {
-        return cats[i].label;
-      }
-    }
-    return id;
   }
 
   /**
@@ -793,11 +787,75 @@
         name: hod ? hod.name : "[Head of Department Name]",
         title: content.title || "Head, Department of Engineering Technology",
         photo: hod ? hod.photo : "",
-        photoAlt: "Placeholder portrait of the Head of Department",
+        photoAlt: (hod && hod.name ? "Portrait of " + hod.name + ", Head of Department" : "Portrait of the Head of Department"),
         message: content.message || [],
         footerLink: link
       })
     );
+  }
+
+  /**
+   * About page body text. The academic-organisation block (heading, intro,
+   * overview link, image) is fully driven from CONTENT.about.organisation;
+   * the specialisation links underneath come from renderSpecialisationLinks.
+   * Vision / mission / history each no-op when their target is absent.
+   */
+  function renderAbout() {
+    var about = CONTENT.about || {};
+    var org = about.organisation || {};
+
+    var orgHeading = document.querySelector('[data-render="about-organisation-heading"]');
+    if (orgHeading && org.heading) {
+      orgHeading.textContent = org.heading;
+    }
+
+    var orgIntro = document.querySelector('[data-render="about-organisation"]');
+    if (orgIntro) {
+      clear(orgIntro);
+      (org.intro || []).forEach(function (text) {
+        orgIntro.appendChild(el("p", { text: text }));
+      });
+    }
+
+    var orgLink = document.querySelector('[data-render="about-organisation-link"]');
+    if (orgLink) {
+      clear(orgLink);
+      var href = resolve(org.linkUrl, "link");
+      if (href && org.linkText) {
+        orgLink.appendChild(
+          el("a", { cls: "link-more", text: org.linkText, attrs: { href: href } })
+        );
+      }
+    }
+
+    var orgImage = document.querySelector('[data-render="about-organisation-image"]');
+    if (orgImage) {
+      var src = resolve(org.image, "image");
+      if (src) {
+        orgImage.setAttribute("src", src);
+      }
+      if (org.imageAlt) {
+        orgImage.setAttribute("alt", org.imageAlt);
+      }
+    }
+
+    var vision = document.querySelector('[data-render="about-vision"]');
+    if (vision && about.vision) {
+      vision.textContent = about.vision;
+    }
+
+    var mission = document.querySelector('[data-render="about-mission"]');
+    if (mission && about.mission) {
+      mission.textContent = about.mission;
+    }
+
+    var history = document.querySelector('[data-render="about-history"]');
+    if (history) {
+      clear(history);
+      (about.history || []).forEach(function (text) {
+        history.appendChild(el("p", { text: text }));
+      });
+    }
   }
 
   function renderSpecialisationCards() {
@@ -985,62 +1043,92 @@
     });
   }
 
-  function researchSection() {
+  /**
+   * Build one research/publication entry as a publication card.
+   * entry: { title, authors, type, venue, year, status, specialisationIds, url }
+   * `withSpec` adds specialisation tags (used on the Research page).
+   */
+  function buildResearchEntry(entry, withSpec) {
+    var card = el("li", { cls: "research-entry" });
+
+    var head = el("div", { cls: "research-entry__head" });
+    if (entry.type) {
+      head.appendChild(el("span", { cls: "research-entry__type", text: entry.type }));
+    }
+    var when = [entry.year, entry.status].filter(Boolean).join(" · ");
+    if (when) {
+      head.appendChild(el("span", { cls: "research-entry__when", text: when }));
+    }
+    if (head.childNodes.length) {
+      card.appendChild(head);
+    }
+
+    card.appendChild(el("h3", { cls: "research-entry__title", text: entry.title || "" }));
+
+    if (entry.authors) {
+      card.appendChild(el("p", { cls: "research-entry__authors", text: entry.authors }));
+    }
+
+    if (entry.venue) {
+      card.appendChild(el("p", { cls: "research-entry__venue", text: entry.venue }));
+    }
+
+    var href = resolve(entry.url, "link");
+    if (href) {
+      card.appendChild(
+        el("a", {
+          cls: "link-more research-entry__link",
+          text: "View publication",
+          attrs: { href: href, target: "_blank", rel: "noopener" }
+        })
+      );
+    }
+
+    if (withSpec && (entry.specialisationIds || []).length) {
+      var tags = el("div", { cls: "research-entry__tags" });
+      entry.specialisationIds.forEach(function (id) {
+        var sp = getSpecialisationById(id);
+        if (sp) {
+          tags.appendChild(el("span", { cls: "tag", text: sp.name }));
+        }
+      });
+      if (tags.childNodes.length) {
+        card.appendChild(tags);
+      }
+    }
+
+    return card;
+  }
+
+  /** Look up a research entry's specialisation names for the specialisation
+   *  page filter (a specialisation page calls this with its own id). */
+  function researchEntryHasSpecialisation(entry, spId) {
+    return (entry.specialisationIds || []).indexOf(spId) !== -1;
+  }
+
+  function researchSection(items, withSpec) {
     var wrap = el("div", { cls: "flow" });
 
     if (RESEARCH.intro) {
       wrap.appendChild(el("p", { cls: "prose", text: RESEARCH.intro }));
     }
 
-    var themes = RESEARCH.themes || [];
-    if (themes.length) {
-      wrap.appendChild(el("h3", { text: "Research themes" }));
-      var themeGrid = el("div", { cls: "grid grid--3" });
-      themes.forEach(function (theme) {
-        var card = el("div", { cls: "card card--plain" });
-        var body = el("div", { cls: "card__body" });
-        body.appendChild(el("h4", { cls: "card__title", text: theme.title }));
-        body.appendChild(el("p", { cls: "card__text", text: theme.description }));
-        card.appendChild(body);
-        themeGrid.appendChild(card);
-      });
-      wrap.appendChild(themeGrid);
-    }
-
-    var projects = RESEARCH.projects || [];
-    if (projects.length) {
-      wrap.appendChild(el("h3", { text: "Student projects" }));
-      var projectList = el("div", { cls: "grid grid--2" });
-      projects.forEach(function (project) {
-        var card = el("div", { cls: "card card--plain" });
-        var body = el("div", { cls: "card__body" });
-        body.appendChild(el("h4", { cls: "card__title", text: project.title }));
-        body.appendChild(el("p", { cls: "card__text", text: project.description }));
-        card.appendChild(body);
-        projectList.appendChild(card);
-      });
-      wrap.appendChild(projectList);
-    }
-
-    var publications = RESEARCH.publications || [];
-    if (publications.length) {
-      wrap.appendChild(el("h3", { text: "Publications" }));
-      var pubList = el("ul", { cls: "checklist" });
-      publications.forEach(function (pub) {
-        pubList.appendChild(el("li", { text: pub.title }));
-      });
-      wrap.appendChild(pubList);
-    }
-
-    if (!themes.length && !projects.length && !publications.length) {
+    var list = items || [];
+    if (!list.length) {
       wrap.appendChild(
         emptyState(
           "Research information coming soon",
-          "Research themes, projects and publications will be published here once verified by the department."
+          "Research produced by the department's staff and students will be listed here once verified."
         )
       );
+      return wrap;
     }
 
+    var docList = el("ul", { cls: "doc-list" });
+    list.forEach(function (entry) {
+      docList.appendChild(buildResearchEntry(entry, withSpec));
+    });
+    wrap.appendChild(docList);
     return wrap;
   }
 
@@ -1051,7 +1139,7 @@
     }
     targets.forEach(function (target) {
       clear(target);
-      target.appendChild(researchSection());
+      target.appendChild(researchSection(RESEARCH.items || [], true));
     });
   }
 
@@ -1064,14 +1152,37 @@
       );
     }
     NEWS.slice(0, limit || NEWS.length).forEach(function (item) {
-      var card = el("a", { cls: "news-item", attrs: { href: resolve("pages/news.html") + "#" + item.id, id: item.id } });
+      var card = el("article", { cls: "news-item", attrs: { id: item.id } });
       var meta = el("div", { cls: "news-item__meta", children: [
         el("span", { cls: "news-item__date", text: formatDate(item.date) }),
         el("span", { cls: "badge", text: item.category || "News" })
       ] });
       card.appendChild(meta);
-      card.appendChild(el("h3", { cls: "news-item__title", text: item.title }));
+      card.appendChild(
+        el("h3", { cls: "news-item__title", children: [
+          el("a", {
+            cls: "news-item__link",
+            text: item.title,
+            attrs: { href: resolve("pages/news.html") + "#" + item.id }
+          })
+        ] })
+      );
       card.appendChild(el("p", { cls: "news-item__text", text: item.summary || "" }));
+
+      // Optional attached document (e.g. exam time table). No url => no link.
+      var doc = item.doc || {};
+      var docHref = resolve(doc.url, "link");
+      if (docHref && doc.title) {
+        card.appendChild(
+          el("p", { cls: "news-item__doc", children: [
+            el("a", {
+              cls: "link-more",
+              text: "Download " + doc.title,
+              attrs: { href: docHref, target: "_blank", rel: "noopener" }
+            })
+          ] })
+        );
+      }
       wrap.appendChild(card);
     });
     return wrap;
@@ -1127,6 +1238,84 @@
       });
       target.appendChild(grid);
     });
+  }
+
+  /**
+   * Academics page body (pages/academics.html). Every field no-ops when its
+   * target is absent; the static HTML inside each hook remains the no-JS
+   * fallback. The showcase and the specialisation tags are built from
+   * SPECIALISATIONS so renamed specialisations stay in sync automatically.
+   */
+  function renderAcademicsPage() {
+    var page = CONTENT.academics || {};
+
+    var overview = page.overview || {};
+    var overviewIntro = document.querySelector('[data-render="academics-overview"]');
+    if (overviewIntro && (overview.intro || []).length) {
+      clear(overviewIntro);
+      overview.intro.forEach(function (text) {
+        overviewIntro.appendChild(el("p", { text: text }));
+      });
+    }
+    var overviewNote = document.querySelector('[data-render="academics-overview-note"]');
+    if (overviewNote && overview.note) {
+      overviewNote.textContent = overview.note;
+    }
+
+    var studyIntro = document.querySelector('[data-render="academics-study-intro"]');
+    if (studyIntro && page.studyAreas && page.studyAreas.intro) {
+      studyIntro.textContent = page.studyAreas.intro;
+    }
+
+    var curriculum = page.curriculum || {};
+    var curIntro = document.querySelector('[data-render="academics-curriculum-intro"]');
+    if (curIntro && curriculum.intro) {
+      curIntro.textContent = curriculum.intro;
+    }
+
+    var curProse = document.querySelector('[data-render="academics-curriculum-prose"]');
+    if (curProse && (curriculum.prose || []).length) {
+      clear(curProse);
+      curriculum.prose.forEach(function (text) {
+        curProse.appendChild(el("p", { text: text }));
+      });
+    }
+
+    var steps = document.querySelector('[data-render="academics-steps"]');
+    if (steps && (curriculum.steps || []).length) {
+      clear(steps);
+      curriculum.steps.forEach(function (step, index) {
+        steps.appendChild(
+          el("li", { cls: "path__step", children: [
+            el("span", { cls: "path__marker", text: String(index + 1), attrs: { "aria-hidden": "true" } }),
+            el("div", { cls: "path__body", children: [
+              el("p", { cls: "path__meta", text: step.meta || "" }),
+              el("h3", { cls: "path__title", text: step.title || "" }),
+              el("p", { cls: "path__text", text: step.text || "" })
+            ] })
+          ] })
+        );
+      });
+    }
+
+    var tagsLabel = document.querySelector('[data-render="academics-tags-label"]');
+    if (tagsLabel && curriculum.tagsLabel) {
+      tagsLabel.textContent = curriculum.tagsLabel;
+    }
+
+    var tags = document.querySelector('[data-render="academics-tags"]');
+    if (tags && SPECIALISATIONS.length) {
+      clear(tags);
+      SPECIALISATIONS.forEach(function (sp) {
+        var href = resolve(sp.pageUrl, "link");
+        if (!href) {
+          return;
+        }
+        tags.appendChild(
+          el("li", { children: [ el("a", { cls: "tag", text: sp.name, attrs: { href: href } }) ] })
+        );
+      });
+    }
   }
 
   function renderDownloads() {
@@ -1226,6 +1415,27 @@
         );
       }
     });
+
+    // Visiting the department: intro text + photo (contact page aside)
+    var visiting = c.visiting || {};
+    var vIntro = document.querySelector('[data-render="contact-visiting"]');
+    if (vIntro && (visiting.intro || []).length) {
+      clear(vIntro);
+      visiting.intro.forEach(function (text) {
+        vIntro.appendChild(el("p", { text: text }));
+      });
+    }
+
+    var vImage = document.querySelector('[data-render="contact-visiting-image"]');
+    if (vImage) {
+      var vSrc = resolve(visiting.image, "image");
+      if (vSrc) {
+        vImage.setAttribute("src", vSrc);
+      }
+      if (visiting.imageAlt) {
+        vImage.setAttribute("alt", visiting.imageAlt);
+      }
+    }
   }
 
   /* --------------------------------------------------------------------------
@@ -1260,7 +1470,7 @@
 
     setText("breadcrumb-name", sp.name);
     setText("title", sp.name);
-    setText("intro", sp.intro);
+    setText("intro", sp.intro || "");
     setText("curriculum-note", sp.curriculumNote || "");
 
     var imageTarget = document.querySelector('[data-sp="image"]');
@@ -1307,7 +1517,27 @@
           wrap.appendChild(el("h3", { text: block.title }));
           var ul = el("ul", { cls: "checklist" });
           (block.items || []).forEach(function (item) {
-            ul.appendChild(el("li", { text: item }));
+            var li = el("li");
+            if (typeof item === "string") {
+              li.textContent = item;
+            } else if (item && typeof item === "object") {
+              var label = item.name || "";
+              if (item.code) {
+                label += (label ? " - " : "") + item.code;
+              }
+              li.textContent = label;
+              var docHref = resolve(item.doc, "link");
+              if (docHref) {
+                li.appendChild(
+                  el("a", {
+                    cls: "checklist__doc",
+                    text: "Download curriculum",
+                    attrs: { href: docHref, target: "_blank", rel: "noopener" }
+                  })
+                );
+              }
+            }
+            ul.appendChild(li);
           });
           wrap.appendChild(ul);
           curriculum.appendChild(wrap);
@@ -1390,18 +1620,10 @@
       if (r.summary) {
         researchHolder.appendChild(el("p", { cls: "prose", text: r.summary }));
       }
-      var projects = r.projects || [];
-      if (projects.length) {
-        var projectList = el("div", { cls: "grid grid--2" });
-        projects.forEach(function (project) {
-          var card2 = el("div", { cls: "card card--plain" });
-          var body2 = el("div", { cls: "card__body" });
-          body2.appendChild(el("h4", { cls: "card__title", text: project }));
-          card2.appendChild(body2);
-          projectList.appendChild(card2);
-        });
-        researchHolder.appendChild(projectList);
-      }
+      var spItems = (RESEARCH.items || []).filter(function (entry) {
+        return researchEntryHasSpecialisation(entry, sp.id);
+      });
+      researchHolder.appendChild(researchSection(spItems, false));
     }
 
     // Downloads
@@ -1781,6 +2003,7 @@
     renderDepartmentMedia();
     renderDean();
     renderHod();
+    renderAbout();
     renderSpecialisationCards();
     renderSpecialisationLinks();
     renderSpecialisationShowcase();
@@ -1789,6 +2012,7 @@
     renderResearch();
     renderNews();
     renderAcademicOverview();
+    renderAcademicsPage();
     renderDownloads();
     renderContact();
     initStaffDirectory();
