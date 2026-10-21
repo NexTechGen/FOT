@@ -2760,6 +2760,13 @@ tbody tr:last-child td {
   overflow-wrap: anywhere;
 }
 
+/* Placeholder shown in the footer contact column until the address,
+   telephone and email are supplied. */
+.footer__address-pending {
+  color: #cdddec;
+  font-style: italic;
+}
+
 /* Social links run as a full-width, centred row across the footer top. */
 .footer__social {
   display: flex;

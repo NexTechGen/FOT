@@ -135,9 +135,15 @@ Legend: ☐ = outstanding, ✔ = supplied (tick when done).
 ## 11. Contact
 
 - File: `assets/js/content.js`
-- ☐ Official postal address.
-- ☐ Official department email address (enables a working `mailto:` link).
-- ☐ Official telephone number (enables a working `tel:` link).
+- ☐ Official postal address — **left empty on purpose**. The Contact page shows
+  "[Address to be added]" and the footer contact column leaves the address out entirely, so no
+  unverified address is published. Add the lines to `contact.address` (one line per entry).
+- ☐ Official department email address — **left empty on purpose**. The Contact page shows
+  "[Email to be added]" and the footer contact column leaves the email out, so no unverified
+  address is published. Add the real address to `contact.email` (it then becomes a working
+  `mailto:` link).
+- ☐ Official telephone number — **left empty on purpose**. The Contact page shows
+  "[Telephone to be added]" until `contact.phone` is filled in.
 - ☐ Location/map link — add only if the location is verified.
 - ☐ Visiting instructions (optional).
 

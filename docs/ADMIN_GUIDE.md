@@ -92,6 +92,10 @@ links).
   `hod.message`.
 - To change **contact details**, edit `address`, `email`, `phone`. A real email
   becomes a clickable `mailto:` link automatically.
+- The **address**, **phone** and **email** are empty on purpose until the department
+  supplies them. The Contact page shows "[Address to be added]", "[Telephone to be
+  added]" and "[Email to be added]", and the footer leaves them out. Add your own
+  text to `address` (one line per entry), `phone` and `email` when you have it.
 - To add a **facility**, copy a `{ ... }` block in `facilities` and edit it.
 
 ### 4.2 `specialisations.js` — specialisations & Academics

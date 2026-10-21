@@ -163,18 +163,29 @@ window.DEPARTMENT_CONTENT = Object.assign(window.DEPARTMENT_CONTENT || {}, {
   /* --------------------------------------------------------------------------
    * 12. Contact details (Contact Us page AND footer "Contact us" column)
    *     One block drives both the Contact page and the footer, so the address,
-   *     email and phone only have to be edited once. Leave the square-bracket
-   *     placeholders until official details are supplied.
+   *     email and phone only have to be edited once.
    *     - Address: each line is one line on the page.
    *     - Social links: use the icon names "facebook", "twitter", "linkedin",
    *       "youtube" with a full https:// address.
+   *
+   *     ADDRESS, PHONE and EMAIL ARE INTENTIONALLY EMPTY: the official postal
+   *     address, telephone number and department email address have not been
+   *     supplied yet, so nothing unverified is published. The page shows
+   *     "[Address to be added]", "[Telephone to be added]" and
+   *     "[Email to be added]" until the department fills them in.
+   *       address: ["PO Box 57", "Thirunelvely", "Jaffna", "Sri Lanka"],
+   *       phone: "(+94) 021 221 8100",
+   *       email: "info@univ.jfn.ac.lk",
    * ------------------------------------------------------------------------*/
   contact: {
     departmentLine: "Department of Engineering Technology",
     facultyLine: "Faculty of Technology, University of Jaffna",
-    address: ["PO Box 57", "Thirunelvely", "Jaffna", "Sri Lanka"],
-    email: "info@univ.jfn.ac.lk",
-    phone: "(+94) 021 221 8100",
+    // Official postal address — one line per entry. Empty until supplied.
+    address: [],
+    // Official department email address. Empty until supplied.
+    email: "",
+    // Official telephone number. Empty until supplied.
+    phone: "",
     // Location map shown on the Contact page (replaces the old "Visiting the
     // department" text/photo). `mapEmbedUrl` is the src for the <iframe> — use
     // the embed/share URL from Google Maps (it must be a plain https:// URL).

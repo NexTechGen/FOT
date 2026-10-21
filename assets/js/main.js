@@ -2048,6 +2048,14 @@
         return item && brandIcon(item.icon) && resolve(item.url, "link");
       });
 
+      // Nothing to show yet (the department has not supplied the address,
+      // telephone or email) — say so instead of leaving a blank column.
+      if (!box.childNodes.length) {
+        box.appendChild(
+          el("p", { cls: "footer__address-pending", text: "[Contact details to be added]" })
+        );
+      }
+
       target.appendChild(box);
 
       if (social.length) {
