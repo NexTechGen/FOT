@@ -1,18 +1,12 @@
 /* ============================================================================
- * main.js — Behaviour + rendering for the Department of Engineering Technology
- * ----------------------------------------------------------------------------
- * Loaded with `defer` AFTER content.js and staff.js.
+ * main.js — the site engine (do not edit)
+ * Department of Engineering Technology, Faculty of Technology, University of Jaffna
  *
- * Responsibilities
- *   1. Accessible navigation: mobile menu, click + keyboard dropdowns,
- *      Escape to close, outside-click to close, focus management.
- *   2. Render repeated content from the shared data sources:
- *      DEPARTMENT_CONTENT (content.js) and DEPARTMENT_STAFF (staff.js).
- *   3. Staff directory search / specialisation filter / reset / empty state.
- *   4. Specialisation page rendering (driven by body[data-specialisation]).
+ * This file makes the menu and pages work. Please do NOT change it.
+ * To change the website text, edit these files instead:
+ *   content.js, specialisations.js, research.js, news.js, downloads.js, staff.js
  *
- * All text is inserted with textContent (never innerHTML) so the data files
- * can never inject markup.
+ * Full help: see docs/ADMIN_GUIDE.md
  * ==========================================================================*/
 
 (function () {
@@ -170,8 +164,59 @@
     ],
     "chevron-right": [
       "m9 18 6-6-6-6"
+    ],
+    "map-pin": [
+      "M20 10c0 4.993-5.539 10.193-7.399 11.799a1 1 0 0 1-1.202 0C9.539 20.193 4 14.993 4 10a8 8 0 0 1 16 0",
+      "M12 13a3 3 0 1 0 0-6 3 3 0 0 0 0 6z"
+    ],
+    "mail": [
+      "m22 7-8.991 5.727a2 2 0 0 1-2.009 0L2 7",
+      "M2 6a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2z"
+    ],
+    "phone": [
+      "M13.832 16.568a1 1 0 0 0 1.213-.303l.355-.465A2 2 0 0 1 17 15h3a2 2 0 0 1 2 2v3a2 2 0 0 1-2 2A18 18 0 0 1 2 4a2 2 0 0 1 2-2h3a2 2 0 0 1 2 2v3a2 2 0 0 1-.8 1.6l-.468.351a1 1 0 0 0-.292 1.233 14 14 0 0 0 6.392 6.384"
+    ],
+    "globe": [
+      "M12 2a10 10 0 1 0 0 20 10 10 0 0 0 0-20z",
+      "M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z",
+      "M2 12h20"
     ]
   };
+
+  /* --------------------------------------------------------------------------
+   * Brand/social icons (Simple Icons, CC0). These are filled single-path
+   * glyphs drawn on a 24x24 viewBox, rendered with `fill: currentColor`
+   * instead of the stroked app icons above.
+   * ------------------------------------------------------------------------*/
+  var BRAND_ICONS = {
+    facebook:
+      "M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z",
+    twitter:
+      "M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z",
+    linkedin:
+      "M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 0 1-2.063-2.065 2.064 2.064 0 1 1 2.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z",
+    google:
+      "M12.48 10.92v3.28h7.84c-.24 1.84-.853 3.187-1.787 4.133-1.147 1.147-2.933 2.4-6.053 2.4-4.827 0-8.6-3.893-8.6-8.72s3.773-8.72 8.6-8.72c2.6 0 4.507 1.027 5.907 2.347l2.307-2.307C18.747 1.44 16.133 0 12.48 0 5.867 0 .307 5.387.307 12s5.56 12 12.173 12c3.573 0 6.267-1.173 8.373-3.36 2.16-2.16 2.84-5.213 2.84-7.667 0-.76-.053-1.467-.173-2.053H12.48z",
+    youtube:
+      "M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"
+  };
+
+  /** Build a filled brand icon <svg>. Returns null for an unknown name. */
+  function brandIcon(name) {
+    var pathData = BRAND_ICONS[name];
+    if (!pathData) {
+      return null;
+    }
+    var svg = document.createElementNS(SVG_NS, "svg");
+    svg.setAttribute("viewBox", "0 0 24 24");
+    svg.setAttribute("fill", "currentColor");
+    svg.setAttribute("aria-hidden", "true");
+    svg.setAttribute("focusable", "false");
+    var path = document.createElementNS(SVG_NS, "path");
+    path.setAttribute("d", pathData);
+    svg.appendChild(path);
+    return svg;
+  }
 
   /** Build an inline <svg> icon (decorative). Returns null when name is empty. */
   function svgIcon(name) {
@@ -260,10 +305,76 @@
     return null;
   }
 
+  /**
+   * Every document a specialisation lists as a "related download". These are
+   * shown on the specialisation's own page AND collected into the E-Resources
+   * "Programme Documents" section, so they stay in sync automatically.
+   */
+  function specialisationDownloads() {
+    var entries = [];
+    SPECIALISATIONS.forEach(function (sp) {
+      (sp.downloads || []).forEach(function (doc) {
+        if (!doc || !doc.title) {
+          return;
+        }
+        entries.push({
+          id: doc.id || (sp.id + "-document-" + (entries.length + 1)),
+          title: doc.title,
+          format: doc.format || "",
+          size: doc.size || "",
+          url: doc.url || ""
+        });
+      });
+    });
+    return entries;
+  }
+
+  /**
+   * Every download entry across every section (including the specialisation
+   * documents), flattened — used for id lookups from specialisation pages.
+   */
+  function allDownloads() {
+    var entries = [];
+    var seen = {};
+    function add(entry) {
+      if (!entry || entry.id == null || seen[entry.id]) {
+        return;
+      }
+      seen[entry.id] = true;
+      entries.push(entry);
+    }
+    specialisationDownloads().forEach(add);
+    (DOWNLOADS || []).forEach(function (section) {
+      ((section && section.documents) || []).forEach(add);
+    });
+    return entries;
+  }
+
+  /**
+   * Ordered download sections for the E-Resources page: the auto-collected
+   * "Programme Documents" first, then every admin-defined section in order.
+   * Empty sections are dropped so no heading is shown without content.
+   */
+  function downloadSections() {
+    var spDocs = specialisationDownloads();
+    var sections = [];
+    if (spDocs.length) {
+      sections.push({ id: "programme-documents", title: "Programme Documents", documents: spDocs });
+    }
+    (DOWNLOADS || []).forEach(function (section) {
+      if (!section || !(section.documents || []).length) {
+        return;
+      }
+      sections.push(section);
+    });
+    return sections;
+  }
+
   function getDownloadById(id) {
-    for (var i = 0; i < DOWNLOADS.length; i += 1) {
-      if (DOWNLOADS[i].id === id) {
-        return DOWNLOADS[i];
+    var entries = allDownloads();
+    for (var i = 0; i < entries.length; i += 1) {
+      if (entries[i].id === id) {
+        return entries[i];
       }
     }
     return null;
@@ -319,7 +430,7 @@
    */
   function isSmallScreen() {
     if (typeof window.matchMedia === "function") {
-      return window.matchMedia("(max-width: 991px)").matches;
+      return window.matchMedia("(max-width: 991.98px)").matches;
     }
     return typeof window.innerWidth === "number" ? window.innerWidth < 992 : false;
   }
@@ -420,6 +531,10 @@
         contact.appendChild(el("a", { text: member.email, attrs: { href: "mailto:" + member.email } }));
         card.appendChild(contact);
       }
+      var compactProfile = staffProfileLink(member);
+      if (compactProfile) {
+        card.appendChild(compactProfile);
+      }
       return card;
     }
 
@@ -452,7 +567,30 @@
     details.appendChild(dl);
     card.appendChild(details);
 
+    var fullProfile = staffProfileLink(member);
+    if (fullProfile) {
+      card.appendChild(fullProfile);
+    }
+
     return card;
+  }
+
+  /**
+   * Link to a person's full entry on the staff directory. Only shown on the
+   * specialisation pages, where each card is a short summary rather than the
+   * profile itself.
+   */
+  function staffProfileLink(member) {
+    if (!document.body.getAttribute("data-specialisation")) {
+      return null;
+    }
+    return el("p", { cls: "staff-card__profile", children: [
+      el("a", {
+        cls: "link-more",
+        text: "View staff profile",
+        attrs: { href: resolve("pages/staff.html") + "#profile-" + member.id }
+      })
+    ] });
   }
 
   function buildMessageBlock(options) {
@@ -654,8 +792,10 @@
     if (target) {
       clear(target);
       var intro = (CONTENT.department && CONTENT.department.intro) || [];
-      intro.forEach(function (paragraph) {
-        target.appendChild(el("p", { text: paragraph }));
+      intro.forEach(function (paragraph, index) {
+        target.appendChild(
+          el("p", index === 0 ? { cls: "lead", text: paragraph } : { text: paragraph })
+        );
       });
     }
     var focus = document.querySelector('[data-render="department-focus"]');
@@ -1055,9 +1195,17 @@
     if (entry.type) {
       head.appendChild(el("span", { cls: "research-entry__type", text: entry.type }));
     }
-    var when = [entry.year, entry.status].filter(Boolean).join(" · ");
-    if (when) {
-      head.appendChild(el("span", { cls: "research-entry__when", text: when }));
+    if (entry.year) {
+      head.appendChild(el("span", { cls: "research-entry__year", text: entry.year }));
+    }
+    if (entry.status) {
+      head.appendChild(
+        el("span", {
+          cls: "research-entry__status",
+          text: entry.status,
+          attrs: { "data-status": String(entry.status).trim().toLowerCase() }
+        })
+      );
     }
     if (head.childNodes.length) {
       card.appendChild(head);
@@ -1139,8 +1287,198 @@
     }
     targets.forEach(function (target) {
       clear(target);
-      target.appendChild(researchSection(RESEARCH.items || [], true));
+      if (RESEARCH.intro) {
+        target.appendChild(el("p", { cls: "prose", text: RESEARCH.intro }));
+      }
+      target.appendChild(el("div", { cls: "research-results", attrs: { id: "research-results" } }));
     });
+    initResearchFilters();
+    applyResearchFilter();
+  }
+
+  /** Wire a filter control to re-run the research filter on user input. */
+  function bindFilterInput(node) {
+    if (!node) {
+      return;
+    }
+    node.addEventListener("input", applyResearchFilter);
+    node.addEventListener("change", applyResearchFilter);
+  }
+
+  /** Distinct, non-empty values for a research facet, in a stable order. */
+  function researchFacet(entries, key) {
+    var seen = {};
+    entries.forEach(function (entry) {
+      var value = String(entry[key] || "").trim();
+      if (value) {
+        seen[value] = true;
+      }
+    });
+    var values = Object.keys(seen);
+    if (key === "year") {
+      values.sort(function (a, b) {
+        return b.localeCompare(a, undefined, { numeric: true });
+      });
+    } else {
+      values.sort(function (a, b) {
+        return a.localeCompare(b);
+      });
+    }
+    return values;
+  }
+
+  function fillResearchSelect(select, allLabel, values) {
+    if (!select) {
+      return;
+    }
+    var current = select.value;
+    clear(select);
+    select.appendChild(el("option", { text: allLabel, attrs: { value: "" } }));
+    values.forEach(function (value) {
+      select.appendChild(el("option", { text: value, attrs: { value: value } }));
+    });
+    if (current && values.indexOf(current) !== -1) {
+      select.value = current;
+    }
+  }
+
+  function initResearchFilters() {
+    var entries = RESEARCH.items || [];
+    fillResearchSelect(
+      document.getElementById("research-type"),
+      "All types",
+      researchFacet(entries, "type")
+    );
+    fillResearchSelect(
+      document.getElementById("research-year"),
+      "All years",
+      researchFacet(entries, "year")
+    );
+    var spSelect = document.getElementById("research-specialisation");
+    if (spSelect) {
+      clear(spSelect);
+      spSelect.appendChild(el("option", { text: "All specialisations", attrs: { value: "" } }));
+      SPECIALISATIONS.forEach(function (sp) {
+        spSelect.appendChild(el("option", { text: sp.name, attrs: { value: sp.id } }));
+      });
+    }
+
+    bindFilterInput(document.getElementById("research-search"));
+    bindFilterInput(document.getElementById("research-type"));
+    bindFilterInput(document.getElementById("research-year"));
+    bindFilterInput(document.getElementById("research-specialisation"));
+
+    var reset = document.getElementById("research-reset");
+    if (reset) {
+      reset.addEventListener("click", function () {
+        [
+          "research-search",
+          "research-type",
+          "research-year",
+          "research-specialisation"
+        ].forEach(function (id) {
+          var node = document.getElementById(id);
+          if (node) {
+            node.value = "";
+          }
+        });
+        applyResearchFilter();
+        var search = document.getElementById("research-search");
+        if (search) {
+          search.focus();
+        }
+      });
+    }
+  }
+
+  function applyResearchFilter() {
+    var container = document.getElementById("research-results");
+    if (!container) {
+      return;
+    }
+    var search = document.getElementById("research-search");
+    var type = document.getElementById("research-type");
+    var year = document.getElementById("research-year");
+    var sp = document.getElementById("research-specialisation");
+    var count = document.getElementById("research-count");
+
+    var query = search ? search.value.trim().toLowerCase() : "";
+    var typeValue = type ? type.value : "";
+    var yearValue = year ? year.value : "";
+    var spValue = sp ? sp.value : "";
+    var all = RESEARCH.items || [];
+
+    var results = all.filter(function (entry) {
+      var haystack = [
+        entry.title || "",
+        entry.authors || "",
+        entry.venue || ""
+      ].join(" ").toLowerCase();
+      if (query && haystack.indexOf(query) === -1) {
+        return false;
+      }
+      if (typeValue && String(entry.type || "").trim() !== typeValue) {
+        return false;
+      }
+      if (yearValue && String(entry.year || "").trim() !== yearValue) {
+        return false;
+      }
+      if (spValue && (entry.specialisationIds || []).indexOf(spValue) === -1) {
+        return false;
+      }
+      return true;
+    });
+
+    clear(container);
+    if (!all.length) {
+      container.appendChild(
+        emptyState(
+          "Research information coming soon",
+          "Research produced by the department's staff and students will be listed here once verified."
+        )
+      );
+    } else if (!results.length) {
+      var empty = emptyState(
+        "No research matches your filters",
+        "Try a different search term or clear the type, year and specialisation filters."
+      );
+      var resetBtn = el("button", {
+        cls: "btn btn--outline mt-4",
+        text: "Reset filters",
+        attrs: { type: "button" }
+      });
+      resetBtn.addEventListener("click", function () {
+        [
+          "research-search",
+          "research-type",
+          "research-year",
+          "research-specialisation"
+        ].forEach(function (id) {
+          var node = document.getElementById(id);
+          if (node) {
+            node.value = "";
+          }
+        });
+        applyResearchFilter();
+      });
+      empty.appendChild(resetBtn);
+      container.appendChild(empty);
+    } else {
+      var docList = el("ul", { cls: "doc-list" });
+      results.forEach(function (entry) {
+        docList.appendChild(buildResearchEntry(entry, true));
+      });
+      container.appendChild(docList);
+    }
+
+    if (count) {
+      if (!all.length) {
+        count.textContent = "";
+      } else {
+        var label = results.length === 1 ? "entry" : "entries";
+        count.textContent = "Showing " + results.length + " of " + all.length + " " + label + ".";
+      }
+    }
   }
 
   function newsSection(limit) {
@@ -1216,13 +1554,23 @@
 
     dialog.appendChild(shell);
 
+    // Older browsers without <dialog> support only get the plain "open"
+    // attribute, so closing has to fall back to removing it.
+    var closeDialog = function () {
+      if (typeof dialog.close === "function") {
+        dialog.close();
+      } else {
+        dialog.removeAttribute("open");
+      }
+    };
+
     closeBtn.addEventListener("click", function () {
-      dialog.close();
+      closeDialog();
     });
     // Click on the backdrop (outside the shell) closes the dialog.
     dialog.addEventListener("click", function (event) {
       if (event.target === dialog) {
-        dialog.close();
+        closeDialog();
       }
     });
     // Drop the deep-link hash once closed so a reload shows the list again.
@@ -1456,6 +1804,34 @@
     }
   }
 
+  /**
+   * One collapsible E-Resources section: a <details class="doc-group"> with a
+   * <summary> heading and the document list inside.
+   */
+  function downloadGroup(section, openByDefault) {
+    var details = el("details", { cls: "doc-group", attrs: { id: section.id || null } });
+    if (openByDefault) {
+      details.setAttribute("open", "");
+    }
+
+    var summary = el("summary", { cls: "doc-group__summary" });
+    summary.appendChild(el("span", { cls: "doc-group__label", text: section.title }));
+    summary.appendChild(
+      el("span", {
+        cls: "doc-group__count",
+        text: section.documents.length === 1 ? "1 item" : section.documents.length + " items"
+      })
+    );
+    details.appendChild(summary);
+
+    var list = el("ul", { cls: "doc-list" });
+    section.documents.forEach(function (doc) {
+      list.appendChild(documentRow(doc));
+    });
+    details.appendChild(list);
+    return details;
+  }
+
   function renderDownloads() {
     var target = document.querySelector('[data-render="downloads"]');
     if (!target) {
@@ -1463,32 +1839,17 @@
     }
     clear(target);
 
-    if (!DOWNLOADS.length) {
+    var sections = downloadSections();
+    if (!sections.length) {
       target.appendChild(emptyState("No documents available", "Documents will be listed here once they are published."));
       return;
     }
 
-    var order = [];
-    var groups = {};
-    DOWNLOADS.forEach(function (doc) {
-      var cat = doc.category || "Documents";
-      if (!groups[cat]) {
-        groups[cat] = [];
-        order.push(cat);
-      }
-      groups[cat].push(doc);
+    var wrap = el("div", { cls: "doc-groups" });
+    sections.forEach(function (section, index) {
+      wrap.appendChild(downloadGroup(section, index === 0));
     });
-
-    order.forEach(function (cat) {
-      var section = el("section", { cls: "mt-6" });
-      section.appendChild(el("h2", { text: cat }));
-      var list = el("ul", { cls: "doc-list" });
-      groups[cat].forEach(function (doc) {
-        list.appendChild(documentRow(doc));
-      });
-      section.appendChild(list);
-      target.appendChild(section);
-    });
+    target.appendChild(wrap);
   }
 
   function renderContact() {
@@ -1500,80 +1861,218 @@
     targets.forEach(function (target) {
       clear(target);
 
-      var addressText = (c.address || []).filter(Boolean).join(", ");
-      var addressNode = addressText.indexOf("[") > -1
-        ? el("span", { cls: "placeholder-note", text: addressText || "[Address to be added]" })
-        : el("span", { text: addressText });
+      var rows = el("ul", { cls: "contact-details" });
 
-      var dl = el("dl", { cls: "contact-list" });
+      function contactRow(icon, label, valueNode) {
+        var row = el("li", { cls: "contact-details__row" });
 
-      dl.appendChild(el("dt", { text: "Address" }));
-      var addrDd = el("dd");
-      addrDd.appendChild(addressNode);
-      dl.appendChild(addrDd);
+        var badge = el("span", { cls: "contact-details__icon", attrs: { "aria-hidden": "true" } });
+        var badgeIcon = svgIcon(icon);
+        if (badgeIcon) {
+          badge.appendChild(badgeIcon);
+        }
+        row.appendChild(badge);
 
-      dl.appendChild(el("dt", { text: "Email" }));
-      var emailDd = el("dd");
+        var body = el("div", { cls: "contact-details__body" });
+        body.appendChild(el("span", { cls: "contact-details__label", text: label }));
+        body.appendChild(el("div", { cls: "contact-details__value", children: [valueNode] }));
+        row.appendChild(body);
+
+        return row;
+      }
+
+      // Address — the parts are comma-separated into a single readable value.
+      var addrValue;
+      var addrLines = (c.address || []).filter(Boolean);
+      if (!addrLines.length) {
+        addrValue = el("span", { cls: "placeholder-note", text: "[Address to be added]" });
+      } else {
+        var addrText = addrLines.join(", ");
+        addrValue = addrText.indexOf("[") > -1
+          ? el("span", { cls: "placeholder-note", text: addrText })
+          : el("span", { text: addrText });
+      }
+      rows.appendChild(contactRow("map-pin", "Address", addrValue));
+
+      // Email
+      var emailValue;
       if (isRealEmail(c.email)) {
-        emailDd.appendChild(el("a", { text: c.email, attrs: { href: "mailto:" + c.email } }));
+        emailValue = el("a", { text: c.email, attrs: { href: "mailto:" + c.email } });
       } else {
-        emailDd.appendChild(el("span", { cls: "placeholder-note", text: c.email || "[Email to be added]" }));
+        emailValue = el("span", { cls: "placeholder-note", text: c.email || "[Email to be added]" });
       }
-      dl.appendChild(emailDd);
+      rows.appendChild(contactRow("mail", "Email", emailValue));
 
-      dl.appendChild(el("dt", { text: "Telephone" }));
-      var phoneDd = el("dd");
+      // Telephone
+      var phoneValue;
       if (isRealPhone(c.phone)) {
-        phoneDd.appendChild(
-          el("a", { text: c.phone, attrs: { href: "tel:" + String(c.phone).replace(/[^0-9+]/g, "") } })
-        );
+        phoneValue = el("a", {
+          text: c.phone,
+          attrs: { href: "tel:" + String(c.phone).replace(/[^0-9+]/g, "") }
+        });
       } else {
-        phoneDd.appendChild(el("span", { cls: "placeholder-note", text: c.phone || "[Telephone to be added]" }));
+        phoneValue = el("span", { cls: "placeholder-note", text: c.phone || "[Telephone to be added]" });
       }
-      dl.appendChild(phoneDd);
+      rows.appendChild(contactRow("phone", "Telephone", phoneValue));
 
-      target.appendChild(dl);
-
-      var mapHref = resolve(c.mapUrl, "link");
-      if (mapHref) {
-        target.appendChild(
-          el("p", { cls: "mt-4", children: [
+      // Social media links (same data as the footer column).
+      var social = (c.social || []).filter(function (item) {
+        return item && brandIcon(item.icon) && resolve(item.url, "link");
+      });
+      if (social.length) {
+        var socialWrap = el("div", { cls: "contact-details__social" });
+        social.forEach(function (item) {
+          socialWrap.appendChild(
             el("a", {
-              cls: "link-more",
-              text: "Open location on map",
-              attrs: { href: mapHref, target: "_blank", rel: "noopener" }
+              cls: "contact-details__social-link",
+              attrs: {
+                href: resolve(item.url, "link"),
+                target: "_blank",
+                rel: "noopener noreferrer",
+                "aria-label": item.label || item.icon,
+                title: item.label || item.icon
+              },
+              children: [brandIcon(item.icon)]
             })
-          ] })
-        );
-      } else {
-        target.appendChild(
-          el("p", { cls: "mt-4", children: [
-            el("span", { cls: "placeholder-note", text: c.mapLabel || "[Map link pending verification]" })
-          ] })
-        );
+          );
+        });
+        rows.appendChild(el("li", { cls: "contact-details__row", children: [socialWrap] }));
       }
+
+      target.appendChild(rows);
     });
 
-    // Visiting the department: intro text + photo (contact page aside)
-    var visiting = c.visiting || {};
-    var vIntro = document.querySelector('[data-render="contact-visiting"]');
-    if (vIntro && (visiting.intro || []).length) {
-      clear(vIntro);
-      visiting.intro.forEach(function (text) {
-        vIntro.appendChild(el("p", { text: text }));
-      });
+    // Location map (contact page aside). Renders an <iframe> from the embed URL
+    // in content.js; a blank/invalid URL shows a neutral placeholder instead of
+    // an empty frame.
+    var mapTarget = document.querySelector('[data-render="contact-map"]');
+    if (mapTarget) {
+      clear(mapTarget);
+      var mapSrc = resolve(c.mapEmbedUrl, "link");
+      if (mapSrc) {
+        mapTarget.appendChild(
+          el("iframe", {
+            cls: "contact-map__frame",
+            attrs: {
+              src: mapSrc,
+              title: c.mapTitle || "Department location map",
+              loading: "lazy",
+              referrerpolicy: "no-referrer-when-downgrade",
+              allowfullscreen: ""
+            }
+          })
+        );
+      } else {
+        mapTarget.appendChild(
+          el("div", { cls: "contact-map__placeholder", children: [
+            el("span", { cls: "placeholder-note", text: c.mapLabel || "[Map location pending verification]" })
+          ] })
+        );
+      }
     }
+  }
 
-    var vImage = document.querySelector('[data-render="contact-visiting-image"]');
-    if (vImage) {
-      var vSrc = resolve(visiting.image, "image");
-      if (vSrc) {
-        vImage.setAttribute("src", vSrc);
-      }
-      if (visiting.imageAlt) {
-        vImage.setAttribute("alt", visiting.imageAlt);
-      }
+  /* --------------------------------------------------------------------------
+   * 2b. Footer contact block (every page)
+   *     Renders the footer "Contact us" column from CONTENT.contact — the SAME
+   *     block that drives the contact page — so the address, telephone, email
+   *     and social links live in one place. Both the column heading and its
+   *     content are produced here (the heading uses `title`, defaulting to
+   *     "Contact us"). Placeholders and unsafe URLs are handled exactly like the
+   *     contact page: real values become links, an unresolved value is shown as
+   *     plain text, and an unsupported social entry is skipped rather than
+   *     emitting a broken icon.
+   * ------------------------------------------------------------------------*/
+  function renderFooterContact() {
+    var targets = document.querySelectorAll('[data-render="footer-contact"]');
+    if (!targets.length) {
+      return;
     }
+    var c = CONTENT.contact || {};
+    var lines = c.address || [];
+
+    targets.forEach(function (target) {
+      clear(target);
+
+      // Heading — rendered from the same JS section as the content below.
+      target.appendChild(
+        el("h2", { cls: "footer__title", text: c.footerTitle || "Contact us" })
+      );
+
+      var box = el("div", { cls: "footer__address" });
+
+      // Address — one <br>-separated line per entry.
+      if (lines.length) {
+        var p = el("p");
+        lines.forEach(function (line, index) {
+          if (index > 0) {
+            p.appendChild(el("br"));
+          }
+          p.appendChild(document.createTextNode(String(line)));
+        });
+        box.appendChild(p);
+      }
+
+      // Telephone
+      if (c.phone) {
+        var telP = el("p");
+        telP.appendChild(document.createTextNode("Tel : \u00a0"));
+        if (isRealPhone(c.phone)) {
+          telP.appendChild(
+            el("a", {
+              text: c.phone,
+              attrs: { href: "tel:" + String(c.phone).replace(/[^0-9+]/g, "") }
+            })
+          );
+        } else {
+          telP.appendChild(el("span", { text: c.phone }));
+        }
+        box.appendChild(telP);
+      }
+
+      // Email
+      if (c.email) {
+        var mailP = el("p");
+        mailP.appendChild(document.createTextNode("Email : "));
+        if (isRealEmail(c.email)) {
+          mailP.appendChild(el("a", { text: c.email, attrs: { href: "mailto:" + c.email } }));
+        } else {
+          mailP.appendChild(el("span", { text: c.email }));
+        }
+        box.appendChild(mailP);
+      }
+
+      // Social links — rendered as a full-width, centred row across the whole
+      // footer top (not inside the narrow contact column).
+      var social = (c.social || []).filter(function (item) {
+        return item && brandIcon(item.icon) && resolve(item.url, "link");
+      });
+
+      target.appendChild(box);
+
+      if (social.length) {
+        var wrap = el("div", { cls: "footer__social" });
+        social.forEach(function (item) {
+          var icon = brandIcon(item.icon);
+          wrap.appendChild(
+            el("a", {
+              cls: "footer__social-link",
+              attrs: {
+                href: resolve(item.url, "link"),
+                target: "_blank",
+                rel: "noopener noreferrer",
+                "aria-label": item.label || item.icon,
+                title: item.label || item.icon
+              },
+              children: [icon]
+            })
+          );
+        });
+
+        var host = target.parentElement || target;
+        host.appendChild(wrap);
+      }
+    });
   }
 
   /* --------------------------------------------------------------------------
@@ -1627,17 +2126,6 @@
       (sp.overview || []).forEach(function (paragraph) {
         overview.appendChild(el("p", { text: paragraph }));
       });
-    }
-
-    // Study areas
-    var study = document.querySelector('[data-sp="study-areas"]');
-    if (study) {
-      clear(study);
-      var list = el("ul", { cls: "checklist" });
-      (sp.studyAreas || []).forEach(function (area) {
-        list.appendChild(el("li", { text: area }));
-      });
-      study.appendChild(list);
     }
 
     // Curriculum
@@ -1764,11 +2252,13 @@
       researchHolder.appendChild(researchSection(spItems, false));
     }
 
-    // Downloads
+    // Downloads — the specialisation's own related downloads.
     var downloadsHolder = document.querySelector('[data-sp="downloads"]');
     if (downloadsHolder) {
       clear(downloadsHolder);
-      var docs = (sp.downloadIds || []).map(getDownloadById).filter(Boolean);
+      var docs = (sp.downloads || []).filter(function (doc) {
+        return doc && doc.title;
+      });
       if (!docs.length) {
         downloadsHolder.appendChild(
           el("p", { cls: "placeholder-note", text: "No documents are available for this specialisation yet." })
@@ -1826,6 +2316,18 @@
     }
 
     var categories = STAFF.categories || [];
+    var grouped = [];
+    var addSection = function (label, group) {
+      var section = el("section", { cls: "mt-6" });
+      section.appendChild(el("h2", { text: label }));
+      var grid = el("div", { cls: "grid grid--3" });
+      group.forEach(function (member) {
+        grid.appendChild(buildStaffCard(member, "full"));
+      });
+      section.appendChild(grid);
+      container.appendChild(section);
+    };
+
     categories.forEach(function (category) {
       var group = members.filter(function (member) {
         return member.category === category.id;
@@ -1833,15 +2335,18 @@
       if (!group.length) {
         return;
       }
-      var section = el("section", { cls: "mt-6" });
-      section.appendChild(el("h2", { text: category.label }));
-      var grid = el("div", { cls: "grid grid--3" });
-      group.forEach(function (member) {
-        grid.appendChild(buildStaffCard(member, "full"));
-      });
-      section.appendChild(grid);
-      container.appendChild(section);
+      grouped = grouped.concat(group);
+      addSection(category.label, group);
     });
+
+    // Anyone whose group heading is missing from the list above is still shown
+    // at the end, so a person can never quietly disappear from the directory.
+    var others = members.filter(function (member) {
+      return grouped.indexOf(member) === -1;
+    });
+    if (others.length) {
+      addSection("Other Staff", others);
+    }
   }
 
   function applyStaffFilter() {
@@ -1858,7 +2363,7 @@
     var all = STAFF.members || [];
 
     var results = all.filter(function (member) {
-      var haystack = (member.name + " " + (member.designation || "")).toLowerCase();
+      var haystack = ((member.name || "") + " " + (member.designation || "")).toLowerCase();
       if (query && haystack.indexOf(query) === -1) {
         return false;
       }
@@ -1909,6 +2414,26 @@
     }
 
     applyStaffFilter();
+
+    // A "View staff profile" link points at #profile-<id>. Open that person's
+    // panel so the details are visible straight away instead of staying
+    // collapsed.
+    var openProfileFromHash = function () {
+      var id = (window.location.hash || "").replace(/^#/, "");
+      if (!id || id.indexOf("profile-") !== 0) {
+        return;
+      }
+      var card = document.getElementById(id);
+      if (!card) {
+        return;
+      }
+      var details = card.querySelector("details");
+      if (details) {
+        details.open = true;
+      }
+    };
+    openProfileFromHash();
+    window.addEventListener("hashchange", openProfileFromHash);
   }
 
   /* --------------------------------------------------------------------------
@@ -2033,6 +2558,9 @@
     // would immediately close the whole panel.
     document.addEventListener("click", function (event) {
       var target = event.target;
+      if (!target || !target.closest) {
+        return;
+      }
       if (!target.closest(".has-dropdown")) {
         closeAllDropdowns();
       }
@@ -2052,7 +2580,7 @@
     // Close the mobile panel after following a link.
     if (nav) {
       nav.addEventListener("click", function (event) {
-        if (event.target.closest("a") && isSmallScreen()) {
+        if (event.target.closest && event.target.closest("a") && isSmallScreen()) {
           closeMobileNav();
         }
       });
@@ -2154,6 +2682,7 @@
     renderAcademicsPage();
     renderDownloads();
     renderContact();
+    renderFooterContact();
     initStaffDirectory();
     setCurrentYear();
     enhanceTables();

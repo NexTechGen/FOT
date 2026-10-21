@@ -8,6 +8,12 @@ For each item below, once the approved content is supplied, make the change in t
 publish the updated files to the web server the normal way (see `README.md`). No undeploying or
 taking the site offline is required.
 
+> **How to edit (short version):** open the listed file in a plain-text editor, change only the text
+> **between the quotes** `" "`, replace any `[square-bracket]` placeholder with the real wording,
+> keep every comma, save the file and re-upload it. The same rules are written at the top of every
+> content file. For the full admin manual (every page, every file, publishing steps), see
+> **`docs/ADMIN_GUIDE.md`**. `main.js` is not an admin file.
+
 Legend: ☐ = outstanding, ✔ = supplied (tick when done).
 
 ---
@@ -49,7 +55,7 @@ Legend: ☐ = outstanding, ✔ = supplied (tick when done).
 
 ## 4. Specialisations (all pages)
 
-- File: `assets/js/content.js` **and** the navigation/footer of every HTML page.
+- File: `assets/js/specialisations.js` **and** the navigation/footer of every HTML page.
 - ✔ **Specialisation names** — supplied and applied everywhere, including the static navigation
   and footer of every page: **Automobile Technology**, **Construction Technology** and
   **Electro Technology**.
@@ -73,7 +79,7 @@ Legend: ☐ = outstanding, ✔ = supplied (tick when done).
 
 ## 6. Academics
 
-- Files: `pages/academics.html`, `assets/js/content.js`
+- Files: `pages/academics.html`, `assets/js/specialisations.js`
 - ✔ **Degree Programme** — supplied and published on `pages/academics.html` (four-year Bachelor of
   Engineering Technology Honours, eight semesters, three specialisations). The Sydney Accord /
   SLQF Level 6 wording is kept as **published department information**, not as an accreditation
@@ -85,7 +91,7 @@ Legend: ☐ = outstanding, ✔ = supplied (tick when done).
 - ☐ Student resources / handbooks.
 
 > Note: the four **Academic overview** cards on the home page are edited in
-> `assets/js/content.js` (`academicOverview`); each card has an optional `icon` (see §3.11 of
+> `assets/js/specialisations.js` (`academicOverview`); each card has an optional `icon` (see §3.11 of
 > `README.md`). The card text is independent of the academic prose on `pages/academics.html`.
 
 > Note: the supplied **Career Opportunities** text has no matching page or section on the site,
@@ -93,7 +99,7 @@ Legend: ☐ = outstanding, ✔ = supplied (tick when done).
 
 ## 7. Research
 
-- File: `assets/js/content.js`
+- File: `assets/js/research.js`
 - ☐ Research themes.
 - ☐ Research projects and student projects.
 - ☐ Publications (currently empty).
@@ -115,13 +121,13 @@ Legend: ☐ = outstanding, ✔ = supplied (tick when done).
 
 ## 9. News and events
 
-- File: `assets/js/content.js`
+- File: `assets/js/news.js`
 - ☐ Add dated announcements to the `news` array (currently empty — a clear empty state is shown).
 - ☐ Confirm each item's date, category and summary.
 
 ## 10. Downloads
 
-- Files: `assets/js/content.js`, `assets/documents/`
+- Files: `assets/js/downloads.js`, `assets/documents/`
 - ☐ Upload the real PDFs/documents to `assets/documents/`.
 - ☐ Set `url` for each document that exists (empty `url` shows "Not yet available").
 - ☐ Add file format and size only when known.

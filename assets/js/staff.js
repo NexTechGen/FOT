@@ -1,36 +1,36 @@
 /* ============================================================================
- * staff.js — Single source of truth for all staff records
- * ----------------------------------------------------------------------------
+ * staff.js — all staff details
  * Department of Engineering Technology
  * Faculty of Technology, University of Jaffna
  *
- * Loaded with `defer` AFTER content.js and BEFORE main.js.
- * Exposes: window.DEPARTMENT_STAFF
+ * WHAT YOU CAN EDIT HERE
+ *   The staff group headings ......................... Staff page
+ *   Every staff member's details ..................... Staff page, specialisation pages and the Head of Department section
  *
- * Every staff record is maintained ONLY here. The staff directory, each
- * specialisation page and the Head of Department section are all rendered from
- * this one list. To update a person, edit their record once and it updates
- * everywhere.
+ * For each person you can set: name, designation, group, qualifications,
+ * photo, specialisations, email and research interests.
+ * Keep exactly ONE person marked as the Head of Department.
+ * These details are used in every place a person appears, so edit once here.
  *
- * Record shape (all fields optional except id / name):
- *   id                string   stable unique id (never change once in use)
- *   name              string   full name (placeholder in [brackets] until known)
- *   designation       string   post held
- *   category          string   "head" | "academic" | "technical" | "admin"
- *   qualifications    string   e.g. "BSc (Hons), MSc, PhD"
- *   photo             string   path from site root, or "" to show initials
- *   specialisationIds string[] ids from content.js (may list more than one)
- *   email             string   official email, or "[placeholder]" if unknown
- *   researchInterests string   free text, or ""
- *   isHeadOfDepartment boolean  exactly one record should be true
+ * THE CODES USED HERE
+ *   "id" is the person's own code (unique, do not reuse). Examples:
+ *     head-of-department
+ *     coordinator-automobile-technology
+ *     academic-staff-01
+ *   "specialisationIds" says which specialisations the person belongs to.
+ *   Use the specialisation's own code:
+ *     automobile-technology
+ *     construction-technology
+ *     electro-technology
  *
- * See README.md -> "Editing the site" for how to add / edit staff.
+ * Anything in [square brackets] is a placeholder to replace.
+ * Full help: see docs/ADMIN_GUIDE.md
  * ==========================================================================*/
 
 window.DEPARTMENT_STAFF = {
 
-  /* Display order and labels for staff categories. Categories with no members
-   * are automatically hidden by main.js. */
+  /* Staff group headings and the order they appear in.
+   * A group with no members is hidden automatically. */
   categories: [
     { id: "head",      label: "Head of Department" },
     { id: "academic",  label: "Academic Staff" },
@@ -40,91 +40,91 @@ window.DEPARTMENT_STAFF = {
 
   members: [
     {
-      id: "staff-hod",
+      id: "head-of-department",
       name: "[Head of Department Name]",
       designation: "[Designation]",
       category: "head",
       qualifications: "[Qualifications]",
       photo: "",
-      specialisationIds: ["sp-01", "sp-02", "sp-03"],
+      specialisationIds: ["automobile-technology", "construction-technology", "electro-technology"],
       email: "[head email address]",
       researchInterests: "[Research interests]",
       isHeadOfDepartment: true
     },
     {
-      id: "staff-coord-01",
+      id: "coordinator-automobile-technology",
       name: "[Coordinator 01 Name]",
       designation: "Specialisation Coordinator",
       category: "academic",
       qualifications: "[Qualifications]",
       photo: "",
-      specialisationIds: ["sp-01"],
+      specialisationIds: ["automobile-technology"],
       email: "[coordinator 01 email address]",
       researchInterests: "[Research interests]",
       isHeadOfDepartment: false
     },
     {
-      id: "staff-coord-02",
+      id: "coordinator-construction-technology",
       name: "[Coordinator 02 Name]",
       designation: "Specialisation Coordinator",
       category: "academic",
       qualifications: "[Qualifications]",
       photo: "",
-      specialisationIds: ["sp-02"],
+      specialisationIds: ["construction-technology"],
       email: "[coordinator 02 email address]",
       researchInterests: "[Research interests]",
       isHeadOfDepartment: false
     },
     {
-      id: "staff-coord-03",
+      id: "coordinator-electro-technology",
       name: "[Coordinator 03 Name]",
       designation: "Specialisation Coordinator",
       category: "academic",
       qualifications: "[Qualifications]",
       photo: "",
-      specialisationIds: ["sp-03"],
+      specialisationIds: ["electro-technology"],
       email: "[coordinator 03 email address]",
       researchInterests: "[Research interests]",
       isHeadOfDepartment: false
     },
     {
-      id: "staff-acad-01",
+      id: "academic-staff-01",
       name: "[Academic Staff 01 Name]",
       designation: "[Designation]",
       category: "academic",
       qualifications: "[Qualifications]",
       photo: "",
-      specialisationIds: ["sp-01", "sp-02"],
+      specialisationIds: ["automobile-technology", "construction-technology"],
       email: "[academic staff 01 email address]",
       researchInterests: "[Research interests]",
       isHeadOfDepartment: false
     },
     {
-      id: "staff-acad-02",
+      id: "academic-staff-02",
       name: "[Academic Staff 02 Name]",
       designation: "[Designation]",
       category: "academic",
       qualifications: "[Qualifications]",
       photo: "",
-      specialisationIds: ["sp-03"],
+      specialisationIds: ["electro-technology"],
       email: "[academic staff 02 email address]",
       researchInterests: "[Research interests]",
       isHeadOfDepartment: false
     },
     {
-      id: "staff-tech-01",
+      id: "technical-staff-01",
       name: "[Technical Staff 01 Name]",
       designation: "[Designation]",
       category: "technical",
       qualifications: "[Qualifications]",
       photo: "",
-      specialisationIds: ["sp-01"],
+      specialisationIds: ["automobile-technology"],
       email: "[technical staff 01 email address]",
       researchInterests: "",
       isHeadOfDepartment: false
     },
     {
-      id: "staff-admin-01",
+      id: "administrative-staff-01",
       name: "[Administrative Staff 01 Name]",
       designation: "[Designation]",
       category: "admin",

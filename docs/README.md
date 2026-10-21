@@ -43,13 +43,18 @@ department-website/
 │   ├── css/
 │   │   └── styles.css              # All styling (mobile-first)
 │   ├── js/
-│   │   ├── content.js              # EDITABLE content: specialisations, dean/HoD messages, news, facilities, downloads, contact
+│   │   ├── content.js              # EDITABLE core content: identity, dean/HoD messages, about, facilities, contact
+│   │   ├── specialisations.js      # EDITABLE: specialisations, academic overview, Academics page
+│   │   ├── research.js             # EDITABLE: research publications
+│   │   ├── news.js                 # EDITABLE: news and announcements
+│   │   ├── downloads.js            # EDITABLE: E-Resources / downloads sections
 │   │   ├── staff.js                # EDITABLE staff records (single source of truth)
 │   │   └── main.js                 # Behaviour + rendering (navigation, staff filter, page rendering)
 │   ├── images/                     # Images: header logo (colour), footer logo (black & white), favicon (.ico), SVG placeholders
 │   └── documents/                  # Put official PDFs and documents here
 └── docs/
     ├── README.md
+    ├── ADMIN_GUIDE.md              # Plain-language manual for admins (every page & file)
     └── CONTENT_CHECKLIST.md        # List of official information still required
 ```
 
@@ -130,15 +135,45 @@ element already supplies the root.
 > and then **uploading** the changed files to the web server (no build step, no undeploy/redeploy
 > and no downtime). Nothing updates on the live site until the edited files are uploaded.
 
-All editable, repeated content lives in two files:
+All editable, repeated content lives in these files (each loads after `content.js`
+and merges into the same `window.DEPARTMENT_CONTENT` object):
 
-- `assets/js/content.js` — specialisations, Dean's and Head of Department messages, academic
-  overview, research, facilities, news, downloads, contact details.
+- `assets/js/content.js` — core content: institutional identity, Dean's and Head of Department
+  messages, the About page, facilities and contact details.
+- `assets/js/specialisations.js` — the three specialisations, the academic overview tiles and the
+  Academics page content.
+- `assets/js/research.js` — research publications.
+- `assets/js/news.js` — news and announcements.
+- `assets/js/downloads.js` — E-Resources / downloads sections.
 - `assets/js/staff.js` — every staff record.
+
+### How to edit a file (for admins) — the short version
+
+Every content file has the same simple rules, and the rules are repeated at the
+top of each file so you do not have to remember them:
+
+1. Open the file in any **plain-text editor** (Notepad++, VS Code, etc.).
+2. Only change the text **between the quotes** `" "`. Never change the labels
+   (`title:`, `name:`, …) or the `{ } [ ] , : ;` characters.
+3. Any text in `[square brackets]` is a **placeholder** — replace it with the
+   real, approved wording. Never invent names, dates, figures or statements.
+4. Keep every comma between items. When deleting an item, delete its whole
+   `{ ... }` block including the trailing comma.
+5. To **add** an item, copy an existing block, paste it after the last one, add
+   the missing comma, give it a new unique `id`, then edit the text.
+6. **Save**, then **re-upload** the file to the same folder on the server.
+   Nothing changes on the live site until the file is uploaded.
+7. **Preview** in a browser. If a page goes blank, a comma or bracket is
+   missing — undo (`Ctrl+Z`) and re-check.
+
+`main.js` is **not** an admin file — do not edit site text there.
+
+> **For a full, non-technical admin manual** — every page, every file, adding items,
+> uploading and troubleshooting — see **`docs/ADMIN_GUIDE.md`**.
 
 ### What is editable (JS) vs static HTML
 
-- **Editable in the data files** — change these only in `content.js` / `staff.js`: specialisation
+- **Editable in the data files** — change these only in the JS files above: specialisation
   names, Dean/HoD messages, staff records, academic overview, research, facilities, news,
   downloads, contact details, **and** the institutional identity text (university / faculty /
   department), the home hero and department headings, and the contact identity lines.
@@ -148,7 +183,7 @@ All editable, repeated content lives in two files:
 - A few values exist in **both** places on purpose: the data file is the source of truth and the
   matching static HTML is the **no-JS fallback** (see §3.10 for the specialisation names). Editing
   the data file is enough.
-- Values marked **RESERVED** in `content.js` (`institution.tagline`, `specialisations[].shortName`)
+- Values marked **RESERVED** in `content.js` / `specialisations.js` (`institution.tagline`, `specialisations[].shortName`)
   are stored but not shown anywhere yet — do not expect them to appear.
 
 Text wrapped in `[square brackets]` is an **editable placeholder**. Replace it with approved
@@ -165,13 +200,13 @@ change the fields:
 
 ```js
 {
-  id: "staff-acad-03",                 // unique, stable; do not reuse an existing id
+  id: "academic-staff-03",             // unique, stable; do not reuse an existing id
   name: "Dr Full Name",
   designation: "Senior Lecturer",
   category: "academic",                // "head" | "academic" | "technical" | "admin"
   qualifications: "BSc (Hons), MSc, PhD",
   photo: "assets/images/staff-full-name.jpg",   // or "" to show initials
-  specialisationIds: ["sp-01", "sp-03"],         // may belong to more than one
+  specialisationIds: ["automobile-technology", "electro-technology"],  // may belong to more than one
   email: "name@example.ac.lk",
   researchInterests: "Your research interests",
   isHeadOfDepartment: false
@@ -195,13 +230,13 @@ Find the person's `id` in `assets/js/staff.js` and change the relevant field, e.
 ### 3.4 Assign staff to specialisations
 
 Edit the person's `specialisationIds` array in `assets/js/staff.js` using the specialisation ids
-defined in `assets/js/content.js` (`sp-01`, `sp-02`, `sp-03`). A person may be listed in several
-specialisations. Specialisation pages derive their staff list from these ids — there is never a
-second copy to maintain.
+defined in `assets/js/specialisations.js` (`automobile-technology`, `construction-technology`,
+`electro-technology`). Specialisation pages derive their staff list from these ids — there is never
+a second copy to maintain.
 
 ### 3.5 Change the Specialisation Coordinator
 
-In `assets/js/content.js`, set the specialisation's `coordinatorStaffId` to the `id` of the staff
+In `assets/js/specialisations.js`, set the specialisation's `coordinatorStaffId` to the `id` of the staff
 member in `assets/js/staff.js`. The coordinator is shown under the heading **"Specialisation
 Coordinator"** on that specialisation's page. (There is deliberately no "Head of Specialisation"
 role.)
@@ -235,7 +270,7 @@ record). Edit their name, photo and designation there. The approved message text
 
 ### 3.8 Add a news item
 
-In `assets/js/content.js`, add an object to the `news` array:
+In `assets/js/news.js`, add an object to the `news` array:
 
 ```js
 news: [
@@ -254,7 +289,7 @@ Until items exist, a clear **empty state** is shown — no fictional news is dis
 ### 3.9 Add a PDF (or other document)
 
 1. Copy the file into `assets/documents/` (e.g. `assets/documents/programme-guide.pdf`).
-2. In `assets/js/content.js`, add or edit an entry in the `downloads` array:
+2. In `assets/js/downloads.js`, add or edit a section in the `downloads` array:
 
 ```js
 {
@@ -264,7 +299,7 @@ Until items exist, a clear **empty state** is shown — no fictional news is dis
   format: "PDF",                       // or leave "" if unknown
   size: "1.2 MB",                      // only fill in if known
   url: "assets/documents/programme-guide.pdf",
-  specialisationIds: ["sp-01"]         // optional
+  specialisationIds: ["automobile-technology"]   // optional
 }
 ```
 
@@ -273,7 +308,7 @@ Only set `url` to a file that **actually exists**. Entries with an empty `url` a
 
 ### 3.10 Change/rename a specialisation
 
-Rename the specialisation in **one place**: `assets/js/content.js` (`specialisations[].name`).
+Rename the specialisation in **one place**: `assets/js/specialisations.js` (`specialisations[].name`).
 That name drives the cards, the specialisation page's `<h1>`, breadcrumb and title, **and** the
 existing navigation dropdown and footer link lists on every page (those links are tagged with
 `data-sp-link` and refreshed at runtime).
@@ -282,12 +317,12 @@ Each page also ships the same names as static HTML in its nav and footer so the 
 with JavaScript disabled. Those static copies are only the **no-JS fallback** — you do not have to
 edit them, though you may update them to match if you want the no-JS view to show the new name.
 The specialisation page file (`pages/automobile-technology.html`) and its `pageUrl` value in
-`content.js` do not need to change unless the URL itself changes.
+`specialisations.js` do not need to change unless the URL itself changes.
 
 ### 3.11 Edit the Academic overview tiles
 
 The four cards in the home page **Academic overview** section are driven by the
-`academicOverview` array in `assets/js/content.js`. Each entry has:
+`academicOverview` array in `assets/js/specialisations.js`. Each entry has:
 
 ```js
 {
@@ -319,7 +354,8 @@ There is intentionally **no contact form**, because the site has no backend.
 
 ## 5. Deployment to a static host
 
-1. Edit `content.js` / `staff.js` locally and preview (section 2).
+1. Edit the data files (`content.js`, `specialisations.js`, `research.js`, `news.js`,
+   `downloads.js`, `staff.js`) locally and preview (section 2).
 2. Upload the entire `department-website/` folder to your web space (FTP/SFTP, or a Git-based
    static host such as Netlify).
 3. Ensure `index.html` is served at the site root.
@@ -344,7 +380,7 @@ No npm install, no build command and no environment variables are required.
   1199, 1200, 1399, 1400 and 1920 px (no horizontal overflow at any width).
 - Touch targets are at least 44 px tall for buttons, navigation, form controls and disclosure
   summaries (inline text links are exempt per WCAG 2.5.5).
-- Semantic landmarks, one `<h1>` per page and logical heading order.
+- Semantic landmarks, one `<h1>` per page, logical heading order and a skip-to-content link.
 - Visible keyboard focus, `aria-current` on the active navigation link, labelled form controls,
   and dropdown menus that support hover, click and keyboard (Escape closes; focus is not trapped).
   Horizontally scrollable `.table-wrap` regions are focusable and labelled.

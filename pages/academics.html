@@ -9,6 +9,7 @@
   <link rel="icon" href="../assets/images/UOJ-Logo-Color-scaled.ico" type="image/x-icon">
 </head>
 <body data-base="../">
+  <a class="skip-link" href="#main">Skip to main content</a>
 
   <header class="site-header">
     <div class="masthead">
@@ -16,9 +17,9 @@
         <a class="brand" href="../index.html">
           <img class="brand__logo" src="../assets/images/UOJ-Logo-Color-scaled.png" alt="" width="48" height="48" decoding="async">
           <span class="brand__text">
-            <span class="brand__uni" data-render="institution-university">University of Jaffna</span>
-            <span class="brand__dept" data-render="institution-department">Department of Engineering Technology</span>
             <span class="brand__fac" data-render="institution-faculty">Faculty of Technology</span>
+            <span class="brand__dept" data-render="institution-department">Department of Engineering Technology</span>
+            <span class="brand__uni" data-render="institution-university">University of Jaffna</span>
           </span>
         </a>
         <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="primary-nav">
@@ -32,27 +33,20 @@
       <div class="container">
         <ul class="nav-list">
           <li><a href="../index.html">Home</a></li>
-          <li><a href="about.html">About</a></li>
+          <li><a href="about.html">About Us</a></li>
           <li class="has-dropdown">
-            <button class="nav-sub-toggle" type="button" aria-expanded="false" aria-controls="menu-specialisations">Specialisations</button>
+            <button class="nav-sub-toggle" type="button" aria-expanded="false" aria-controls="menu-specialisations">Academics</button>
             <ul class="dropdown" id="menu-specialisations">
-              <li><a href="automobile-technology.html" data-sp-link="sp-01">Automobile Technology</a></li>
-              <li><a href="construction-technology.html" data-sp-link="sp-02">Construction Technology</a></li>
-              <li><a href="electro-technology.html" data-sp-link="sp-03">Electro Technology</a></li>
+              <li><a href="automobile-technology.html" data-sp-link="automobile-technology">Automobile Technology</a></li>
+              <li><a href="construction-technology.html" data-sp-link="construction-technology">Construction Technology</a></li>
+              <li><a href="electro-technology.html" data-sp-link="electro-technology">Electro Technology</a></li>
             </ul>
           </li>
           <li><a href="staff.html">Staff</a></li>
-          <li><a href="academics.html" aria-current="page">Academics</a></li>
+          <li><a href="research.html">Our Research</a></li>
           <li><a href="news.html">News &amp; Events</a></li>
-          <li class="has-dropdown">
-            <button class="nav-sub-toggle" type="button" aria-expanded="false" aria-controls="menu-resources">Resources</button>
-            <ul class="dropdown" id="menu-resources">
-              <li><a href="research.html">Research</a></li>
-              <li><a href="facilities.html">Facilities</a></li>
-              <li><a href="downloads.html">Downloads</a></li>
-            </ul>
-          </li>
-          <li><a href="contact.html">Contact</a></li>
+          <li><a href="downloads.html">E-Resources</a></li>
+          <li><a href="contact.html">Contact Us</a></li>
         </ul>
       </div>
     </nav>
@@ -164,8 +158,9 @@
       <div class="footer__brand-block">
         <img class="footer__logo" src="../assets/images/UOJ-Logo-Black-White-scaled.png" alt="" width="72" height="72" loading="lazy" decoding="async">
         <div class="footer__brandtext">
-          <p class="footer__brand">Department of Engineering Technology</p>
-          <p class="footer__text">Faculty of Technology, University of Jaffna. This site presents the department's three specialisations, staff and academic information.</p>
+          <span class="footer__brand-fac" data-render="institution-faculty">Faculty of Technology</span>
+          <span class="footer__brand" data-render="institution-department">Department of Engineering Technology</span>
+          <span class="footer__brand-uni" data-render="institution-university">University of Jaffna</span>
         </div>
       </div>
       <div>
@@ -173,18 +168,28 @@
         <ul class="footer__list">
           <li><a href="about.html">About the department</a></li>
           <li><a href="staff.html">Staff directory</a></li>
-          <li><a href="academics.html">Academics</a></li>
-          <li><a href="contact.html">Contact</a></li>
+          <li><a href="research.html">Our Research</a></li>
+          <li><a href="contact.html">Contact Us</a></li>
         </ul>
       </div>
       <div>
         <h2 class="footer__title">Specialisations</h2>
         <ul class="footer__list">
-          <li><a href="automobile-technology.html" data-sp-link="sp-01">Automobile Technology</a></li>
-          <li><a href="construction-technology.html" data-sp-link="sp-02">Construction Technology</a></li>
-          <li><a href="electro-technology.html" data-sp-link="sp-03">Electro Technology</a></li>
+          <li><a href="automobile-technology.html" data-sp-link="automobile-technology">Automobile Technology</a></li>
+          <li><a href="construction-technology.html" data-sp-link="construction-technology">Construction Technology</a></li>
+          <li><a href="electro-technology.html" data-sp-link="electro-technology">Electro Technology</a></li>
         </ul>
       </div>
+      <div>
+        <h2 class="footer__title">External links</h2>
+        <ul class="footer__list">
+          <li><a href="http://eugc.ac.lk/rag/" target="_blank" rel="noopener noreferrer">Ragging Complaint Portal</a></li>
+          <li><a href="https://scholar.google.com/citations?hl=en&amp;view_op=search_authors&amp;mauthors=jaffna" target="_blank" rel="noopener noreferrer">Staff in Google Scholar</a></li>
+          <li><a href="http://www.ugc.ac.lk/" target="_blank" rel="noopener noreferrer">University Grants Commission</a></li>
+          <li><a href="http://www.mohe.gov.lk/" target="_blank" rel="noopener noreferrer">Ministry of Higher Education</a></li>
+        </ul>
+      </div>
+      <div data-render="footer-contact"></div>
     </div>
     <div class="container footer__bottom">
       <p>&copy; <span data-current-year>2026</span> Department of Engineering Technology, Faculty of Technology - <a href="https://jfn.ac.lk/" target="_blank" rel="noopener noreferrer">University of Jaffna</a>.</p>
@@ -192,6 +197,10 @@
   </footer>
 
   <script src="../assets/js/content.js" defer></script>
+  <script src="../assets/js/specialisations.js" defer></script>
+  <script src="../assets/js/research.js" defer></script>
+  <script src="../assets/js/news.js" defer></script>
+  <script src="../assets/js/downloads.js" defer></script>
   <script src="../assets/js/staff.js" defer></script>
   <script src="../assets/js/main.js" defer></script>
 </body>
