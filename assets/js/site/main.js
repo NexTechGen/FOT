@@ -1,20 +1,32 @@
-/* ============================================================================
- * main.js — the site engine (do not edit)
- * Department of Engineering Technology, Faculty of Technology, University of Jaffna
- *
- * This file makes the menu and pages work. Please do NOT change it.
- * To change the website text, edit these files instead:
- *   content.js, specialisations.js, research.js, news.js, downloads.js, staff.js
- *
- * Full help: see docs/ADMIN_GUIDE.md
- * ==========================================================================*/
+/* main.js — site engine: builds the navigation, page content and footer.
+ * What this file is for: the code that turns the data files into pages. It
+ *   builds the header, navigation, footer, cards, the staff directory with its
+ *   search and filter boxes, and the specialisation pages. It holds none of
+ *   the department's own text.
+ * What you can edit: nothing here for ordinary content changes. Editable
+ *   content lives in content.js, specialisations.js, research.js, news.js,
+ *   downloads.js and staff.js — see docs/ADMIN_GUIDE.md. Only the webperson
+ *   should change this file, and only to add or fix behaviour.
+ * How the file is organised:
+ *   0. Data references and helpers  — loads the data files and checks that
+ *      every link and image address is safe to use.
+ *   1. Reusable component builders  — the shared HTML snippets (cards, lists,
+ *      buttons, empty states) used by the pages.
+ *   2. Rendering functions           — fills each part of a page: home page
+ *      sections, About page, contact details, facilities, news and downloads.
+ *   3. Specialisation page rendering — the page for each specialisation.
+ *   4. Staff directory               — the staff list with its search box,
+ *      specialisation filter and reset button.
+ *   5. Navigation                    — the main menu, the dropdown and the
+ *      mobile menu button.
+ *   6. Small page utilities          — the current year and small helpers.
+ *   7. Bootstrap                     — starts everything when the page loads.
+ */
 
 (function () {
   "use strict";
 
-  /* --------------------------------------------------------------------------
-   * 0. Data references + tiny helpers
-   * ------------------------------------------------------------------------*/
+  // 0. Data references and helpers
   var CONTENT = window.DEPARTMENT_CONTENT || {};
   var STAFF = window.DEPARTMENT_STAFF || { categories: [], members: [] };
   var SPECIALISATIONS = CONTENT.specialisations || [];
@@ -23,13 +35,12 @@
   var NEWS = CONTENT.news || [];
   var RESEARCH = CONTENT.research || { items: [] };
 
-  /* URL schemes that are acceptable for each kind of field. Anything else
-   * (javascript:, vbscript:, data:, ...) is rejected so a data file can never
-   * inject executable links. */
+  // Only http/https/mailto/tel are allowed for links and http/https for
+  // images; anything else is rejected so a data file cannot inject a link.
   var LINK_SCHEMES = { "http:": true, "https:": true, "mailto:": true, "tel:": true };
   var IMAGE_SCHEMES = { "http:": true, "https:": true };
 
-  /** Return the lower-case scheme (e.g. "https:") of a URL, or "" if none. */
+  /** Lower-case scheme of a URL (e.g. "https:"), or "" when there is none. */
   function urlScheme(value) {
     var match = /^([a-z][a-z0-9+.\-]*):/i.exec(value);
     return match ? match[1].toLowerCase() + ":" : "";
@@ -42,9 +53,9 @@
 
   /**
    * Resolve a URL from the data files for the current page depth.
-   * kind: "link" (default) allows http/https/mailto/tel; "image" allows only
-   * http/https. Returns "" for missing or disallowed values so callers can
-   * fall back to an unavailable state instead of emitting a broken link.
+   * kind: "link" (default) allows http/https/mailto/tel, "image" allows only
+   * http/https. Missing or disallowed values return "" so callers can fall back
+   * to an unavailable state instead of a broken link.
    */
   function resolve(path, kind) {
     if (path == null) {
@@ -107,12 +118,8 @@
     });
   }
 
-  /* --------------------------------------------------------------------------
-   * Inline SVG icons (Lucide, ISC licence), stored as <path> data so they can
-   * be created with the DOM API only — no innerHTML is ever used. content.js
-   * may set `icon` on academic tiles to any name below; anything unknown
-   * falls back to DEFAULT_ICON.
-   * ------------------------------------------------------------------------*/
+  // Inline SVG icons (Lucide, ISC licence) built with the DOM API only — no
+  // innerHTML is ever used.
   var SVG_NS = "http://www.w3.org/2000/svg";
   var DEFAULT_ICON = "graduation-cap";
   var ICONS = {
@@ -183,11 +190,8 @@
     ]
   };
 
-  /* --------------------------------------------------------------------------
-   * Brand/social icons (Simple Icons, CC0). These are filled single-path
-   * glyphs drawn on a 24x24 viewBox, rendered with `fill: currentColor`
-   * instead of the stroked app icons above.
-   * ------------------------------------------------------------------------*/
+  // Brand/social icons (Simple Icons, CC0): filled single-path glyphs drawn
+  // with fill: currentColor.
   var BRAND_ICONS = {
     facebook:
       "M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z",
@@ -271,6 +275,38 @@
     return typeof value === "string" && /[0-9]/.test(value) && value.indexOf("[") === -1;
   }
 
+  /**
+   * Normalise the contact address into its parts. `address` may be a comma
+   * separated string or an array of lines; trailing punctuation is dropped
+   * here and added back by the renderers.
+   */
+  function addressParts(value) {
+    if (!value) {
+      return [];
+    }
+    var raw = Array.isArray(value) ? value : String(value).split(",");
+    return raw
+      .map(function (part) {
+        return String(part == null ? "" : part).trim().replace(/[.,;]+$/, "");
+      })
+      .filter(Boolean);
+  }
+
+  /** The address as one sentence: "Ariviyal Nagar, Kilinochchi, Sri Lanka." */
+  function addressSentence(parts) {
+    if (!parts.length) {
+      return "";
+    }
+    var text = parts.join(", ");
+    return /[.!?]$/.test(text) ? text : text + ".";
+  }
+
+  /** Faculty and university as one line, e.g. "Faculty of Technology, University of Jaffna". */
+  function institutionLine() {
+    var institution = CONTENT.institution || {};
+    return [institution.faculty, institution.university].filter(Boolean).join(", ");
+  }
+
   function formatDate(iso) {
     var months = [
       "January", "February", "March", "April", "May", "June",
@@ -306,9 +342,8 @@
   }
 
   /**
-   * Every document a specialisation lists as a "related download". These are
-   * shown on the specialisation's own page AND collected into the E-Resources
-   * "Programme Documents" section, so they stay in sync automatically.
+   * Documents a specialisation lists as related downloads: shown on its own page
+   * and collected into the E-Resources "Programme Documents" section.
    */
   function specialisationDownloads() {
     var entries = [];
@@ -329,31 +364,11 @@
     return entries;
   }
 
-  /**
-   * Every download entry across every section (including the specialisation
-   * documents), flattened — used for id lookups from specialisation pages.
-   */
-  function allDownloads() {
-    var entries = [];
-    var seen = {};
-    function add(entry) {
-      if (!entry || entry.id == null || seen[entry.id]) {
-        return;
-      }
-      seen[entry.id] = true;
-      entries.push(entry);
-    }
-    specialisationDownloads().forEach(add);
-    (DOWNLOADS || []).forEach(function (section) {
-      ((section && section.documents) || []).forEach(add);
-    });
-    return entries;
-  }
 
   /**
-   * Ordered download sections for the E-Resources page: the auto-collected
-   * "Programme Documents" first, then every admin-defined section in order.
-   * Empty sections are dropped so no heading is shown without content.
+   * Download sections for the E-Resources page: auto-collected "Programme
+   * Documents" first, then the admin-defined sections. Empty sections are
+   * dropped so no heading is shown without content.
    */
   function downloadSections() {
     var spDocs = specialisationDownloads();
@@ -368,16 +383,6 @@
       sections.push(section);
     });
     return sections;
-  }
-
-  function getDownloadById(id) {
-    var entries = allDownloads();
-    for (var i = 0; i < entries.length; i += 1) {
-      if (entries[i].id === id) {
-        return entries[i];
-      }
-    }
-    return null;
   }
 
   function getStaffById(id) {
@@ -424,10 +429,7 @@
     });
   }
 
-  /**
-   * True when the viewport is in the mobile-navigation range. This matches the
-   * CSS breakpoint exactly: the collapsible nav is used below lg (992px).
-   */
+  /** True in the mobile-navigation range (below the lg breakpoint of 992px). */
   function isSmallScreen() {
     if (typeof window.matchMedia === "function") {
       return window.matchMedia("(max-width: 991.98px)").matches;
@@ -442,9 +444,7 @@
       : false;
   }
 
-  /* --------------------------------------------------------------------------
-   * 1. Reusable component builders
-   * ------------------------------------------------------------------------*/
+  // 1. Reusable component builders
 
   function staffAvatar(member) {
     var wrap = el("span", { cls: "avatar" });
@@ -460,9 +460,7 @@
           decoding: "async"
         }
       });
-      // A broken photo falls back to the same initials avatar used when no
-      // photo is supplied. `once` removes the listener after the first error,
-      // so there is no possibility of an error loop.
+    // A broken photo falls back to the initials avatar; `once` prevents an error loop.
       img.addEventListener(
         "error",
         function () {
@@ -499,9 +497,7 @@
     });
   }
 
-  /**
-   * Staff card. variant: "full" (directory) or "compact".
-   */
+  /** Staff card. variant: "full" (directory) or "compact". */
   function buildStaffCard(member, variant) {
     var card = el("article", { cls: "staff-card" });
     card.id = "profile-" + member.id;
@@ -576,9 +572,8 @@
   }
 
   /**
-   * Link to a person's full entry on the staff directory. Only shown on the
-   * specialisation pages, where each card is a short summary rather than the
-   * profile itself.
+   * Link to a person's full entry on the staff directory; only shown on the
+   * specialisation pages, where the card is a short summary.
    */
   function staffProfileLink(member) {
     if (!document.body.getAttribute("data-specialisation")) {
@@ -609,9 +604,7 @@
         decoding: "async"
       }
     });
-    // A supplied-but-broken photo must not leave a broken image. `once` removes
-    // the listener after the first error, so there can never be an error loop
-    // even if the placeholder itself fails to load.
+    // A broken photo must not leave a broken image; `once` prevents an error loop.
     if (placeholder && imgSrc !== placeholder) {
       portrait.addEventListener(
         "error",
@@ -747,9 +740,7 @@
     ] });
   }
 
-  /* --------------------------------------------------------------------------
-   * 2. Rendering functions (each no-ops when its target is absent)
-   * ------------------------------------------------------------------------*/
+  // 2. Rendering functions (each no-ops when its target is absent)
 
   function renderFacultyIntro() {
     var target = document.querySelector('[data-render="faculty-intro"]');
@@ -766,9 +757,8 @@
   }
 
   /**
-   * Faculty photograph. The markup ships with the placeholder SVG as a no-JS
-   * fallback; when the data supplies a usable image, the src/alt are updated so
-   * content.js stays the single editable source.
+   * Faculty photograph: the placeholder SVG stays as the no-JS fallback and a
+   * usable data value updates src/alt, so content.js is the single source.
    */
   function renderFacultyMedia() {
     var targets = document.querySelectorAll('[data-render="faculty-image"]');
@@ -807,9 +797,8 @@
   }
 
   /**
-   * Department photograph. Shown in the homepage department section and the
-   * About page's academic-organisation panel. The placeholder SVG is the no-JS
-   * fallback; a usable data value updates src/alt.
+   * Department photograph, shown on the homepage and the About page. The
+   * placeholder SVG is the no-JS fallback; a usable value updates src/alt.
    */
   function renderDepartmentMedia() {
     var targets = document.querySelectorAll('[data-render="department-image"]');
@@ -829,16 +818,16 @@
   }
 
   /**
-   * Institution / faculty / department identity text. This is the single
-   * editable source for the masthead brand, the homepage hero headings and the
-   * contact page identity line. The static HTML ships with the same wording so
-   * the pages still read correctly without JavaScript.
+   * Institution / faculty / department identity text — the single source for the
+   * masthead brand, the homepage headings and the contact page identity line.
    */
   function renderIdentity() {
     var institution = CONTENT.institution || {};
     var faculty = CONTENT.faculty || {};
     var department = CONTENT.department || {};
-    var contact = CONTENT.contact || {};
+    // The contact page names the department and the faculty with the university
+    // ("Faculty of Technology, University of Jaffna"), so it is built from the
+    // shared institution names instead of being stored twice.
     var fields = [
       ["institution-university", institution.university],
       ["institution-department", institution.department],
@@ -846,8 +835,8 @@
       ["faculty-label", faculty.label],
       ["faculty-heading", faculty.heading],
       ["department-heading", department.heading],
-      ["contact-department-line", contact.departmentLine],
-      ["contact-faculty-line", contact.facultyLine]
+      ["contact-department-line", institution.department],
+      ["contact-faculty-line", institutionLine()]
     ];
     fields.forEach(function (pair) {
       if (pair[1] == null || pair[1] === "") {
@@ -860,10 +849,9 @@
   }
 
   /**
-   * Specialisation names in the existing navigation and footer link lists
-   * (identified by data-sp-link="sp-0X"). The visible text is always refreshed
-   * from the data; the link target is only rewritten when it resolves to a
-   * valid URL, so a bad value can never break the (no-JS-equivalent) links.
+   * Specialisation names in the navigation and footer link lists. The text is
+   * always refreshed from the data; a link target is only rewritten when it
+   * resolves to a valid URL.
    */
   function renderSpecialisationNav() {
     document.querySelectorAll("[data-sp-link]").forEach(function (node) {
@@ -935,10 +923,9 @@
   }
 
   /**
-   * About page body text. The academic-organisation block (heading, intro,
-   * overview link, image) is fully driven from CONTENT.about.organisation;
-   * the specialisation links underneath come from renderSpecialisationLinks.
-   * Vision / mission / history each no-op when their target is absent.
+   * About page body text. The academic-organisation block is driven from
+   * CONTENT.about.organisation and the specialisation links come from
+   * renderSpecialisationLinks. Each block no-ops when its target is absent.
    */
   function renderAbout() {
     var about = CONTENT.about || {};
@@ -1015,10 +1002,8 @@
     initialiseSpecialisationCarousel(target, grid);
   }
 
-  // Small screens show one specialisation card at a time, centred, swiped
-  // left/right. The dots below track the scroll position and jump to a card.
-  // CSS hides the dots from 768px up, where the same grid lays the cards out
-  // as columns instead.
+    // Small screens show one specialisation card at a time; the dots track the
+    // scroll position and jump to a card. CSS shows the dots below 768px only.
   function initialiseSpecialisationCarousel(target, scroller) {
     var cards = Array.prototype.slice.call(scroller.children);
     if (cards.length < 2) {
@@ -1050,6 +1035,20 @@
       return max <= 0 ? 0 : Math.round((scroller.scrollLeft / max) * (cards.length - 1));
     }
 
+    // The dots keep the requested position while a smooth scroll is running.
+    var pendingIndex = null;
+    var pendingTimer = null;
+
+    function setActive(index) {
+      buttons.forEach(function (button, i) {
+        if (i === index) {
+          button.setAttribute("aria-current", "true");
+        } else {
+          button.removeAttribute("aria-current");
+        }
+      });
+    }
+
     var buttons = cards.map(function (card, index) {
       var title = card.querySelector(".card__title");
       var name = (title && title.textContent) || "Specialisation " + (index + 1);
@@ -1058,6 +1057,17 @@
         attrs: { type: "button", "aria-label": "Show: " + name }
       });
       button.addEventListener("click", function () {
+    // Mark the dot straight away; the scroll event only re-syncs the dots once the
+    // smooth scroll has finished.
+        pendingIndex = index;
+        setActive(index);
+        if (pendingTimer) {
+          window.clearTimeout(pendingTimer);
+        }
+        pendingTimer = window.setTimeout(function () {
+          pendingIndex = null;
+          sync();
+        }, 800);
         scroller.scrollTo({
           left: offsetFor(index),
           behavior: prefersReducedMotion() ? "auto" : "smooth"
@@ -1071,13 +1081,11 @@
 
     function sync() {
       var active = currentIndex();
-      buttons.forEach(function (button, index) {
-        if (index === active) {
-          button.setAttribute("aria-current", "true");
-        } else {
-          button.removeAttribute("aria-current");
-        }
-      });
+      if (pendingIndex !== null && active !== pendingIndex) {
+        return;
+      }
+      pendingIndex = null;
+      setActive(active);
     }
 
     var ticking = false;
@@ -1117,13 +1125,9 @@
     });
   }
 
-  // Academics > "Study areas and specialisations": each specialisation is a
-  // single browsable card whose whole surface is the link, so the hit area
-  // matches what is visible (the footer hint sits inside the same anchor).
-  // No image here — the cards carry the name, description and curriculum link.
-  // On small screens the cards swiper left/right exactly like the home page
-  // specialisation cards (same .sp-scroller / .sp-dots behaviour). Falls back
-  // to a static card when a page URL is unavailable.
+    // Academics > "Study areas and specialisations": each card's whole surface is
+    // the link, so the hit area matches what is visible. Small screens swipe
+    // between the cards like the home page specialisation cards.
   function renderSpecialisationShowcase() {
     var target = document.querySelector('[data-render="specialisation-showcase"]');
     if (!target) {
@@ -1184,9 +1188,9 @@
   }
 
   /**
-   * Build one research/publication entry as a publication card.
+   * Build one research/publication entry as a card.
    * entry: { title, authors, type, venue, year, status, specialisationIds, url }
-   * `withSpec` adds specialisation tags (used on the Research page).
+   * `withSpec` adds the specialisation tags (used on the Research page).
    */
   function buildResearchEntry(entry, withSpec) {
     var card = el("li", { cls: "research-entry" });
@@ -1248,8 +1252,7 @@
     return card;
   }
 
-  /** Look up a research entry's specialisation names for the specialisation
-   *  page filter (a specialisation page calls this with its own id). */
+  /** A research entry's specialisation names, for the specialisation page filter. */
   function researchEntryHasSpecialisation(entry, spId) {
     return (entry.specialisationIds || []).indexOf(spId) !== -1;
   }
@@ -1290,7 +1293,7 @@
       if (RESEARCH.intro) {
         target.appendChild(el("p", { cls: "prose", text: RESEARCH.intro }));
       }
-      target.appendChild(el("div", { cls: "research-results", attrs: { id: "research-results" } }));
+      target.appendChild(el("div", { attrs: { id: "research-results" } }));
     });
     initResearchFilters();
     applyResearchFilter();
@@ -1521,8 +1524,8 @@
   }
 
   /**
-   * Full-notice modal. One shared <dialog> is created lazily and filled with
-   * the clicked notice: subject, full body and an optional download link.
+   * Full-notice modal: one shared <dialog>, created lazily and filled with the
+   * clicked notice (subject, full body and an optional download link).
    */
   var newsDialog = null;
 
@@ -1554,8 +1557,7 @@
 
     dialog.appendChild(shell);
 
-    // Older browsers without <dialog> support only get the plain "open"
-    // attribute, so closing has to fall back to removing it.
+    // Older browsers without <dialog> support only get the plain "open" attribute.
     var closeDialog = function () {
       if (typeof dialog.close === "function") {
         dialog.close();
@@ -1579,8 +1581,8 @@
         try {
           history.replaceState(null, "", window.location.pathname + window.location.search);
         } catch (err) {
-          // history.replaceState can throw on file:// or sandboxed documents;
-          // falling back to clearing the hash directly keeps things working.
+    // history.replaceState can throw on file:// documents, so fall back to clearing
+    // the hash.
           window.location.hash = "";
         }
       }
@@ -1638,8 +1640,7 @@
     }
 
     if (typeof dialog.showModal === "function") {
-      // showModal() throws InvalidStateError if the dialog is already open
-      // (e.g. a hashchange fires while the modal is showing).
+    // showModal() throws InvalidStateError if the dialog is already open.
       if (!dialog.open) {
         dialog.showModal();
       }
@@ -1709,7 +1710,7 @@
             el("span", {
               cls: "tile__more",
               children: [
-                el("span", { cls: "tile__more-label", text: "Learn more" }),
+                el("span", { text: "Learn more" }),
                 el("span", {
                   cls: "tile__more-arrow",
                   children: [svgIcon("chevron-right")]
@@ -1727,10 +1728,9 @@
   }
 
   /**
-   * Academics page body (pages/academics.html). Every field no-ops when its
-   * target is absent; the static HTML inside each hook remains the no-JS
-   * fallback. The showcase and the specialisation tags are built from
-   * SPECIALISATIONS so renamed specialisations stay in sync automatically.
+   * Academics page body. Every field no-ops when its target is absent and the
+   * static HTML stays as the no-JS fallback. The showcase and the specialisation
+   * tags are built from SPECIALISATIONS so renames stay in sync.
    */
   function renderAcademicsPage() {
     var page = CONTENT.academics || {};
@@ -1804,10 +1804,7 @@
     }
   }
 
-  /**
-   * One collapsible E-Resources section: a <details class="doc-group"> with a
-   * <summary> heading and the document list inside.
-   */
+  /** One collapsible E-Resources section: a <details class="doc-group"> with the documents inside. */
   function downloadGroup(section, openByDefault) {
     var details = el("details", { cls: "doc-group", attrs: { id: section.id || null } });
     if (openByDefault) {
@@ -1883,14 +1880,14 @@
 
       // Address — the parts are comma-separated into a single readable value.
       var addrValue;
-      var addrLines = (c.address || []).filter(Boolean);
-      if (!addrLines.length) {
+      var addrParts = addressParts(c.address);
+      if (!addrParts.length) {
         addrValue = el("span", { cls: "placeholder-note", text: "[Address to be added]" });
       } else {
-        var addrText = addrLines.join(", ");
+        var addrText = addressSentence(addrParts);
         addrValue = addrText.indexOf("[") > -1
           ? el("span", { cls: "placeholder-note", text: addrText })
-          : el("span", { text: addrText });
+          : el("span", { cls: "contact-details__address", text: addrText });
       }
       rows.appendChild(contactRow("map-pin", "Address", addrValue));
 
@@ -1942,20 +1939,23 @@
       target.appendChild(rows);
     });
 
-    // Location map (contact page aside). Renders an <iframe> from the embed URL
-    // in content.js; a blank/invalid URL shows a neutral placeholder instead of
-    // an empty frame.
+    // Location map (contact page aside). Renders an <iframe> from the embed URL in
+    // content.js; a blank or invalid URL shows a placeholder instead.
     var mapTarget = document.querySelector('[data-render="contact-map"]');
     if (mapTarget) {
       clear(mapTarget);
       var mapSrc = resolve(c.mapEmbedUrl, "link");
+      var mapNames = institutionLine();
+      var mapTitle = mapNames
+        ? "Map showing the location of the " + mapNames
+        : "Department location map";
       if (mapSrc) {
         mapTarget.appendChild(
           el("iframe", {
             cls: "contact-map__frame",
             attrs: {
               src: mapSrc,
-              title: c.mapTitle || "Department location map",
+              title: mapTitle,
               loading: "lazy",
               referrerpolicy: "no-referrer-when-downgrade",
               allowfullscreen: ""
@@ -1972,24 +1972,15 @@
     }
   }
 
-  /* --------------------------------------------------------------------------
-   * 2b. Footer contact block (every page)
-   *     Renders the footer "Contact us" column from CONTENT.contact — the SAME
-   *     block that drives the contact page — so the address, telephone, email
-   *     and social links live in one place. Both the column heading and its
-   *     content are produced here (the heading uses `title`, defaulting to
-   *     "Contact us"). Placeholders and unsafe URLs are handled exactly like the
-   *     contact page: real values become links, an unresolved value is shown as
-   *     plain text, and an unsupported social entry is skipped rather than
-   *     emitting a broken icon.
-   * ------------------------------------------------------------------------*/
+  // 2b. Footer contact block (every page) — rendered from the same contact
+  //     data as the contact page, so the heading and the content always match.
   function renderFooterContact() {
     var targets = document.querySelectorAll('[data-render="footer-contact"]');
     if (!targets.length) {
       return;
     }
     var c = CONTENT.contact || {};
-    var lines = c.address || [];
+    var parts = addressParts(c.address);
 
     targets.forEach(function (target) {
       clear(target);
@@ -2001,15 +1992,23 @@
 
       var box = el("div", { cls: "footer__address" });
 
-      // Address — one <br>-separated line per entry.
-      if (lines.length) {
+    // Address: one part per line, punctuated as a postal address (a comma after
+    // every line and a full stop after the last). The whole address links to the
+    // Contact page.
+      if (parts.length) {
         var p = el("p");
-        lines.forEach(function (line, index) {
-          if (index > 0) {
-            p.appendChild(el("br"));
-          }
-          p.appendChild(document.createTextNode(String(line)));
+        var addrLink = el("a", {
+          cls: "footer__address-link",
+          attrs: { href: resolve("pages/contact.html", "link") }
         });
+        parts.forEach(function (part, index) {
+          if (index > 0) {
+            addrLink.appendChild(el("br"));
+          }
+          var last = index === parts.length - 1;
+          addrLink.appendChild(document.createTextNode(part + (last ? "." : ",")));
+        });
+        p.appendChild(addrLink);
         box.appendChild(p);
       }
 
@@ -2048,8 +2047,7 @@
         return item && brandIcon(item.icon) && resolve(item.url, "link");
       });
 
-      // Nothing to show yet (the department has not supplied the address,
-      // telephone or email) — say so instead of leaving a blank column.
+    // Nothing to show yet — say so instead of leaving a blank column.
       if (!box.childNodes.length) {
         box.appendChild(
           el("p", { cls: "footer__address-pending", text: "[Contact details to be added]" })
@@ -2083,9 +2081,7 @@
     });
   }
 
-  /* --------------------------------------------------------------------------
-   * 3. Specialisation page rendering
-   * ------------------------------------------------------------------------*/
+  // 3. Specialisation page rendering
   function renderSpecialisationPage(spId) {
     var sp = getSpecialisationById(spId);
     if (!sp) {
@@ -2295,9 +2291,7 @@
     }
   }
 
-  /* --------------------------------------------------------------------------
-   * 4. Staff directory (search / filter / reset / empty state)
-   * ------------------------------------------------------------------------*/
+  // 4. Staff directory (search / filter / reset / empty state)
   function renderStaffGroups(container, members) {
     clear(container);
 
@@ -2347,8 +2341,7 @@
       addSection(category.label, group);
     });
 
-    // Anyone whose group heading is missing from the list above is still shown
-    // at the end, so a person can never quietly disappear from the directory.
+    // Anyone whose group heading is missing is still shown, so nobody disappears.
     var others = members.filter(function (member) {
       return grouped.indexOf(member) === -1;
     });
@@ -2444,9 +2437,7 @@
     window.addEventListener("hashchange", openProfileFromHash);
   }
 
-  /* --------------------------------------------------------------------------
-   * 5. Navigation
-   * ------------------------------------------------------------------------*/
+  // 5. Navigation
   function closeAllDropdowns(except) {
     document.querySelectorAll(".has-dropdown.is-open").forEach(function (item) {
       if (item === except) {
@@ -2524,8 +2515,7 @@
         }
       });
 
-      // Keep aria-expanded in sync with the CSS hover enhancement so screen
-      // readers agree with what mouse users see.
+    // Keep aria-expanded in sync with the CSS hover enhancement.
       parent.addEventListener("mouseenter", function () {
         if (!isSmallScreen() && canHover()) {
           button.setAttribute("aria-expanded", "true");
@@ -2560,10 +2550,8 @@
       }
     });
 
-    // Outside click closes dropdowns (desktop) and the mobile panel.
-    // NOTE: #primary-nav lives OUTSIDE .site-header, so the nav itself must be
-    // excluded too — otherwise tapping a sub-menu toggle inside the open panel
-    // would immediately close the whole panel.
+    // Outside click closes dropdowns (desktop) and the mobile panel. NOTE:
+    // #primary-nav lives OUTSIDE .site-header, so the nav itself is excluded too.
     document.addEventListener("click", function (event) {
       var target = event.target;
       if (!target || !target.closest) {
@@ -2595,7 +2583,7 @@
     }
 
     // Crossing the lg breakpoint resets nav state so the desktop layout never
-    // inherits a half-open mobile panel (or a stale dropdown).
+    // inherits a half-open mobile panel.
     if (typeof window.matchMedia === "function") {
       var breakpoint = window.matchMedia("(min-width: 992px)");
       var onBreakpointChange = function () {
@@ -2609,9 +2597,7 @@
     }
   }
 
-  /* --------------------------------------------------------------------------
-   * 6. Small page utilities
-   * ------------------------------------------------------------------------*/
+  // 6. Small page utilities
   function setCurrentYear() {
     document.querySelectorAll("[data-current-year]").forEach(function (node) {
       node.textContent = String(new Date().getFullYear());
@@ -2619,9 +2605,8 @@
   }
 
   /**
-   * Keep the CSS variable for the sticky mobile masthead height in sync with
-   * the real measured height (the brand text can wrap at very narrow widths).
-   * The masthead, the nav panel and the breadcrumbs all key off this value.
+   * Keep the CSS variable for the sticky mobile masthead height in sync with the
+   * measured height; the masthead, nav panel and breadcrumbs key off it.
    */
   function initStickyHeader() {
     var header = document.querySelector(".site-header");
@@ -2642,10 +2627,7 @@
     window.addEventListener("orientationchange", apply);
   }
 
-  /**
-   * Progressive enhancement for horizontally scrollable tables: expose each
-   * .table-wrap as a labelled, keyboard-focusable scroll region.
-   */
+  /** Progressive enhancement: expose each .table-wrap as a labelled, focusable scroll region. */
   function enhanceTables() {
     document.querySelectorAll(".table-wrap").forEach(function (wrap) {
       if (!wrap.hasAttribute("tabindex")) {
@@ -2662,9 +2644,7 @@
     });
   }
 
-  /* --------------------------------------------------------------------------
-   * 7. Bootstrap
-   * ------------------------------------------------------------------------*/
+  // 7. Bootstrap
   function boot() {
     // Enables the JS-driven collapsible mobile nav (no-JS keeps links visible).
     document.body.classList.add("has-js");

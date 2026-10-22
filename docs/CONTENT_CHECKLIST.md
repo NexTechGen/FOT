@@ -12,7 +12,7 @@ taking the site offline is required.
 > **between the quotes** `" "`, replace any `[square-bracket]` placeholder with the real wording,
 > keep every comma, save the file and re-upload it. The same rules are written at the top of every
 > content file. For the full admin manual (every page, every file, publishing steps), see
-> **`docs/ADMIN_GUIDE.md`**. `main.js` is not an admin file.
+> **`docs/ADMIN_GUIDE.md`**. `site/main.js` is not an admin file.
 
 Legend: ☐ = outstanding, ✔ = supplied (tick when done).
 
@@ -135,16 +135,15 @@ Legend: ☐ = outstanding, ✔ = supplied (tick when done).
 ## 11. Contact
 
 - File: `assets/js/content.js`
-- ☐ Official postal address — **left empty on purpose**. The Contact page shows
-  "[Address to be added]" and the footer contact column leaves the address out entirely, so no
-  unverified address is published. Add the lines to `contact.address` (one line per entry).
-- ☐ Official department email address — **left empty on purpose**. The Contact page shows
-  "[Email to be added]" and the footer contact column leaves the email out, so no unverified
-  address is published. Add the real address to `contact.email` (it then becomes a working
-  `mailto:` link).
-- ☐ Official telephone number — **left empty on purpose**. The Contact page shows
-  "[Telephone to be added]" until `contact.phone` is filled in.
-- ☐ Location/map link — add only if the location is verified.
+- ☑ Official postal address — **supplied**: "Ariviyal Nagar", "Kilinochchi", "Sri Lanka"
+  (in `contact.address`, one entry per line; printed as "Ariviyal Nagar, Kilinochchi, Sri Lanka.").
+  Shown on the Contact page and in the footer.
+- ☑ Official department email address — **supplied**: `tech@univ.jfn.ac.lk` (in `contact.email`,
+  shown as a working `mailto:` link).
+- ☑ Official telephone number — **supplied**: "(+94) 21-313-5880" (in `contact.phone`, shown as a
+  working `tel:` link).
+- ☐ Location/map link — the map embed is in place; confirm the pin still marks the correct
+  building before launch.
 - ☐ Visiting instructions (optional).
 
 ## 12. Other supplied media
@@ -162,8 +161,9 @@ Search the project for the following strings before launch:
 - `[Insert the approved ...]` (faculty intro, department vision / mission / history, research,
   visiting instructions)
 - `[department email address]`, `[telephone number]`, `[Building / street]`, `[City]`, `[Postal code]`
-- `[Address to be added]`, `[Email to be added]`, `[Telephone to be added]`, `[Map link pending
-  verification]`, `[Verify location before adding a map link]`
+- `[Address to be added]`, `[Email to be added]`, `[Telephone to be added]` (these are only the
+  fallbacks shown when a contact value is cleared — the contact details themselves are supplied),
+  `[Map link pending verification]`, `[Verify location before adding a map link]`
 - `[Short description of the ... specialisation.]`, `[Introduction to this specialisation.]`,
   `[Overview paragraph ...]`, `[Main study area ...]`
 - `[Curriculum area ...]`, `[Level / Year 01]`, `[Project or research area placeholder]`

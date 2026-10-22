@@ -1,50 +1,64 @@
-/* ============================================================================
- * specialisations.js — specialisation pages and the Academics page
- * Department of Engineering Technology
- * Faculty of Technology, University of Jaffna
- *
- * WHAT YOU CAN EDIT HERE
- *   Specialisation names, text and images ............ home page, menu, footer and each specialisation page
- *   Academic overview tiles .......................... home page
- *   Academics page content ........................... Academics page
- *
- * IMPORTANT: a specialisation name is also written in the menu and footer of
- * every page. If you rename one, ask your webperson to update those too.
- * The list of staff on each specialisation comes from staff.js automatically.
- *
- * THE CODES USED HERE
- *   "id" is the specialisation's own code (unique, do not reuse):
- *     automobile-technology
- *     construction-technology
- *     electro-technology
- *   Use these same codes in staff.js (specialisationIds) and research.js
- *   (specialisationIds) to link a person or a publication to a specialisation.
- *   "coordinatorStaffId" is the staff member's code from staff.js, e.g.
- *   "coordinator-automobile-technology".
- *
+/* specialisations.js — specialisation pages and the Academics page
+ * What this file is for: the three specialisations (Automobile Technology,
+ *   Construction Technology, Electro Technology) plus the academic overview
+ *   tiles on the home page and the content of the Academics page.
+ * 
+ * What you can edit: the specialisation names, text and images, the tiles and
+ *   the Academics page content. If you rename a specialisation, the menu and
+ *   footer of every page need the same update by the webperson. The staff on
+ *   each specialisation come from staff.js automatically.
+ * 
+ * The codes used here: "id" is the specialisation's own code (unique, do not
+ *   reuse) — automobile-technology, construction-technology, electro-technology.
+ *   Use the same codes in staff.js and research.js (specialisationIds).
+ *   "coordinatorStaffId" is the staff member's code from staff.js.
+ * 
+ * Each specialisation — one object per specialisation:
+ *   id                The specialisation's own code (see above).
+ *   name              The name shown on the cards, in the menu, in the footer
+ *                     and on the specialisation page.
+ *   pageUrl           The page that shows this specialisation.
+ *   description       One or two sentences for the card on the Academics page.
+ *   image / imageAlt  The picture on the card and its description.
+ *   coordinatorStaffId
+ *                     The staff code of the specialisation coordinator.
+ *   intro             The introduction shown at the top of the page.
+ *   overview          One or two paragraphs about the specialisation.
+ *   studyAreas        The list of main study areas.
+ *   curriculum        The subjects, grouped by year and semester: title is
+ *                     the year / semester heading, and each item in items has
+ *                     a name, a code and doc — the link to the subject PDF in
+ *                     assets/documents, or "" if there is no file yet.
+ *   curriculumNote    The note printed under the curriculum.
+ *   laboratoryIds     The codes of the laboratories used by the specialisation
+ *                     (the laboratory codes come from content.js).
+ *   research.summary  A short description of research and project activity.
+ *   downloads         The files shown on this page and collected into the
+ *                     E-Resources "Programme Documents" section: id, title,
+ *                     format, size and url (leave url blank until the file
+ *                     exists).
+ * 
+ * The academic overview tiles (home page) — each tile has a title, a
+ *   description, an icon and a link. Only set "url" to a page that exists.
+ *   Icon names: "graduation-cap", "book-open", "layers", "list-checks",
+ *   "folder-open", "file-text", "award", "users", "download".
+ * 
+ * The Academics page content — the overview intro and note, the study areas
+ *   intro, and the curriculum intro, prose, steps (meta, title, text) and
+ *   tagsLabel.
+ * 
  * Anything in [square brackets] is a placeholder to replace.
  * Full help: see docs/ADMIN_GUIDE.md
- * ==========================================================================*/
+ */
 
 window.DEPARTMENT_CONTENT = window.DEPARTMENT_CONTENT || {};
 
-/* --------------------------------------------------------------------------
- * The three specialisations
- *   - The "name" is shown on the cards, in the menu, in the footer and on the
- *     specialisation page. If you change it, ask your webperson to update the
- *     menu and footer too.
- *   - Do not change "shortName" - it is not used on the site.
- *   - "coordinatorStaffId" links to a staff member in staff.js.
- *   - The staff shown on each specialisation page come from staff.js
- *     automatically; do not list them here.
- *   - For each subject in "curriculum": give its name and code, and set "doc"
- *     to its PDF file in assets/documents (or "" if there is no file yet).
- * ------------------------------------------------------------------------*/
+/* The three specialisations — one object each. The staff shown on each
+ * specialisation page come from staff.js automatically; do not list them here. */
 window.DEPARTMENT_CONTENT.specialisations = [
   {
     id: "automobile-technology",
     name: "Automobile Technology",
-    shortName: "Automobile Technology",
     pageUrl: "pages/automobile-technology.html",
     description:
       "[Short description of the first specialisation. One or two sentences.]",
@@ -105,10 +119,8 @@ window.DEPARTMENT_CONTENT.specialisations = [
     research: {
       summary: "[Brief description of research and project activity in this specialisation.]"
     },
-    // Related downloads for this specialisation (shown on its own page AND
-    // collected into the E-Resources "Programme Documents" section). Add as
-    // many as needed; leave `url` blank until the file exists in
-    // assets/documents/ (shown as "not yet available").
+    // Related downloads: shown on this page and collected into the E-Resources
+    // "Programme Documents" section. Leave `url` blank until the file exists.
     downloads: [
       {
         id: "automobile-technology-doc-01",
@@ -122,7 +134,6 @@ window.DEPARTMENT_CONTENT.specialisations = [
   {
     id: "construction-technology",
     name: "Construction Technology",
-    shortName: "Construction Technology",
     pageUrl: "pages/construction-technology.html",
     description:
       "[Short description of the second specialisation. One or two sentences.]",
@@ -183,10 +194,8 @@ window.DEPARTMENT_CONTENT.specialisations = [
     research: {
       summary: "[Brief description of research and project activity in this specialisation.]"
     },
-    // Related downloads for this specialisation (shown on its own page AND
-    // collected into the E-Resources "Programme Documents" section). Add as
-    // many as needed; leave `url` blank until the file exists in
-    // assets/documents/ (shown as "not yet available").
+    // Related downloads: shown on this page and collected into the E-Resources
+    // "Programme Documents" section. Leave `url` blank until the file exists.
     downloads: [
       {
         id: "construction-technology-doc-01",
@@ -200,7 +209,6 @@ window.DEPARTMENT_CONTENT.specialisations = [
   {
     id: "electro-technology",
     name: "Electro Technology",
-    shortName: "Electro Technology",
     pageUrl: "pages/electro-technology.html",
     description:
       "[Short description of the third specialisation. One or two sentences.]",
@@ -261,10 +269,8 @@ window.DEPARTMENT_CONTENT.specialisations = [
     research: {
       summary: "[Brief description of research and project activity in this specialisation.]"
     },
-    // Related downloads for this specialisation (shown on its own page AND
-    // collected into the E-Resources "Programme Documents" section). Add as
-    // many as needed; leave `url` blank until the file exists in
-    // assets/documents/ (shown as "not yet available").
+    // Related downloads: shown on this page and collected into the E-Resources
+    // "Programme Documents" section. Leave `url` blank until the file exists.
     downloads: [
       {
         id: "electro-technology-doc-01",
@@ -277,44 +283,39 @@ window.DEPARTMENT_CONTENT.specialisations = [
   }
 ];
 
-/* --------------------------------------------------------------------------
- * Academic overview tiles (home page)
- *   Each tile has a title, some text, a link and an icon.
- *   - Only set "url" to a page that actually exists.
- *   - "icon" is optional. Choose one of these names:
- *     "graduation-cap", "book-open", "layers", "list-checks",
- *     "folder-open", "file-text", "award", "users", "download".
- * ------------------------------------------------------------------------*/
+/* Academic overview tiles (home page). Each tile has a title, some text, a
+ * link and an optional icon. Only set "url" to a page that exists. Icon names:
+ * "graduation-cap", "book-open", "layers", "list-checks", "folder-open",
+ * "file-text", "award", "users", "download".
+ */
 window.DEPARTMENT_CONTENT.academicOverview = [
   {
-    title: "Degree Programme",
-    description: "A four-year Bachelor of Engineering Technology Honours degree comprising eight semesters.",
-    icon: "graduation-cap",
-    url: "pages/academics.html#overview"
+    title: "Vision and mission",
+    description: "Our direction, aims and core values as a department.",
+    icon: "file-text",
+    url: "pages/about.html#vision-mission"
   },
   {
-    title: "Study Areas",
-    description: "Automobile Technology, Construction Technology and Electro Technology.",
+    title: "Our Research",
+    description: "Research activities, projects and publications from the department.",
+    icon: "book-open",
+    url: "pages/research.html"
+  },
+  {
+    title: "Academic organisation",
+    description: "How the department is organised and its academic structure.",
     icon: "layers",
-    url: "pages/academics.html#study-areas"
+    url: "pages/about.html#academic-organisation"
   },
   {
-    title: "Programme Structure",
-    description: "The first two semesters are common; specialisation studies begin in Semester 3.",
-    icon: "list-checks",
-    url: "pages/academics.html#curriculum"
-  },
-  {
-    title: "Student Resources",
-    description: "[Guides, forms and documents available to students.]",
-    icon: "folder-open",
+    title: "E-Resources",
+    description: "Guides, forms, handbooks and other useful student documents.",
+    icon: "download",
     url: "pages/downloads.html"
   }
 ];
 
-/* --------------------------------------------------------------------------
- * Academics page content
- * ------------------------------------------------------------------------*/
+// Academics page content
 window.DEPARTMENT_CONTENT.academics = {
   overview: {
     intro: [

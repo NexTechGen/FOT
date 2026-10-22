@@ -1,18 +1,29 @@
-/* ============================================================================
- * research.js — research and publications
- * Department of Engineering Technology
- * Faculty of Technology, University of Jaffna
- *
- * WHAT YOU CAN EDIT HERE
- *   Research intro text .............................. Research page
- *   The list of research / publications .............. Research page and each specialisation page
- *
- * Each item has: title, authors, type, venue, year, status, specialisationIds
- * and a link (url). Add real items only — never invent authors or papers.
- *
+/* research.js — research and publications
+ * What this file is for: the research intro text and the list of research /
+ *   publications shown on the Research page and on each specialisation page.
+ * 
+ * What you can edit: the intro paragraph and the items below. Add real items
+ *   only — never invent authors or papers.
+ * 
+ * Fields and what you can put in them:
+ *   intro      An optional short paragraph placed above the list.
+ *   items[]    One object per paper, project or publication.
+ *     title        The title of the work.
+ *     authors      The author names with co-authors, separated by commas.
+ *     type         The kind of work, e.g. "Journal article", "Conference
+ *                  paper", "Thesis".
+ *     venue        The journal, conference or publisher name.
+ *     year         The year of publication as four digits, e.g. "2026".
+ *     status       Where the work stands, e.g. "Published", "In press",
+ *                  "Ongoing".
+ *     specialisationIds
+ *                  The specialisation codes this work belongs to, from
+ *                  specialisations.js.
+ *     url          A link to the work (full https:// address), or "" if none.
+ * 
  * Anything in [square brackets] is a placeholder to replace.
  * Full help: see docs/ADMIN_GUIDE.md
- * ==========================================================================*/
+ */
 
 window.DEPARTMENT_CONTENT = window.DEPARTMENT_CONTENT || {};
 

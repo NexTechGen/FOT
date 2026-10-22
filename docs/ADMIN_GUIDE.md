@@ -43,7 +43,7 @@ Undo with `Ctrl+Z`, or re-copy the original file, and try again.
 | `assets/js/news.js` | News and announcements | **Yes** |
 | `assets/js/downloads.js` | E-Resources / downloads sections | **Yes** |
 | `assets/js/staff.js` | All staff records | **Yes** |
-| `assets/js/main.js` | The engine that draws the pages | **No — never edit** |
+| `assets/js/site/main.js` | The engine that draws the pages | **No — never edit** |
 | `assets/css/styles.css` | Colours, fonts and layout | Only a designer |
 | `assets/images/` | Logos, photos, placeholders | Upload images here |
 | `assets/documents/` | PDFs and downloadable files | Upload files here |
@@ -92,10 +92,15 @@ links).
   `hod.message`.
 - To change **contact details**, edit `address`, `email`, `phone`. A real email
   becomes a clickable `mailto:` link automatically.
-- The **address**, **phone** and **email** are empty on purpose until the department
-  supplies them. The Contact page shows "[Address to be added]", "[Telephone to be
-  added]" and "[Email to be added]", and the footer leaves them out. Add your own
-  text to `address` (one line per entry), `phone` and `email` when you have it.
+- The **address**, **phone** and **email** have been supplied by the department
+  and are published on the Contact page and in the footer. If you ever need to
+  hide one, clear that value: the Contact page then shows "[Address to be added]",
+  "[Telephone to be added]" or "[Email to be added]", and the footer leaves it out.
+  The address is one entry per line in `address`. It is printed line by line in
+  the footer ("Ariviyal Nagar, / Kilinochchi, / Sri Lanka.") and as one sentence
+  on the Contact page ("Ariviyal Nagar, Kilinochchi, Sri Lanka.") — the commas
+  and the full stop are added for you, so write the parts without them. You may
+  also give it as one string: `"Ariviyal Nagar, Kilinochchi, Sri Lanka"`.
 - To add a **facility**, copy a `{ ... }` block in `facilities` and edit it.
 
 ### 4.2 `specialisations.js` — specialisations & Academics
@@ -276,7 +281,7 @@ If you are unsure, ask your webperson — a wrong edit here can break the page l
 
 ## 10. Do NOT edit
 
-- `assets/js/main.js` — the engine. Editing it can break **every** page.
+- `assets/js/site/main.js` — the engine. Editing it can break **every** page.
 - Anything inside `< ... >` tags in the HTML files.
 - The characters `{ } [ ] , : ;` and the labels (`title:`, `name:`) in the `.js` files.
 

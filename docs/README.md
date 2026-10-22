@@ -49,7 +49,8 @@ department-website/
 │   │   ├── news.js                 # EDITABLE: news and announcements
 │   │   ├── downloads.js            # EDITABLE: E-Resources / downloads sections
 │   │   ├── staff.js                # EDITABLE staff records (single source of truth)
-│   │   └── main.js                 # Behaviour + rendering (navigation, staff filter, page rendering)
+│   │   └── site/
+│   │       └── main.js             # Behaviour + rendering (navigation, staff filter, page rendering)
 │   ├── images/                     # Images: header logo (colour), footer logo (black & white), favicon (.ico), SVG placeholders
 │   └── documents/                  # Put official PDFs and documents here
 └── docs/
@@ -166,7 +167,7 @@ top of each file so you do not have to remember them:
 7. **Preview** in a browser. If a page goes blank, a comma or bracket is
    missing — undo (`Ctrl+Z`) and re-check.
 
-`main.js` is **not** an admin file — do not edit site text there.
+`site/main.js` is **not** an admin file — do not edit site text there.
 
 > **For a full, non-technical admin manual** — every page, every file, adding items,
 > uploading and troubleshooting — see **`docs/ADMIN_GUIDE.md`**.

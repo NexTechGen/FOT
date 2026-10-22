@@ -1630,6 +1630,20 @@ details.disclosure summary::marker {
   }
 }
 
+/* Filter bar variant for pages with only two filters: the search box gets the
+   extra width it needs and the reset button stays on the same row as the
+   fields instead of dropping onto its own full-width row underneath. */
+@media (min-width: 992px) {
+  .filter-bar--inline {
+    grid-template-columns: minmax(260px, 1.6fr) minmax(220px, 1fr) auto;
+  }
+
+  .filter-bar--inline .filter-actions {
+    grid-column: auto;
+    justify-content: flex-start;
+  }
+}
+
 .results-count {
   color: var(--muted);
   font-size: 0.9375rem;
@@ -2534,6 +2548,13 @@ tbody tr:last-child td {
   text-decoration: none;
 }
 
+/* The postal address is plain text (not a link), so it is tinted blue to
+   match the email and telephone values in the same card. */
+.contact-details__address {
+  color: var(--blue);
+  font-weight: 600;
+}
+
 .contact-details__value a:hover,
 .contact-details__value a:focus-visible {
   text-decoration: underline;
@@ -2647,7 +2668,7 @@ tbody tr:last-child td {
 }
 
 /* md and up: the brand block takes a full-width row of its own, the four link
-   sections (Quick links, Specialisations, External links, Contact us) share
+   sections (Contact us, Quick links, Specialisations, External links) share
    the row below in equal columns with equal gaps. */
 @media (min-width: 768px) {
   .footer__top {
@@ -2657,10 +2678,35 @@ tbody tr:last-child td {
   }
 }
 
+/* Structural hook for the four footer columns (Contact us, Quick links,
+   Specialisations, External links). No decorative treatment - the columns sit
+   directly on the dark background. */
+.footer__col {
+  min-width: 0;
+}
+
+/* Column heading: an uppercase label with a short accent rule beneath it. */
 .footer__title {
+  position: relative;
+  display: inline-block;
   color: var(--white);
-  font-size: 1rem;
-  margin-bottom: var(--space-2);
+  font-size: 0.8125rem;
+  font-weight: 700;
+  letter-spacing: 0.13em;
+  text-transform: uppercase;
+  margin: 0 0 var(--space-3);
+  padding-bottom: var(--space-2);
+}
+
+.footer__title::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 2.25rem;
+  height: 3px;
+  border-radius: 999px;
+  background: linear-gradient(90deg, #5eb0ff, #a7d8ff);
 }
 
 /* Footer brand column: logo and text side by side on md and up, stacked on
@@ -2743,7 +2789,7 @@ tbody tr:last-child td {
 
 .footer__address {
   font-size: 0.9375rem;
-  color: #cdddec;
+  color: #e8f1fa;
   line-height: 1.6;
 }
 
@@ -2760,10 +2806,24 @@ tbody tr:last-child td {
   overflow-wrap: anywhere;
 }
 
+/* The footer address links to the Contact page. A quiet permanent underline
+   marks it as a link; it brightens on hover and focus. */
+.site-footer .footer__address-link {
+  text-decoration: underline;
+  text-decoration-color: rgba(255, 255, 255, 0.4);
+  text-underline-offset: 3px;
+  transition: text-decoration-color 0.2s ease;
+}
+
+.site-footer .footer__address-link:hover,
+.site-footer .footer__address-link:focus-visible {
+  text-decoration-color: currentColor;
+}
+
 /* Placeholder shown in the footer contact column until the address,
    telephone and email are supplied. */
 .footer__address-pending {
-  color: #cdddec;
+  color: #e8f1fa;
   font-style: italic;
 }
 
@@ -2815,19 +2875,21 @@ tbody tr:last-child td {
   padding: 0;
   margin: 0;
   display: grid;
-  gap: var(--space-1);
+  gap: 0;
   font-size: 0.9375rem;
-  line-height: 1.4;
+  line-height: 1.6;
 }
 
 .footer__list li {
   margin: 0;
 }
 
+/* Link rows are spaced like the contact column (24px line box + 4px padding),
+   keeping the row height above the 24px target-size minimum. */
 .footer__list a {
   display: inline-block;
-  padding: var(--space-1) 0;
-  min-height: 38px;
+  padding: 2px 0;
+  min-height: 28px;
 }
 
 .footer__bottom {

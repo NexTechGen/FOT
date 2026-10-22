@@ -1,42 +1,57 @@
-/* ============================================================================
- * content.js — main website text
- * Department of Engineering Technology
- * Faculty of Technology, University of Jaffna
- *
- * WHAT YOU CAN EDIT HERE
- *   University / faculty / department names .......... shown in the header and footer of every page
- *   Homepage welcome text and image .................. top of the home page
- *   Dean's name, photo and message ................... About Us page
- *   Homepage department introduction ................. home page
- *   Head of Department message ....................... About Us page
- *   About Us text (vision, mission, history) ......... About Us page
- *   Laboratories and facilities ...................... home page and Facilities page
- *   Address, email, phone, map and social links ...... Contact Us page and footer
- *
- * Other files: specialisations.js, research.js, news.js, downloads.js and
- * staff.js hold their own text.
- *
+/* content.js — main website text (editable by the department)
+ * What this file is for: it holds the words used across the site — the
+ *   university, faculty and department names, the home page sections, the
+ *   Dean's and Head of Department messages, the About Us text, the
+ *   laboratories and facilities, and the contact details.
+ * 
+ * How to edit: replace the text between the quotes. Keep the key names
+ *   exactly as they are, because the pages look every value up by key.
+ * 
+ * Fields and what you can put in them:
+ *   institution.university / .faculty / .department
+ *       The three names shown in the header and footer of every page.
+ *   faculty.label / .heading / .intro / .image / .imageAlt
+ *       The Faculty of Technology block on the home page: a short label, the
+ *       heading, one or two paragraphs, a picture and its description.
+ *   dean.name / .title / .photo / .photoAlt / .message
+ *       The Dean's message on the About page. Use the approved text only.
+ *   department.heading / .intro / .image / .imageAlt / .focus
+ *       The department introduction on the home page.
+ *   hod.title / .message
+ *       The Head of Department message on the About page.
+ *   about.organisation.heading / .intro / .linkText / .linkUrl / .image /
+ *   .imageAlt
+ *       The "Academic organisation" block on the About page.
+ *   about.vision / .mission / .history
+ *       The approved vision statement, mission statement and history.
+ *   facilities[] — id / name / description / image / imageAlt /
+ *   specialisationIds
+ *       One laboratory or facility: a unique code, its name, a one or two
+ *       sentence description, a picture, the picture description and the
+ *       specialisation codes that use it.
+ *   contact.address / .email / .phone / .mapEmbedUrl / .social
+ *       The Contact page and the footer "Contact us" column: the address
+ *       lines, the email, the phone, a Google Maps embed address, and the
+ *       social links ("facebook", "twitter", "linkedin" or "youtube" with a
+ *       full https:// address). Clear any value (empty string) and that line
+ *       falls back to a "[... to be added]" placeholder, so nothing
+ *       unverified is published.
+ * 
+ * Other files: specialisations.js, research.js, news.js, downloads.js, staff.js.
  * Anything in [square brackets] is a placeholder to replace.
  * Full help: see docs/ADMIN_GUIDE.md
- * ==========================================================================*/
+ */
 
 window.DEPARTMENT_CONTENT = Object.assign(window.DEPARTMENT_CONTENT || {}, {
 
-  /* --------------------------------------------------------------------------
-   * 1. Institution identity (used by the header/footer and page rendering)
-   * ------------------------------------------------------------------------*/
+  // 1. Institution identity (header/footer and page rendering)
   institution: {
     university: "University of Jaffna",
     faculty: "Faculty of Technology",
-    department: "Department of Engineering Technology",
-    // RESERVED — not rendered anywhere (no consumer in main.js). Kept for
-    // future use; do not assume editing it changes the site.
-    tagline: "Engineering innovation for the North of Sri Lanka"
+    department: "Department of Engineering Technology"
   },
 
-  /* --------------------------------------------------------------------------
-   * 2. Faculty of Technology introduction (HOME PAGE SECTION 1)
-   * ------------------------------------------------------------------------*/
+  // 2. Faculty of Technology introduction (home page section 1)
   faculty: {
     label: "University of Jaffna",
     heading: "Faculty of Technology",
@@ -51,10 +66,8 @@ window.DEPARTMENT_CONTENT = Object.assign(window.DEPARTMENT_CONTENT || {}, {
     imageAlt: "Placeholder image representing the Faculty of Technology campus"
   },
 
-  /* --------------------------------------------------------------------------
-   * 3. Message from the Dean (ABOUT PAGE)
-   *    Keep this SEPARATE from the Head of Department message below.
-   * ------------------------------------------------------------------------*/
+  // 3. Message from the Dean (About page) — keep it separate from the Head of
+  //    Department message below.
   dean: {
     name: "[Dean's Name]",
     title: "Dean, Faculty of Technology",
@@ -67,9 +80,7 @@ window.DEPARTMENT_CONTENT = Object.assign(window.DEPARTMENT_CONTENT || {}, {
     ]
   },
 
-  /* --------------------------------------------------------------------------
-   * 4. Department of Engineering Technology introduction (HOME PAGE SECTION 3)
-   * ------------------------------------------------------------------------*/
+  // 4. Department introduction (home page section 3)
   department: {
     heading: "Welcome to the Department of Engineering Technology",
     intro: [
@@ -86,11 +97,8 @@ window.DEPARTMENT_CONTENT = Object.assign(window.DEPARTMENT_CONTENT || {}, {
       "development."
   },
 
-  /* --------------------------------------------------------------------------
-   * 5. Message from the Head of Department (ABOUT PAGE)
-   *    The person's name and photo come from staff.js; only the approved
-   *    message text lives here.
-   * ------------------------------------------------------------------------*/
+  // 5. Message from the Head of Department (About page). The name and photo
+  //    come from staff.js; only the message text lives here.
   hod: {
     title: "Head, Department of Engineering Technology",
     message: [
@@ -100,12 +108,8 @@ window.DEPARTMENT_CONTENT = Object.assign(window.DEPARTMENT_CONTENT || {}, {
     ]
   },
 
-  /* --------------------------------------------------------------------------
-   * 5b. About page text (ABOUT PAGE)
-   *     Text for the "Academic organisation" block, plus the vision, mission
-   *     and history paragraphs. The specialisation links below it and the
-   *     staff are filled in automatically from the other files.
-   * ------------------------------------------------------------------------*/
+  // 5b. About page text (About page). The specialisation links and the staff
+  //    are filled in automatically from the other files.
   about: {
     organisation: {
       heading: "Academic organisation",
@@ -114,9 +118,6 @@ window.DEPARTMENT_CONTENT = Object.assign(window.DEPARTMENT_CONTENT || {}, {
         "its specialisations and teaching units.]"
       ],
       linkText: "See the academic overview",
-      // IMPORTANT: file links and image links in this file start from the
-      // website root, e.g. "pages/academics.html" and "assets/images/....".
-      // Do not leave off the "pages/" part.
       linkUrl: "pages/academics.html",
       image: "assets/images/FOT-image-02.png",
       imageAlt: "Faculty of Technology"
@@ -133,14 +134,8 @@ window.DEPARTMENT_CONTENT = Object.assign(window.DEPARTMENT_CONTENT || {}, {
     ]
   },
 
-  /* --------------------------------------------------------------------------
-   * Specialisations, academic overview, research, news and downloads live in
-   * their own files: specialisations.js, research.js, news.js, downloads.js.
-   * ------------------------------------------------------------------------*/
 
-  /* --------------------------------------------------------------------------
-   * 9. Laboratories and facilities (HOME PAGE SECTION 6 & facilities page)
-   * ------------------------------------------------------------------------*/
+  // 9. Laboratories and facilities (home page section 6 and facilities page)
   facilities: [
     {
       id: "lab-01",
@@ -160,40 +155,12 @@ window.DEPARTMENT_CONTENT = Object.assign(window.DEPARTMENT_CONTENT || {}, {
     }
   ],
 
-  /* --------------------------------------------------------------------------
-   * 12. Contact details (Contact Us page AND footer "Contact us" column)
-   *     One block drives both the Contact page and the footer, so the address,
-   *     email and phone only have to be edited once.
-   *     - Address: each line is one line on the page.
-   *     - Social links: use the icon names "facebook", "twitter", "linkedin",
-   *       "youtube" with a full https:// address.
-   *
-   *     ADDRESS, PHONE and EMAIL ARE INTENTIONALLY EMPTY: the official postal
-   *     address, telephone number and department email address have not been
-   *     supplied yet, so nothing unverified is published. The page shows
-   *     "[Address to be added]", "[Telephone to be added]" and
-   *     "[Email to be added]" until the department fills them in.
-   *       address: ["PO Box 57", "Thirunelvely", "Jaffna", "Sri Lanka"],
-   *       phone: "(+94) 021 221 8100",
-   *       email: "info@univ.jfn.ac.lk",
-   * ------------------------------------------------------------------------*/
+  // 12. Contact details (Contact page and the footer "Contact us" column).
   contact: {
-    departmentLine: "Department of Engineering Technology",
-    facultyLine: "Faculty of Technology, University of Jaffna",
-    // Official postal address — one line per entry. Empty until supplied.
-    address: [],
-    // Official department email address. Empty until supplied.
-    email: "",
-    // Official telephone number. Empty until supplied.
-    phone: "",
-    // Location map shown on the Contact page (replaces the old "Visiting the
-    // department" text/photo). `mapEmbedUrl` is the src for the <iframe> — use
-    // the embed/share URL from Google Maps (it must be a plain https:// URL).
-    // `mapTitle` is the accessible title/description of the map. Leave
-    // `mapEmbedUrl` blank and a neutral, non-linking placeholder is shown.
+    address: ["Ariviyal Nagar", "Kilinochchi", "Sri Lanka"],
+    email: "tech@univ.jfn.ac.lk",
+    phone: "(+94) 21-313-5880",
     mapEmbedUrl: "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2304.79103579514!2d80.40010347030801!3d9.323776503060026!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3afe9737ef3f1c91%3A0xc0ea9c664291f305!2sFaculty%20of%20Technology!5e0!3m2!1sen!2slk!4v1792588317453!5m2!1sen!2slk",
-    mapTitle: "Map showing the location of the Faculty of Technology, University of Jaffna",
-    mapLabel: "[Verify location before adding the map]",
     social: [
       { icon: "facebook", label: "Facebook", url: "https://www.facebook.com/university.jaffna" },
       { icon: "twitter", label: "Twitter", url: "https://www.twitter.com/uojofficial" },

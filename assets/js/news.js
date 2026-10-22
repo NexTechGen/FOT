@@ -1,17 +1,25 @@
-/* ============================================================================
- * news.js — news and announcements
- * Department of Engineering Technology
- * Faculty of Technology, University of Jaffna
- *
- * WHAT YOU CAN EDIT HERE
- *   The list of announcements ........................ home page and News page
- *
- * Each item has: a title, a date, a category, a short summary, the full text,
- * and an optional file to download. Add real, dated announcements only.
- *
+/* news.js — news and announcements
+ * What this file is for: the list of announcements shown on the home page and
+ *   the News & Events page. Add one object for each announcement; put the
+ *   newest one first in the list.
+ * 
+ * What you can edit: the announcements below. Add real, dated announcements
+ *   only.
+ * 
+ * Fields and what you can put in them:
+ *   id         A unique code for the announcement, e.g. "news-2026-10-26".
+ *              Do not repeat a code.
+ *   title      The headline. One short line.
+ *   date       The announcement date as YYYY-MM-DD, e.g. "2026-10-26".
+ *   category   The label above the headline, e.g. "Notice", "Event", "Result".
+ *   summary    One short sentence shown in the list.
+ *   body       The full announcement in plain text. Line breaks are kept.
+ *   doc.title  The name of the file to download, e.g. "Examination time table".
+ *   doc.url    The link to that file, or "" when there is no file yet.
+ * 
  * Anything in [square brackets] is a placeholder to replace.
  * Full help: see docs/ADMIN_GUIDE.md
- * ==========================================================================*/
+ */
 
 window.DEPARTMENT_CONTENT = window.DEPARTMENT_CONTENT || {};
 

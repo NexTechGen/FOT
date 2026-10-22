@@ -37,6 +37,7 @@
           <li class="has-dropdown">
             <button class="nav-sub-toggle" type="button" aria-expanded="false" aria-controls="menu-specialisations">Academics</button>
             <ul class="dropdown" id="menu-specialisations">
+              <li><a href="pages/academics.html">Academic overview</a></li>
               <li><a href="pages/automobile-technology.html" data-sp-link="automobile-technology">Automobile Technology</a></li>
               <li><a href="pages/construction-technology.html" data-sp-link="construction-technology">Construction Technology</a></li>
               <li><a href="pages/electro-technology.html" data-sp-link="electro-technology">Electro Technology</a></li>
@@ -122,6 +123,19 @@
       </div>
     </section>
 
+    <!-- SECTION 6: Laboratories and facilities -->
+    <section class="section section--tint" id="facilities" aria-labelledby="facilities-heading">
+      <div class="container">
+        <div class="section-head">
+          <span class="eyebrow">Practical learning</span>
+          <h2 id="facilities-heading">Laboratories and facilities</h2>
+          <p>Workshops and laboratories where students put engineering theory into practice.</p>
+        </div>
+        <div data-render="facilities" data-limit="2"></div>
+        <p class="mt-5"><a class="link-more" href="pages/facilities.html">All laboratories and facilities</a></p>
+      </div>
+    </section>
+
   </main>
 
   <footer class="site-footer">
@@ -134,16 +148,18 @@
           <span class="footer__brand-uni" data-render="institution-university">University of Jaffna</span>
         </div>
       </div>
-      <div>
+      <div class="footer__col" data-render="footer-contact"></div>
+      <div class="footer__col">
         <h2 class="footer__title">Quick links</h2>
         <ul class="footer__list">
           <li><a href="pages/about.html">About the department</a></li>
           <li><a href="pages/staff.html">Staff directory</a></li>
           <li><a href="pages/research.html">Our Research</a></li>
+          <li><a href="pages/facilities.html">Facilities</a></li>
           <li><a href="pages/contact.html">Contact Us</a></li>
         </ul>
       </div>
-      <div>
+      <div class="footer__col">
         <h2 class="footer__title">Specialisations</h2>
         <ul class="footer__list">
           <li><a href="pages/automobile-technology.html" data-sp-link="automobile-technology">Automobile Technology</a></li>
@@ -151,7 +167,7 @@
           <li><a href="pages/electro-technology.html" data-sp-link="electro-technology">Electro Technology</a></li>
         </ul>
       </div>
-      <div>
+      <div class="footer__col">
         <h2 class="footer__title">External links</h2>
         <ul class="footer__list">
           <li><a href="http://eugc.ac.lk/rag/" target="_blank" rel="noopener noreferrer">Ragging Complaint Portal</a></li>
@@ -160,7 +176,6 @@
           <li><a href="http://www.mohe.gov.lk/" target="_blank" rel="noopener noreferrer">Ministry of Higher Education</a></li>
         </ul>
       </div>
-      <div data-render="footer-contact"></div>
     </div>
     <div class="container footer__bottom">
       <p>&copy; <span data-current-year>2026</span> Department of Engineering Technology, Faculty of Technology - <a href="https://jfn.ac.lk/" target="_blank" rel="noopener noreferrer">University of Jaffna</a>.</p>
@@ -173,6 +188,6 @@
   <script src="assets/js/news.js" defer></script>
   <script src="assets/js/downloads.js" defer></script>
   <script src="assets/js/staff.js" defer></script>
-  <script src="assets/js/main.js" defer></script>
+  <script src="assets/js/site/main.js" defer></script>
 </body>
 </html>
