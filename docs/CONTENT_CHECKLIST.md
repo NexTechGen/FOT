@@ -62,7 +62,7 @@ Legend: ☐ = outstanding, ✔ = supplied (tick when done).
 - ☐ Descriptions, overviews and intros for each specialisation.
 - ☐ Real images for each specialisation (currently SVG placeholders).
 - ☐ `coordinatorStaffId` — confirmed Specialisation Coordinator for each specialisation.
-- ☐ Study areas, curriculum structure, related laboratories and research per specialisation.
+- ☐ Curriculum structure, related laboratories and research per specialisation.
 
 > Note: specialisation names appear in the static navigation and footer of **all** HTML pages
 > (so navigation works without JavaScript). Remember to update those too.
@@ -149,24 +149,66 @@ Legend: ☐ = outstanding, ✔ = supplied (tick when done).
 
 ## Placeholder inventory (search and replace)
 
-Search the project for the following strings before launch:
+This list is generated from the content files themselves, so it is exactly what
+is still waiting for the department. At the time of writing there are **189
+placeholders in 85 different forms**.
 
-- `[Dean's Name]`, `[Head of Department Name]`
-- `[Insert the approved ...]` (faculty intro, department vision / mission / history, research,
-  visiting instructions)
-- `[department email address]`, `[telephone number]`, `[Building / street]`, `[City]`, `[Postal code]`
-- `[Address to be added]`, `[Email to be added]`, `[Telephone to be added]` (these are only the
-  fallbacks shown when a contact value is cleared — the contact details themselves are supplied),
-  `[Map link pending verification]`, `[Verify location before adding a map link]`
-- `[Short description of the ... specialisation.]`, `[Introduction to this specialisation.]`,
-  `[Overview paragraph ...]`, `[Main study area ...]`
-- `[Curriculum area ...]`, `[Level / Year 01]`, `[Project or research area placeholder]`
+**`assets/js/content.js`** (11)
+
+- `[Dean's Name]`
+- `[Insert the approved introduction to the Faculty of Technology here. …]`
+- `[Optional second paragraph. …]`
+- `[Insert the approved Dean's message here. …]`
+- `[Insert the approved message from the Head of the Department of Engineering Technology here. …]`
+- `[Describe how the department is organised academically, …]`
+- `[Insert the approved vision statement of the department here. …]`
+- `[Insert the approved mission statement of the department here. …]`
+- `[Insert the approved history of the department here, …]`
+- `[Concise description of this laboratory or facility.]` (×2 — one per facility)
+
+**`assets/js/staff.js`** (34)
+
+- Names: `[Head of Department Name]`, `[Coordinator 01 Name]`,
+  `[Coordinator 02 Name]`, `[Coordinator 03 Name]`, `[Academic Staff 01 Name]`,
+  `[Academic Staff 02 Name]`, `[Technical Staff 01 Name]`,
+  `[Administrative Staff 01 Name]`
+- Emails: `[head email address]`, `[coordinator 01 email address]`,
+  `[coordinator 02 email address]`, `[coordinator 03 email address]`,
+  `[academic staff 01 email address]`, `[academic staff 02 email address]`,
+  `[technical staff 01 email address]`, `[administrative staff 01 email address]`
+- Details: `[Designation]` (×5), `[Qualifications]` (×7), `[Research interests]` (×6)
+
+**`assets/js/specialisations.js`** (138 — the largest group)
+
+- `[Short description of the first specialisation. One or two sentences.]`,
+  `[Short description of the second specialisation. One or two sentences.]`,
+  `[Short description of the third specialisation. One or two sentences.]`
+- `[Introduction to Automobile Technology. …]`,
+  `[Introduction to Construction Technology. …]`,
+  `[Introduction to Electro Technology. …]`
+- `[Overview paragraph one for this specialisation.]`,
+  `[Overview paragraph two for this specialisation.]`
+- `[Year 01 / Semester 01]` – `[Year 04 / Semester 02]`
+- `[Subject name 01]` – `[Subject name 16]`
+- `[Subject code 01]` – `[Subject code 16]`
+- `[Curriculum shown is indicative. …]`
 - `[Brief description of research and project activity in this specialisation.]`
-- `[Concise description of this laboratory or facility.]`
-- `[Research theme ...]`, `[Student project ...]`, `[Guides, forms and documents available to students.]`
-- `[Specialisation Coordinator to be appointed]`
+
+Each of these repeats in all three specialisations.
+
+**`assets/js/research.js`** (4)
+
+- `[Research or publication title]`, `[Author names, co-authors]`,
+  `[Journal article / Conference paper / Thesis]`, `[Journal or conference name]`
+
+**`assets/js/downloads.js`** (2)
+
 - `[Application / admissions form]`, `[Student handbook]`
-- Staff placeholder names/emails: `[Academic Staff 01 Name]`, `[Coordinator 01 Name]`,
-  `[Technical Staff 01 Name]`, `[Administrative Staff 01 Name]`, `[... email address]`
+
+**`assets/js/news.js`** (0) — the one announcement is already written.
+
+**Fallbacks, not placeholders** — shown only when a published value is cleared,
+so there is nothing to replace: `[Address to be added]`, `[Email to be added]`,
+`[Telephone to be added]`, `[Contact details to be added]`.
 
 Every remaining placeholder after you finish is information the department still needs to supply.

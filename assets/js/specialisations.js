@@ -23,8 +23,8 @@
  *   coordinatorStaffId
  *                     The staff code of the specialisation coordinator.
  *   intro             The introduction shown at the top of the page.
- *   overview          One or two paragraphs about the specialisation.
- *   studyAreas        The list of main study areas.
+ *   overview          One or two paragraphs about the specialisation. This is
+ *                     what appears in the "About this specialisation" section.
  *   curriculum        The subjects, grouped by year and semester: title is
  *                     the year / semester heading, and each item in items has
  *                     a name, a code and doc — the link to the subject PDF in
@@ -40,8 +40,9 @@
  * 
  * The academic overview tiles (home page) — each tile has a title, a
  *   description, an icon and a link. Only set "url" to a page that exists.
- *   Icon names: "graduation-cap", "book-open", "layers", "list-checks",
- *   "folder-open", "file-text", "award", "users", "download".
+ *   Icon names: "award", "book-open", "download", "file-text", "folder-open",
+ *   "globe", "graduation-cap", "layers", "list-checks", "mail", "map-pin",
+ *   "phone", "users".
  * 
  * Anything in [square brackets] is a placeholder to replace.
  * Full help: see docs/ADMIN_GUIDE.md
@@ -67,12 +68,6 @@ window.DEPARTMENT_CONTENT.specialisations = [
     overview: [
       "[Overview paragraph one for this specialisation.]",
       "[Overview paragraph two for this specialisation.]"
-    ],
-    studyAreas: [
-      "[Main study area 01]",
-      "[Main study area 02]",
-      "[Main study area 03]",
-      "[Main study area 04]"
     ],
     curriculum: [
       { title: "[Year 01 / Semester 01]", items: [
@@ -143,12 +138,6 @@ window.DEPARTMENT_CONTENT.specialisations = [
       "[Overview paragraph one for this specialisation.]",
       "[Overview paragraph two for this specialisation.]"
     ],
-    studyAreas: [
-      "[Main study area 01]",
-      "[Main study area 02]",
-      "[Main study area 03]",
-      "[Main study area 04]"
-    ],
     curriculum: [
       { title: "[Year 01 / Semester 01]", items: [
         { name: "[Subject name 01]", code: "[Subject code 01]", doc: "" },
@@ -217,12 +206,6 @@ window.DEPARTMENT_CONTENT.specialisations = [
     overview: [
       "[Overview paragraph one for this specialisation.]",
       "[Overview paragraph two for this specialisation.]"
-    ],
-    studyAreas: [
-      "[Main study area 01]",
-      "[Main study area 02]",
-      "[Main study area 03]",
-      "[Main study area 04]"
     ],
     curriculum: [
       { title: "[Year 01 / Semester 01]", items: [

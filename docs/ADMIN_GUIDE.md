@@ -156,6 +156,73 @@ map, social links).
   also give it as one string: `"Ariviyal Nagar, Kilinochchi, Sri Lanka"`.
 - To add a **facility**, copy a `{ … }` block in `facilities` and edit it.
 
+#### Fields in this file
+
+| Field | What it is | What to put in it |
+|---|---|---|
+| `institution.university` | The university name in the header and footer of every page | The official name, e.g. `"University of Jaffna"` |
+| `institution.faculty` | The faculty name | e.g. `"Faculty of Technology"` |
+| `institution.department` | The department name | e.g. `"Department of Engineering Technology"` |
+| `faculty.label` | The small label above the faculty block on the home page | A short label, e.g. `"University of Jaffna"` |
+| `faculty.heading` | The heading of the faculty block | e.g. `"Faculty of Technology"` |
+| `faculty.intro` | The faculty introduction — a **list**, so each quoted line is one paragraph | Replace the text inside the `[ … ]`. To add a paragraph, add another quoted line inside the same square brackets |
+| `faculty.image` | The faculty picture | A file in `assets/images/`, e.g. `"assets/images/faculty.jpg"` |
+| `faculty.imageAlt` | The picture's description (read aloud by screen readers) | A short sentence describing the picture |
+| `dean.name` | The Dean's full name | e.g. `"Dr. A. B. Perera"` |
+| `dean.title` | The Dean's job title | e.g. `"Dean, Faculty of Technology"` |
+| `dean.photo` | The Dean's photograph | A file in `assets/images/`, e.g. `"assets/images/dean.jpg"` |
+| `dean.photoAlt` | The photograph's description | A short sentence |
+| `dean.message` | The Dean's message — a **list** of paragraphs | Replace the text inside the `[ … ]` with the approved message |
+| `department.heading` | The "Welcome to …" heading on the home page | The approved welcome heading |
+| `department.intro` | The department introduction — a **list** of paragraphs | The approved introduction |
+| `department.image` | The department picture | A file in `assets/images/` |
+| `department.imageAlt` | The picture's description | A short sentence |
+| `department.focus` | The short "focus" sentence under the introduction | One or two sentences |
+| `hod.title` | The Head of Department's job title | e.g. `"Head, Department of Engineering Technology"` |
+| `hod.message` | The Head of Department message — a **list** of paragraphs | Replace the text inside the `[ … ]` with the approved message |
+| `about.organisation.heading` | The "Academic organisation" heading on the About page | The official heading |
+| `about.organisation.intro` | The paragraph under it — a **list** | How the department is organised academically |
+| `about.organisation.image` | Its picture | A file in `assets/images/` |
+| `about.organisation.imageAlt` | The picture's description | A short sentence |
+| `about.vision` | The vision statement — one paragraph | The approved vision statement |
+| `about.mission` | The mission statement — one paragraph | The approved mission statement |
+| `about.history` | The history — a **list** of paragraphs | The approved history, with verified dates only |
+| `facilities` | A **list**: one `{ … }` block per laboratory or facility | See the table below |
+| `contact.address` | The postal address — one entry per line | The address parts, written without commas or full stops |
+| `contact.email` | The department email address | The official address; it becomes a `mailto:` link automatically |
+| `contact.phone` | The telephone number | The official number; it becomes a `tel:` link automatically |
+| `contact.mapEmbedUrl` | The Google map shown on the Contact page | The `src="…"` address from Google Maps → Share → Embed a map |
+| `contact.social` | A **list**: one line per social link | `{ icon: "facebook", label: "Facebook", url: "https://…" }` |
+
+#### The facilities block — one `{ … }` per laboratory or facility
+
+| Field | What it is |
+|---|---|
+| `id` | A unique code, e.g. `"lab-01"`. Used by `laboratoryIds` in `specialisations.js` |
+| `name` | The name of the laboratory or facility |
+| `description` | One or two sentences |
+| `image` | The picture — a file in `assets/images/` |
+| `imageAlt` | The picture's description |
+| `specialisationIds` | The codes of the specialisations that use it (Section 4.7) |
+
+#### The contact details — what you may publish or hide
+
+| Field | On the Contact page | In the footer |
+|---|---|---|
+| `contact.address` | One sentence: "Ariviyal Nagar, Kilinochchi, Sri Lanka." | One line per entry |
+| `contact.email` | A clickable `mailto:` link | A clickable `mailto:` link |
+| `contact.phone` | A clickable `tel:` link | A clickable `tel:` link |
+| `contact.mapEmbedUrl` | The Google map | Not shown |
+| `contact.social` | The social links | The social links |
+
+- The **address**, **phone** and **email** supplied by the department are published on
+  the Contact page and in the footer. To hide one, clear its value (`""`): the
+  Contact page then shows "[Address to be added]", "[Email to be added]" or
+  "[Telephone to be added]", and the footer leaves it out.
+- `contact.social` accepts only these icon names: `facebook`, `twitter`,
+  `linkedin`, `youtube`. The `url` must be a full `https://` address. A link that
+  is not a normal web address is simply not shown.
+
 ### 4.2 `specialisations.js` — specialisations
 
 Controls the three specialisations (cards, nav/footer links, each specialisation
@@ -166,31 +233,103 @@ page) and the homepage "Academic overview" tiles.
 - ⚠️ A specialisation **name** also appears in the menu and footer of **every**
   HTML page. If you rename one, update those too (or ask your webperson).
 
+#### Fields in each specialisation block
+
+| Field | What it is | What to put in it |
+|---|---|---|
+| `id` | The specialisation's own code | A new unique code, e.g. `"marine-technology"` (Section 4.7) |
+| `name` | The name shown on the cards, in the menu, in the footer and on the page | The official name |
+| `pageUrl` | The page that shows this specialisation | e.g. `"pages/automobile-technology.html"`. A **new** specialisation also needs its own page file in `pages/` — ask your webperson for that |
+| `description` | One or two sentences, used on the cards | The official summary |
+| `image` | The picture on the card | A file in `assets/images/` |
+| `imageAlt` | The picture's description | A short sentence |
+| `coordinatorStaffId` | The coordinator of this specialisation | That person's staff code, e.g. `"coordinator-automobile-technology"` (Section 4.7) |
+| `intro` | The introduction at the top of the specialisation page | One or two sentences |
+| `overview` | A **list** of paragraphs about the specialisation | Each quoted line is one paragraph |
+| `curriculum` | The subjects, grouped by year and semester | See the table below |
+| `curriculumNote` | The note printed under the curriculum | e.g. "Curriculum shown is indicative…" |
+| `laboratoryIds` | The laboratories used by this specialisation | The laboratory codes from `content.js`, e.g. `["lab-01", "lab-02"]` |
+| `research.summary` | A short description of research and project activity | One or two sentences |
+| `downloads` | The files shown on this page and collected into "Programme Documents" | See the table below |
+
+**The curriculum block** — a **list** of year/semester groups. Each group has a
+`title` (the heading) and an `items` list; each item has a `name`, a `code` and
+`doc` (the PDF path, or `""` when there is no file yet):
+
+```js
+curriculum: [
+  { title: "Year 01 / Semester 01", items: [
+    { name: "Subject name", code: "Subject code", doc: "" }
+  ] }
+]
+```
+
+**The downloads block** — one `{ … }` per file:
+
+| Field | What it is |
+|---|---|
+| `id` | A unique code, e.g. `"automobile-technology-doc-01"` |
+| `title` | The name shown in the list |
+| `format` | The file type, e.g. `"PDF"` |
+| `size` | The size shown to readers, e.g. `"1.2 MB"`, or `""` |
+| `url` | Where the file is — put it in `assets/documents/` and give the path, e.g. `"assets/documents/handbook.pdf"`, or `""` until it exists |
+
+#### The Academic overview tiles (home page)
+
+| Field | What it is | What to put in it |
+|---|---|---|
+| `title` | The tile heading | A short heading, e.g. `"E-Resources"` |
+| `description` | One short line under the heading | One sentence |
+| `icon` | The small picture on the tile | Optional. One of: `award`, `book-open`, `download`, `file-text`, `folder-open`, `globe`, `graduation-cap`, `layers`, `list-checks`, `mail`, `map-pin`, `phone`, `users` |
+| `url` | The page the tile links to | e.g. `"pages/about.html#vision-mission"`. Only use a page that exists |
+
 ### 4.3 `research.js` — publications
 
 Controls the Research page and the "Research" block on each specialisation page.
-
-To add an item, copy this block and edit it:
+The whole file is one object with two parts: `intro` (an optional paragraph shown
+above the list) and `items` (the list of papers). To add a paper, add another
+`{ … }` block **inside the square brackets** after `items:`:
 
 ```js
-{
-  title: "Paper title",
-  authors: "A. Perera, B. Kumar",
-  type: "Journal article",          // or "Conference paper" / "Thesis" / ""
-  venue: "Journal or conference name",
-  year: "2026",
-  status: "Published",              // or "Ongoing" / "Under review" / "" (hide)
-  specialisationIds: ["automobile-technology"],  // which specialisation page shows it
-  url: ""                            // DOI/link, or "" for plain text
-}
+window.DEPARTMENT_CONTENT.research = {
+  intro: "Short paragraph placed above the list (or \"\" for none).",
+  items: [
+    {
+      title: "Paper title",
+      authors: "A. Perera, B. Kumar",
+      type: "Journal article",     // or "Conference paper" / "Thesis" / ""
+      venue: "Journal or conference name",
+      year: "2026",
+      status: "Published",         // or "Ongoing" / "Under review" / "" (hide)
+      specialisationIds: ["automobile-technology"],  // page that shows it
+      url: ""                      // DOI/link, or "" for plain text
+    }
+    // add more { ... } blocks inside these square brackets
+  ]
+};
 ```
+
+#### Fields in this file
+
+| Field | What it is |
+|---|---|
+| `intro` | An optional short paragraph above the list. Leave it `""` for none |
+| `items` | The **list** of papers. Every paper is one `{ … }` block inside it |
+| `items[].title` | The title of the work |
+| `items[].authors` | The author names with co-authors, separated by commas |
+| `items[].type` | The kind of work, e.g. `"Journal article"`, `"Conference paper"`, `"Thesis"` |
+| `items[].venue` | The journal, conference or publisher name |
+| `items[].year` | The year as four digits, e.g. `"2026"` |
+| `items[].status` | Where the work stands, e.g. `"Published"`, `"In press"`, `"Ongoing"`. Use `""` to hide it |
+| `items[].specialisationIds` | The specialisation codes this work belongs to (Section 4.7) |
+| `items[].url` | A link to the work (a full `https://` address), or `""` for plain text |
 
 Only add work that actually exists — never invent authors or papers.
 
 ### 4.4 `news.js` — announcements
 
 Controls the homepage news strip and the News page. Add **real, dated** items only,
-newest first.
+newest first. Every announcement is one `{ … }` block in the `news` list:
 
 ```js
 {
@@ -203,6 +342,17 @@ newest first.
   doc: { title: "Time table", url: "" }  // optional file; "" = no link
 }
 ```
+
+| Field | What it is | What to put in it |
+|---|---|---|
+| `id` | A unique code for the announcement | e.g. `"news-2026-11-01"`. It is the link anchor, so do not repeat it |
+| `title` | The headline | One short line |
+| `date` | The announcement date | `YYYY-MM-DD`, e.g. `"2026-11-01"` |
+| `category` | The label above the headline | A short label, e.g. `"Notice"`, `"Event"`, `"Result"` |
+| `summary` | The one-line summary shown in the list | One sentence |
+| `body` | The full announcement | Plain text. Line breaks are kept |
+| `doc.title` | The name of the file to download | e.g. `"Examination time table"` |
+| `doc.url` | Where that file is | `"assets/documents/time-table.pdf"`, or `""` when there is no file yet |
 
 To attach a file: put it in `assets/documents/` and set `url` to
 `"assets/documents/time-table.pdf"`. Leave `url: ""` for no file (never a dead
@@ -227,6 +377,17 @@ Controls the collapsible sections on the E-Resources page. `downloads` is an
 To add a document: upload it to `assets/documents/`, then copy a document block,
 give it a **new** `id`, and set its `url`. Leave `url: ""` until the file exists.
 
+| Field | What it is | What to put in it |
+|---|---|---|
+| `sections[].id` | A unique code for the section | e.g. `"forms"`, `"student-resources"` |
+| `sections[].title` | The section heading shown to users | e.g. `"Forms"`, `"Student Resources"` |
+| `sections[].documents` | The **list** of files inside the section | One `{ … }` block per file |
+| `documents[].id` | A unique code for the file | e.g. `"form-admissions"`, `"student-handbook"` |
+| `documents[].title` | The name shown in the list | e.g. `"Application form"` |
+| `documents[].format` | The file type | e.g. `"PDF"`, `"DOCX"` |
+| `documents[].size` | The size shown to readers | e.g. `"1.2 MB"`, or `""` if not known |
+| `documents[].url` | Where the file is | `"assets/documents/handbook.pdf"`, or `""` until it exists |
+
 > The **"Programme Documents"** section is built automatically from each
 > specialisation's own downloads — do **not** add it here.
 
@@ -237,6 +398,34 @@ Department block. To add a person, copy a `{ … }` block in `members`, paste it
 after the last one, give them a **new** `id`, and fill in the fields.
 
 **Keep exactly one person with `isHeadOfDepartment: true`.**
+
+#### The group headings (`categories`)
+
+This short list controls the headings in the Staff Directory and the order they
+appear in. A group with **no members is hidden**.
+
+| Field | What it is | What to put in it |
+|---|---|---|
+| `id` | The group's own code, used by each person's `category` | One of: `"head"`, `"academic"`, `"technical"`, `"admin"` |
+| `label` | The heading shown to readers | e.g. `"Academic Staff"`, `"Administrative & Support Staff"` |
+
+#### The people (`members`) — one `{ … }` block per person
+
+| Field | What it is | What to put in it |
+|---|---|---|
+| `id` | Their own code, unique | e.g. `"academic-staff-03"` (Section 4.7) |
+| `name` | Full name as it should be shown | e.g. `"Dr. A. B. Perera"` |
+| `designation` | Their job title or designation | e.g. `"Senior Lecturer"` |
+| `category` | Which group they belong to | `"head"`, `"academic"`, `"technical"` or `"admin"` — it must match one of the `categories` ids above, or the person will not show up |
+| `qualifications` | Degrees, qualifications and professional memberships | e.g. `"M.Sc. (Eng), Ph.D."` |
+| `photo` | Their photograph | A file in `assets/images/`, e.g. `"assets/images/perera.jpg"`, or `""` for none |
+| `specialisationIds` | The specialisations they teach or work in | The specialisation codes, e.g. `["automobile-technology"]` (Section 4.7) |
+| `email` | Their official email address | e.g. `"a.perera@tech.univ.jfn.ac.lk"`, or `""` for none |
+| `researchInterests` | A short line on their research interests | e.g. `"Vehicle dynamics, tribology"`, or `""` |
+| `isHeadOfDepartment` | Who is the Head of Department | `true` for the Head of Department **only**, `false` for everyone else |
+
+> The Head of Department's **name and photo come from `staff.js`**, not from
+> `content.js` — `content.js` only holds the Head's job title and message.
 
 ### 4.7 The codes you will see (and how to use them)
 
@@ -297,16 +486,32 @@ glance.
 
 ## 6. Placeholders — what to look for
 
-Before launch, replace everything in `[square brackets]`. Common ones:
+Before launch, replace everything in `[square brackets]`. The list below is
+regenerated from the site's own content files, so it is exactly what is still
+waiting for the department.
 
-- `[Dean's Name]`, `[Head of Department Name]`, `[Coordinator 01 Name]`
-- `[Insert the approved …]` (faculty intro, vision / mission / history, research)
-- `[Short description of the … specialisation.]`, `[Overview paragraph …]`
-- `[Concise description of this laboratory or facility.]`
-- `[Application / admissions form]`, `[Student handbook]`
-- `[… email address]`, `[Qualifications]`, `[Designation]`
+**At the time of writing there are 189 placeholders in 85 different forms.**
 
-See `CONTENT_CHECKLIST.md` for the full list of official information still needed.
+| File | Placeholders still to replace |
+|---|---|
+| `content.js` | `[Dean's Name]`; the approved faculty introduction `[Insert the approved introduction to the Faculty of Technology here. …]`; the optional second paragraph `[Optional second paragraph. …]`; the approved Dean's message `[Insert the approved Dean's message here. …]`; the approved Head of Department message `[Insert the approved message from the Head of the Department of Engineering Technology here. …]`; the academic organisation text `[Describe how the department is organised academically, …]`; `[Insert the approved vision statement of the department here. …]`; `[Insert the approved mission statement of the department here. …]`; `[Insert the approved history of the department here, …]`; `[Concise description of this laboratory or facility.]` (×2) |
+| `staff.js` | **Names:** `[Head of Department Name]`, `[Coordinator 01 Name]`, `[Coordinator 02 Name]`, `[Coordinator 03 Name]`, `[Academic Staff 01 Name]`, `[Academic Staff 02 Name]`, `[Technical Staff 01 Name]`, `[Administrative Staff 01 Name]`. **Emails:** `[head email address]`, `[coordinator 01 email address]`, `[coordinator 02 email address]`, `[coordinator 03 email address]`, `[academic staff 01 email address]`, `[academic staff 02 email address]`, `[technical staff 01 email address]`, `[administrative staff 01 email address]`. **Details:** `[Designation]` (×5), `[Qualifications]` (×7), `[Research interests]` (×6) |
+| `specialisations.js` | `[Short description of the first/second/third specialisation. One or two sentences.]`; `[Introduction to Automobile/Construction/Electro Technology. …]`; `[Overview paragraph one/two for this specialisation.]`; `[Year 01 / Semester 01]`–`[Year 04 / Semester 02]`; `[Subject name 01]`–`[Subject name 16]`; `[Subject code 01]`–`[Subject code 16]`; `[Curriculum shown is indicative. …]`; `[Brief description of research and project activity in this specialisation.]` |
+| `research.js` | `[Research or publication title]`, `[Author names, co-authors]`, `[Journal article / Conference paper / Thesis]`, `[Journal or conference name]` |
+| `downloads.js` | `[Application / admissions form]`, `[Student handbook]` |
+| `news.js` | None — the one announcement is already written. Add new items with real wording, not placeholders |
+
+The curriculum placeholders are the largest group (**120 of the 189**): every
+subject name, every subject code and every year/semester heading is still a
+placeholder, in all three specialisations.
+
+**These are fallbacks, not placeholders** — they appear only when a published
+value is cleared, so there is nothing to replace:
+`[Address to be added]`, `[Email to be added]`, `[Telephone to be added]`,
+`[Contact details to be added]`.
+
+See `docs/CONTENT_CHECKLIST.md` for the full list of official information still
+needed.
 
 ---
 
@@ -396,7 +601,7 @@ When in doubt, back up first and make one small change at a time.
 
 ## 12. Where to get more help
 
-- **Still unsure what to replace?** Check `CONTENT_CHECKLIST.md` — it lists the
+- **Still unsure what to replace?** Check `docs/CONTENT_CHECKLIST.md` — it lists the
   official information the site is still waiting for.
 - **Technical / developer detail?** See `README.md` in the `docs/` folder.
 - **Anything else?** Ask the department's webperson before editing.

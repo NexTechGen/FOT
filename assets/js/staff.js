@@ -45,6 +45,7 @@ window.DEPARTMENT_STAFF = {
   ],
 
   members: [
+    // HOD Details - make sure the ID:head-of-department
     {
       id: "head-of-department",
       name: "[Head of Department Name]",
@@ -57,6 +58,8 @@ window.DEPARTMENT_STAFF = {
       researchInterests: "[Research interests]",
       isHeadOfDepartment: true
     },
+
+    // Specialisation coordinator sections
     {
       id: "coordinator-automobile-technology",
       name: "[Coordinator 01 Name]",
@@ -93,6 +96,8 @@ window.DEPARTMENT_STAFF = {
       researchInterests: "[Research interests]",
       isHeadOfDepartment: false
     },
+
+    // Academic Staff section
     {
       id: "academic-staff-01",
       name: "[Academic Staff 01 Name]",
@@ -117,6 +122,8 @@ window.DEPARTMENT_STAFF = {
       researchInterests: "[Research interests]",
       isHeadOfDepartment: false
     },
+
+    // Technical staff Section
     {
       id: "technical-staff-01",
       name: "[Technical Staff 01 Name]",
@@ -129,6 +136,8 @@ window.DEPARTMENT_STAFF = {
       researchInterests: "",
       isHeadOfDepartment: false
     },
+
+    // administrative Staff Section
     {
       id: "administrative-staff-01",
       name: "[Administrative Staff 01 Name]",
