@@ -77,22 +77,11 @@ Legend: ☐ = outstanding, ✔ = supplied (tick when done).
 - ☐ Correct `specialisationIds` for each person.
 - ☐ Confirm exactly one `isHeadOfDepartment: true`.
 
-## 6. Academics
+## 6. Academic overview
 
-- Files: `pages/academics.html`, `assets/js/specialisations.js`
-- ✔ **Degree Programme** — supplied and published on `pages/academics.html` (four-year Bachelor of
-  Engineering Technology Honours, eight semesters, three specialisations). The Sydney Accord /
-  SLQF Level 6 wording is kept as **published department information**, not as an accreditation
-  claim.
-- ✔ **Programme Structure** — supplied (Semesters 1–2 common; specialisation from Semester 3;
-  Years 2–4 / Semesters 3–8).
-- ☐ Credits and admission requirements (only if officially approved).
-- ☐ Module codes and regulations.
-- ☐ Student resources / handbooks.
-
-> Note: the four **Academic overview** cards on the home page are edited in
-> `assets/js/specialisations.js` (`academicOverview`); each card has an optional `icon` (see §3.11 of
-> `README.md`). The card text is independent of the academic prose on `pages/academics.html`.
+- File: `assets/js/specialisations.js`
+- ☐ Confirm the four **Academic overview** cards on the home page (`academicOverview`); each card
+  has an optional `icon` (see §3.11 of `README.md`).
 
 > Note: the supplied **Career Opportunities** text has no matching page or section on the site,
 > so it was not placed.
@@ -102,7 +91,8 @@ Legend: ☐ = outstanding, ✔ = supplied (tick when done).
 - File: `assets/js/research.js`
 - ☐ Research themes.
 - ☐ Research projects and student projects.
-- ☐ Publications (currently empty).
+- ☐ Publications (only a `[Research or publication title]` placeholder is present — replace or
+  delete it; the site shows an empty state when the list has no real entries).
 - ☐ Research intro text.
 
 ## 8. Facilities
@@ -122,8 +112,12 @@ Legend: ☐ = outstanding, ✔ = supplied (tick when done).
 ## 9. News and events
 
 - File: `assets/js/news.js`
-- ☐ Add dated announcements to the `news` array (currently empty — a clear empty state is shown).
-- ☐ Confirm each item's date, category and summary.
+- ☐ One announcement is listed (practical examinations, 26 October 2026) — confirm the wording,
+  date and category before launch.
+- ☐ Add further dated announcements to the `news` array (newest first). When the array is empty,
+  a clear empty state is shown instead.
+- ☐ Attach the examination time table (or any other file) to `doc.url` once it exists in
+  `assets/documents/`.
 
 ## 10. Downloads
 

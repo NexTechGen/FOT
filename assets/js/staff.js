@@ -1,7 +1,6 @@
 /* staff.js — all staff details
  * What this file is for: the people of the department. This one list feeds the
- *   Staff Directory page, the staff cards on each specialisation page, the
- *   coordinators on the Academics page and the staff block on the home page,
+ *   Staff Directory page and the staff cards on each specialisation page,
  *   so a person is edited once here and appears everywhere.
  * 
  * What you can edit: the staff group headings, and every person's details

@@ -19,8 +19,7 @@
  *       The department introduction on the home page.
  *   hod.title / .message
  *       The Head of Department message on the About page.
- *   about.organisation.heading / .intro / .linkText / .linkUrl / .image /
- *   .imageAlt
+ *   about.organisation.heading / .intro / .image / .imageAlt
  *       The "Academic organisation" block on the About page.
  *   about.vision / .mission / .history
  *       The approved vision statement, mission statement and history.
@@ -117,8 +116,6 @@ window.DEPARTMENT_CONTENT = Object.assign(window.DEPARTMENT_CONTENT || {}, {
         "[Describe how the department is organised academically, for example " +
         "its specialisations and teaching units.]"
       ],
-      linkText: "See the academic overview",
-      linkUrl: "pages/academics.html",
       image: "assets/images/FOT-image-02.png",
       imageAlt: "Faculty of Technology"
     },

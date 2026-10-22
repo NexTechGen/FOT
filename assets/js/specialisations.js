@@ -1,12 +1,12 @@
-/* specialisations.js — specialisation pages and the Academics page
+/* specialisations.js — specialisation pages
  * What this file is for: the three specialisations (Automobile Technology,
  *   Construction Technology, Electro Technology) plus the academic overview
- *   tiles on the home page and the content of the Academics page.
+ *   tiles on the home page.
  * 
- * What you can edit: the specialisation names, text and images, the tiles and
- *   the Academics page content. If you rename a specialisation, the menu and
- *   footer of every page need the same update by the webperson. The staff on
- *   each specialisation come from staff.js automatically.
+ * What you can edit: the specialisation names, text and images, and the tiles.
+ *   If you rename a specialisation, the menu and footer of every page need the
+ *   same update by the webperson. The staff on each specialisation come from
+ *   staff.js automatically.
  * 
  * The codes used here: "id" is the specialisation's own code (unique, do not
  *   reuse) — automobile-technology, construction-technology, electro-technology.
@@ -18,7 +18,7 @@
  *   name              The name shown on the cards, in the menu, in the footer
  *                     and on the specialisation page.
  *   pageUrl           The page that shows this specialisation.
- *   description       One or two sentences for the card on the Academics page.
+ *   description       One or two sentences for the specialisation cards.
  *   image / imageAlt  The picture on the card and its description.
  *   coordinatorStaffId
  *                     The staff code of the specialisation coordinator.
@@ -42,10 +42,6 @@
  *   description, an icon and a link. Only set "url" to a page that exists.
  *   Icon names: "graduation-cap", "book-open", "layers", "list-checks",
  *   "folder-open", "file-text", "award", "users", "download".
- * 
- * The Academics page content — the overview intro and note, the study areas
- *   intro, and the curriculum intro, prose, steps (meta, title, text) and
- *   tagsLabel.
  * 
  * Anything in [square brackets] is a placeholder to replace.
  * Full help: see docs/ADMIN_GUIDE.md
@@ -314,48 +310,3 @@ window.DEPARTMENT_CONTENT.academicOverview = [
     url: "pages/downloads.html"
   }
 ];
-
-// Academics page content
-window.DEPARTMENT_CONTENT.academics = {
-  overview: {
-    intro: [
-      "The Department of Engineering Technology offers a four-year Bachelor " +
-      "of Engineering Technology Honours undergraduate degree comprising " +
-      "eight semesters. Students can pursue one of three specialisations: " +
-      "Automobile Technology, Construction Technology, or Electro Technology.",
-      "The published department information describes the programme as " +
-      "designed to comply with Sydney Accord requirements and Sri Lanka " +
-      "Qualifications Framework (SLQF) Level 6."
-    ],
-    note:
-      "Compliance with Sydney Accord requirements and SLQF Level 6 is stated " +
-      "as published department information and is not presented here as a " +
-      "claim of accreditation. Confirm current details with the department."
-  },
-  studyAreas: {
-    intro:
-      "The department's teaching is organised around three specialisations. " +
-      "Each specialisation has its own dedicated page."
-  },
-  curriculum: {
-    intro: "The semester structure of the four-year Bachelor of Engineering Technology Honours degree.",
-    prose: [
-      "The first two semesters are common to all Engineering Technology " +
-      "students. Specialisation studies begin in Semester 3 and continue " +
-      "through the remaining years of the four-year degree programme."
-    ],
-    steps: [
-      {
-        meta: "Year 1 · Semesters 1–2",
-        title: "Common programme",
-        text: "Shared by every Engineering Technology student before specialisation begins."
-      },
-      {
-        meta: "Years 2–4 · Semesters 3–8",
-        title: "Specialisation studies",
-        text: "Students continue in one of the department's three specialisations."
-      }
-    ],
-    tagsLabel: "View a specialisation curriculum"
-  }
-};

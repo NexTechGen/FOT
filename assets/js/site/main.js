@@ -222,7 +222,7 @@
     return svg;
   }
 
-  /** Build an inline <svg> icon (decorative). Returns null when name is empty. */
+  /** Build an inline <svg> icon (decorative). Unknown names fall back to the default. */
   function svgIcon(name) {
     var paths = ICONS[name] || ICONS[DEFAULT_ICON];
     if (!paths) {
@@ -944,17 +944,6 @@
       });
     }
 
-    var orgLink = document.querySelector('[data-render="about-organisation-link"]');
-    if (orgLink) {
-      clear(orgLink);
-      var href = resolve(org.linkUrl, "link");
-      if (href && org.linkText) {
-        orgLink.appendChild(
-          el("a", { cls: "link-more", text: org.linkText, attrs: { href: href } })
-        );
-      }
-    }
-
     var orgImage = document.querySelector('[data-render="about-organisation-image"]');
     if (orgImage) {
       var src = resolve(org.image, "image");
@@ -1123,46 +1112,6 @@
       });
       target.appendChild(list);
     });
-  }
-
-    // Academics > "Study areas and specialisations": each card's whole surface is
-    // the link, so the hit area matches what is visible. Small screens swipe
-    // between the cards like the home page specialisation cards.
-  function renderSpecialisationShowcase() {
-    var target = document.querySelector('[data-render="specialisation-showcase"]');
-    if (!target) {
-      return;
-    }
-    clear(target);
-    var grid = el("div", {
-      cls: "grid grid--3 sp-scroller",
-      attrs: { tabindex: "0", role: "group", "aria-label": "Study areas and specialisations" }
-    });
-    SPECIALISATIONS.forEach(function (sp, index) {
-      grid.appendChild(studyAreaCard(sp, index));
-    });
-    target.appendChild(grid);
-    initialiseSpecialisationCarousel(target, grid);
-  }
-
-  function studyAreaCard(sp, index) {
-    var href = resolve(sp.pageUrl, "link");
-
-    var body = el("div", { cls: "card__body", children: [
-      el("p", { cls: "eyebrow", text: "Specialisation " + (index + 1 < 10 ? "0" : "") + (index + 1) }),
-      el("h3", { cls: "card__title", text: sp.name }),
-      sp.description ? el("p", { cls: "card__text", text: sp.description }) : null,
-      el("p", { cls: "card__footer", children: [
-        href
-          ? el("span", { cls: "link-more", text: "View curriculum" })
-          : el("span", { cls: "placeholder-note", text: "Curriculum coming soon" })
-      ] })
-    ] });
-
-    if (!href) {
-      return el("div", { cls: "card card--plain", children: [body] });
-    }
-    return el("a", { cls: "card card--link", attrs: { href: href }, children: [body] });
   }
 
   function renderFacilities() {
@@ -1725,83 +1674,6 @@
       });
       target.appendChild(grid);
     });
-  }
-
-  /**
-   * Academics page body. Every field no-ops when its target is absent and the
-   * static HTML stays as the no-JS fallback. The showcase and the specialisation
-   * tags are built from SPECIALISATIONS so renames stay in sync.
-   */
-  function renderAcademicsPage() {
-    var page = CONTENT.academics || {};
-
-    var overview = page.overview || {};
-    var overviewIntro = document.querySelector('[data-render="academics-overview"]');
-    if (overviewIntro && (overview.intro || []).length) {
-      clear(overviewIntro);
-      overview.intro.forEach(function (text) {
-        overviewIntro.appendChild(el("p", { text: text }));
-      });
-    }
-    var overviewNote = document.querySelector('[data-render="academics-overview-note"]');
-    if (overviewNote && overview.note) {
-      overviewNote.textContent = overview.note;
-    }
-
-    var studyIntro = document.querySelector('[data-render="academics-study-intro"]');
-    if (studyIntro && page.studyAreas && page.studyAreas.intro) {
-      studyIntro.textContent = page.studyAreas.intro;
-    }
-
-    var curriculum = page.curriculum || {};
-    var curIntro = document.querySelector('[data-render="academics-curriculum-intro"]');
-    if (curIntro && curriculum.intro) {
-      curIntro.textContent = curriculum.intro;
-    }
-
-    var curProse = document.querySelector('[data-render="academics-curriculum-prose"]');
-    if (curProse && (curriculum.prose || []).length) {
-      clear(curProse);
-      curriculum.prose.forEach(function (text) {
-        curProse.appendChild(el("p", { text: text }));
-      });
-    }
-
-    var steps = document.querySelector('[data-render="academics-steps"]');
-    if (steps && (curriculum.steps || []).length) {
-      clear(steps);
-      curriculum.steps.forEach(function (step, index) {
-        steps.appendChild(
-          el("li", { cls: "path__step", children: [
-            el("span", { cls: "path__marker", text: String(index + 1), attrs: { "aria-hidden": "true" } }),
-            el("div", { cls: "path__body", children: [
-              el("p", { cls: "path__meta", text: step.meta || "" }),
-              el("h3", { cls: "path__title", text: step.title || "" }),
-              el("p", { cls: "path__text", text: step.text || "" })
-            ] })
-          ] })
-        );
-      });
-    }
-
-    var tagsLabel = document.querySelector('[data-render="academics-tags-label"]');
-    if (tagsLabel && curriculum.tagsLabel) {
-      tagsLabel.textContent = curriculum.tagsLabel;
-    }
-
-    var tags = document.querySelector('[data-render="academics-tags"]');
-    if (tags && SPECIALISATIONS.length) {
-      clear(tags);
-      SPECIALISATIONS.forEach(function (sp) {
-        var href = resolve(sp.pageUrl, "link");
-        if (!href) {
-          return;
-        }
-        tags.appendChild(
-          el("li", { children: [ el("a", { cls: "tag", text: sp.name, attrs: { href: href } }) ] })
-        );
-      });
-    }
   }
 
   /** One collapsible E-Resources section: a <details class="doc-group"> with the documents inside. */
@@ -2660,14 +2532,12 @@
     renderAbout();
     renderSpecialisationCards();
     renderSpecialisationLinks();
-    renderSpecialisationShowcase();
     renderSpecialisationNav();
     renderFacilities();
     renderResearch();
     renderNews();
     initNews();
     renderAcademicOverview();
-    renderAcademicsPage();
     renderDownloads();
     renderContact();
     renderFooterContact();

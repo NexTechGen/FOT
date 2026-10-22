@@ -331,45 +331,6 @@ summary:focus-visible,
   color: var(--muted);
 }
 
-/* CTA row: heading + supporting text with a single action. Two columns (text,
-   action) from md up; a single stacked column below, where the button becomes a
-   full-width tap target. Used by the Academic documents section. */
-.cta-row {
-  display: grid;
-  gap: var(--space-4);
-  align-items: center;
-}
-
-.cta-row__text {
-  min-width: 0;
-}
-
-.cta-row__text h2 {
-  margin-bottom: var(--space-2);
-}
-
-.cta-row__text > :last-child {
-  margin-bottom: 0;
-  color: var(--muted);
-}
-
-.cta-row__action {
-  margin: 0;
-}
-
-@media (max-width: 767.98px) {
-  .cta-row__action .btn {
-    width: 100%;
-  }
-}
-
-@media (min-width: 768px) {
-  .cta-row {
-    grid-template-columns: minmax(0, 1fr) auto;
-    gap: var(--space-6);
-  }
-}
-
 .eyebrow {
   display: inline-block;
   font-size: 0.8125rem;
@@ -1272,19 +1233,6 @@ summary:focus-visible,
   box-shadow: var(--shadow-sm);
 }
 
-/* Whole-card link (Academics study areas): the anchor wraps the card so its
-   entire surface is clickable. Headings must not inherit the link underline,
-   and the title picks up the brand colour on hover as the affordance. */
-.card--link {
-  text-decoration: none;
-  color: inherit;
-  height: 100%;
-}
-
-.card--link:hover .card__title {
-  color: var(--blue);
-}
-
 /* Department intro split */
 .split {
   display: grid;
@@ -1859,6 +1807,8 @@ details.disclosure summary::marker {
 
 .news-modal__body p {
   margin: 0 0 var(--space-3);
+  /* A multi-line body in news.js keeps its line breaks. */
+  white-space: pre-line;
 }
 
 .news-modal__body p:last-child {
@@ -2809,7 +2759,6 @@ tbody tr:last-child td {
 /* The footer address links to the Contact page. A quiet permanent underline
    marks it as a link; it brightens on hover and focus. */
 .site-footer .footer__address-link {
-  text-decoration: underline;
   text-decoration-color: rgba(255, 255, 255, 0.4);
   text-underline-offset: 3px;
   transition: text-decoration-color 0.2s ease;

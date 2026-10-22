@@ -30,7 +30,6 @@ department-website/
 ├── pages/                          # Every inner page is a flat HTML file in this one folder
 │   ├── about.html                  # Dean's message, academic organisation, HoD message, vision & mission, history
 │   ├── staff.html                  # Searchable / filterable staff directory
-│   ├── academics.html
 │   ├── research.html
 │   ├── facilities.html
 │   ├── news.html
@@ -44,7 +43,7 @@ department-website/
 │   │   └── styles.css              # All styling (mobile-first)
 │   ├── js/
 │   │   ├── content.js              # EDITABLE core content: identity, dean/HoD messages, about, facilities, contact
-│   │   ├── specialisations.js      # EDITABLE: specialisations, academic overview, Academics page
+│   │   ├── specialisations.js      # EDITABLE: specialisations, academic overview
 │   │   ├── research.js             # EDITABLE: research publications
 │   │   ├── news.js                 # EDITABLE: news and announcements
 │   │   ├── downloads.js            # EDITABLE: E-Resources / downloads sections
@@ -141,8 +140,7 @@ and merges into the same `window.DEPARTMENT_CONTENT` object):
 
 - `assets/js/content.js` — core content: institutional identity, Dean's and Head of Department
   messages, the About page, facilities and contact details.
-- `assets/js/specialisations.js` — the three specialisations, the academic overview tiles and the
-  Academics page content.
+- `assets/js/specialisations.js` — the three specialisations and the academic overview tiles.
 - `assets/js/research.js` — research publications.
 - `assets/js/news.js` — news and announcements.
 - `assets/js/downloads.js` — E-Resources / downloads sections.
@@ -179,7 +177,7 @@ top of each file so you do not have to remember them:
   downloads, contact details, **and** the institutional identity text (university / faculty /
   department), the home hero and department headings, and the contact identity lines.
 - **Static HTML** — the header, navigation structure, footer structure, breadcrumbs and the general
-  page prose (About, Academics, etc.). These are plain HTML in each page; edit the page file
+  page prose (About, etc.). These are plain HTML in each page; edit the page file
   directly if the wording needs to change.
 - A few values exist in **both** places on purpose: the data file is the source of truth and the
   matching static HTML is the **no-JS fallback** (see §3.10 for the specialisation names). Editing
@@ -330,7 +328,7 @@ The four cards in the home page **Academic overview** section are driven by the
   title: "Degree Programme",
   description: "A four-year Bachelor of Engineering Technology Honours degree ...",
   icon: "graduation-cap",          // optional — see the list below
-  url: "academics/#overview"        // link destination, or "" for a non-clickable card
+  url: "pages/about.html#academic-organisation"  // link destination, or "" for a non-clickable card
 }
 ```
 
