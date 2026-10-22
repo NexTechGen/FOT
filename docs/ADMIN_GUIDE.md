@@ -605,3 +605,7 @@ When in doubt, back up first and make one small change at a time.
   official information the site is still waiting for.
 - **Technical / developer detail?** See `README.md` in the `docs/` folder.
 - **Anything else?** Ask the department's webperson before editing.
+
+**Webperson:** https://ruzait.github.io/ — the person who built and maintains this
+site. Ask them before touching page files, ids, navigation or anything not listed
+in §11, and whenever a file or image you need is missing.
