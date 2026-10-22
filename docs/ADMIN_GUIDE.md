@@ -62,7 +62,7 @@ The `.html` files only provide the structure (header, menu, footer) and headings
 |---|---|---|
 | Home | `index.html` | `content.js`, `specialisations.js`, `research.js`, `news.js` |
 | About Us | `pages/about.html` | `content.js` (`dean`, `hod`, `about`) |
-| Academics | `pages/academics.html` | `specialisations.js` (`academics`) |
+| Academics | *(removed)* | `specialisations.js` (`academics`) |
 | Our Research | `pages/research.html` | `research.js` |
 | E-Resources | `pages/downloads.html` | `downloads.js` (+ specialisations' own files) |
 | Staff | `pages/staff.html` | `staff.js` |
