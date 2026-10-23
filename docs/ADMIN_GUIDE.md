@@ -170,6 +170,8 @@ details (address, email, phone, map, social links).
 | `faculty.imageAlt` | The picture's description (read aloud by screen readers) | A short sentence describing the picture |
 | `dean.name` | The Dean's full name | e.g. `"Dr. A. B. Perera"` |
 | `dean.title` | The Dean's job title | e.g. `"Dean, Faculty of Technology"` |
+| `dean.qualifications` | The Dean's degrees and qualifications | e.g. `"Ph.D. (…), B.Sc. (…)"` |
+| `dean.email` | The Dean's official email address | It becomes a `mailto:` link automatically |
 | `dean.photo` | The Dean's photograph | A file in `assets/images/`, e.g. `"assets/images/dean.jpg"` |
 | `dean.photoAlt` | The photograph's description | A short sentence |
 | `dean.message` | The Dean's message — a **list** of paragraphs | Replace the text inside the `[ … ]` with the approved message |
@@ -186,7 +188,8 @@ details (address, email, phone, map, social links).
 | `about.organisation.imageAlt` | The picture's description | A short sentence |
 | `about.vision` | The vision statement — one paragraph | The approved vision statement |
 | `about.mission` | The mission statement — one paragraph | The approved mission statement |
-| `about.history` | The history — a **list** of paragraphs | The approved history, with verified dates only |
+| `about.history` | The history - a **list** of paragraphs | The approved history, with verified dates only |
+| `about.historyMilestones` | Milestones beside the history - a **list** of `{ year, text }` entries | Only verified dates and facts |
 | `facilities` | A **list**: one `{ … }` block per laboratory or facility | See the table below |
 | `academicOverview` | A **list**: one `{ … }` block per academic overview tile | See the table below |
 | `contact.address` | The postal address — one entry per line | The address parts, written without commas or full stops |
@@ -495,7 +498,7 @@ waiting for the department.
 
 | File | Placeholders still to replace |
 |---|---|
-| `content.js` | `[Dean's Name]`; the approved faculty introduction `[Insert the approved introduction to the Faculty of Technology here. …]`; the optional second paragraph `[Optional second paragraph. …]`; the approved Dean's message `[Insert the approved Dean's message here. …]`; the approved Head of Department message `[Insert the approved message from the Head of the Department of Engineering Technology here. …]`; the academic organisation text `[Describe how the department is organised academically, …]`; `[Insert the approved vision statement of the department here. …]`; `[Insert the approved mission statement of the department here. …]`; `[Insert the approved history of the department here, …]`; `[Concise description of this laboratory or facility.]` (×2) |
+| `content.js` | `[Dean's Name]`; the approved faculty introduction `[Insert the approved introduction to the Faculty of Technology here. …]`; the optional second paragraph `[Optional second paragraph. …]`; the approved Dean's message `[Insert the approved Dean's message here. …]`; the approved Head of Department message `[Insert the approved message from the Head of the Department of Engineering Technology here. …]`; the academic organisation text `[Describe how the department is organised academically, …]`; `[Insert the approved vision statement of the department here. …]`; `[Insert the approved mission statement of the department here. …]`; `[Concise description of this laboratory or facility.]` (×2) |
 | `staff.js` | **Names:** `[Head of Department Name]`, `[Coordinator 01 Name]`, `[Coordinator 02 Name]`, `[Coordinator 03 Name]`, `[Academic Staff 01 Name]`, `[Academic Staff 02 Name]`, `[Technical Staff 01 Name]`, `[Administrative Staff 01 Name]`. **Emails:** `[head email address]`, `[coordinator 01 email address]`, `[coordinator 02 email address]`, `[coordinator 03 email address]`, `[academic staff 01 email address]`, `[academic staff 02 email address]`, `[technical staff 01 email address]`, `[administrative staff 01 email address]`. **Details:** `[Designation]` (×5), `[Qualifications]` (×7), `[Research interests]` (×6) |
 | `specialisations.js` | `[Short description of the first/second/third specialisation. One or two sentences.]`; `[Introduction to Automobile/Construction/Electro Technology. …]`; `[Overview paragraph one/two for this specialisation.]`; `[Year 01 / Semester 01]`–`[Year 04 / Semester 02]`; `[Subject name 01]`–`[Subject name 16]`; `[Subject code 01]`–`[Subject code 16]`; `[Curriculum shown is indicative. …]`; `[Brief description of research and project activity in this specialisation.]` |
 | `research.js` | `[Research or publication title]`, `[Author names, co-authors]`, `[Journal article / Conference paper / Thesis]`, `[Journal or conference name]` |

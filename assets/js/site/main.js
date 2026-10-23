@@ -522,12 +522,17 @@
     head.appendChild(nameWrap);
     card.appendChild(head);
 
-    var affiliations = specialisationsForStaff(member);
+    var isHead = !!member.isHeadOfDepartment;
+    // The Head of Department oversees every specialisation, so always show
+    // all three in their tags regardless of their own list.
+    var affiliations = isHead ? SPECIALISATIONS.slice() : specialisationsForStaff(member);
     var showCoordinatorTag = variant === "full" && isSpecialisationCoordinator(member);
     if (affiliations.length || showCoordinatorTag) {
       var tags = el("div", { cls: "staff-card__tags" });
       affiliations.forEach(function (sp) {
-        tags.appendChild(el("span", { cls: "tag", text: sp.name }));
+        // The Head of Department oversees all three, so their specialisation
+        // tags are highlighted in the stronger style.
+        tags.appendChild(el("span", { cls: isHead ? "tag tag--hod" : "tag", text: sp.name }));
       });
       if (showCoordinatorTag) {
         tags.appendChild(el("span", { cls: "tag", text: "Specialisation Coordinator" }));
@@ -548,6 +553,8 @@
       return card;
     }
 
+    card.classList.add("staff-card--full");
+
     var details = document.createElement("details");
     details.className = "disclosure";
     var summary = el("summary", {
@@ -561,26 +568,35 @@
     var dl = el("dl", { cls: "staff-card__meta" });
     addMetaRow(dl, "Qualifications", member.qualifications ? el("span", { text: member.qualifications }) : null);
     if (affiliations.length) {
-      addMetaRow(
-        dl,
-        "Specialisations",
-        el("span", {
-          text: affiliations
-            .map(function (sp) {
-              return sp.name;
-            })
-            .join(", ")
+      var affiliationNames = affiliations
+        .map(function (sp) {
+          return sp.name;
         })
-      );
+        .join(", ");
+      addMetaRow(dl, "Specialisations", el("span", { text: affiliationNames }));
     }
     addMetaRow(dl, "Email", emailNode(member.email));
-    addMetaRow(
-      dl,
-      "Research interests",
-      member.researchInterests ? el("span", { text: member.researchInterests }) : null
-    );
     details.appendChild(dl);
-    card.appendChild(details);
+
+    var side = el("div", { cls: "staff-card__side", children: [details] });
+    if (member.researchInterests) {
+      var research = document.createElement("details");
+      research.className = "disclosure disclosure--research";
+      research.appendChild(
+        el("summary", {
+          children: [
+            document.createTextNode("Research interests"),
+            el("span", { cls: "disclosure__cue", text: "\u2192", attrs: { "aria-hidden": "true" } })
+          ]
+        })
+      );
+      research.appendChild(
+        el("p", { cls: "staff-card__research", text: member.researchInterests })
+      );
+      side.appendChild(research);
+    }
+    card.appendChild(side);
+    syncStaffDisclosure(details);
 
     var fullProfile = staffProfileLink(member);
     if (fullProfile) {
@@ -588,6 +604,32 @@
     }
 
     return card;
+  }
+
+  /**
+   * Small screens keep the "Contact and details" panel collapsible. On large
+   * screens it sits beside the card content permanently open, so keep its
+   * `open` state in step with the breakpoint (which also hides the summary).
+   */
+  function syncStaffDisclosure(details) {
+    if (!window.matchMedia) {
+      return;
+    }
+    var desktop = window.matchMedia("(min-width: 992px)");
+    var sync = function () {
+      details.open = desktop.matches;
+    };
+    sync();
+    if (desktop.addEventListener) {
+      desktop.addEventListener("change", sync);
+    } else if (desktop.addListener) {
+      desktop.addListener(sync);
+    }
+    details.addEventListener("toggle", function () {
+      if (desktop.matches && !details.open) {
+        details.open = true;
+      }
+    });
   }
 
   /**
@@ -647,6 +689,22 @@
 
     body.appendChild(el("p", { cls: "message-block__name", text: options.name }));
     body.appendChild(el("p", { cls: "message-block__role", text: options.title }));
+
+    if (options.qualifications) {
+      body.appendChild(
+        el("p", { cls: "message-block__qualifications", text: options.qualifications })
+      );
+    }
+
+    if (options.email) {
+      var email = String(options.email).trim();
+      var emailNode = isRealEmail(email)
+        ? el("a", { text: email, attrs: { href: "mailto:" + email } })
+        : el("span", { cls: "placeholder-note", text: email });
+      body.appendChild(
+        el("p", { cls: "message-block__email", children: [emailNode] })
+      );
+    }
 
     if (options.footerLink) {
       body.appendChild(options.footerLink);
@@ -900,6 +958,8 @@
       heading: "Message from the Dean",
       name: dean.name,
       title: dean.title,
+      qualifications: dean.qualifications,
+      email: dean.email,
       photo: dean.photo,
       photoAlt: dean.photoAlt,
       message: dean.message || []
@@ -989,6 +1049,27 @@
       clear(history);
       (about.history || []).forEach(function (text) {
         history.appendChild(el("p", { text: text }));
+      });
+    }
+
+    var milestones = document.querySelector('[data-render="about-history-milestones"]');
+    if (milestones) {
+      clear(milestones);
+      var timeline = about.historyMilestones || [];
+      var aside = milestones.closest(".history__aside");
+      if (aside) {
+        aside.hidden = !timeline.length;
+      }
+      timeline.forEach(function (item) {
+        milestones.appendChild(
+          el("li", {
+            cls: "timeline__item",
+            children: [
+              el("span", { cls: "timeline__year", text: item.year || "" }),
+              el("p", { cls: "timeline__text", text: item.text || "" })
+            ]
+          })
+        );
       });
     }
   }
@@ -1118,16 +1199,29 @@
     }
     targets.forEach(function (target) {
       clear(target);
-      var list = el("ul", { cls: "checklist" });
-      SPECIALISATIONS.forEach(function (sp) {
+      var list = el("ul", { cls: "org-tracks__list" });
+      SPECIALISATIONS.forEach(function (sp, index) {
         var href = resolve(sp.pageUrl, "link");
-        list.appendChild(
-          el("li", { children: [
-            href
-              ? el("a", { text: sp.name, attrs: { href: href } })
-              : el("span", { cls: "placeholder-note", text: sp.name })
-          ] })
+        var name = sp.name || "Specialisation " + (index + 1);
+        var card = el(href ? "a" : "div", {
+          cls: "org-track" + (href ? "" : " org-track--static"),
+          attrs: href ? { href: href } : null
+        });
+        card.appendChild(
+          el("span", {
+            cls: "org-track__num",
+            text: (index + 1 < 10 ? "0" : "") + (index + 1)
+          })
         );
+        card.appendChild(el("span", { cls: "org-track__name", text: name }));
+        card.appendChild(
+          el("span", {
+            cls: "org-track__arrow",
+            text: "\u2192",
+            attrs: { "aria-hidden": "true" }
+          })
+        );
+        list.appendChild(el("li", { cls: "org-track__item", children: [card] }));
       });
       target.appendChild(list);
     });
@@ -2197,7 +2291,7 @@
     var addSection = function (label, group) {
       var section = el("section", { cls: "mt-6" });
       section.appendChild(el("h2", { text: label }));
-      var grid = el("div", { cls: "grid grid--3" });
+      var grid = el("div", { cls: "grid grid--3 staff-grid" });
       group.forEach(function (member) {
         grid.appendChild(buildStaffCard(member, "full"));
       });

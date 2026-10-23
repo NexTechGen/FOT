@@ -987,12 +987,32 @@ summary:focus-visible,
 .message-block__name {
   font-weight: 700;
   color: var(--blue-dark);
-  margin-bottom: 0;
+  line-height: 1.3;
+  margin: 0 0 var(--space-1);
 }
 
 .message-block__role {
   color: var(--muted);
-  margin-bottom: var(--space-4);
+  line-height: 1.5;
+  margin: 0 0 var(--space-4);
+}
+
+.message-block__qualifications {
+  color: var(--muted);
+  font-size: 0.9375rem;
+  line-height: 1.5;
+  margin: 0 0 var(--space-2);
+}
+
+.message-block__email {
+  font-size: 0.9375rem;
+  line-height: 1.5;
+  margin: 0;
+}
+
+.message-block__email a {
+  color: var(--blue);
+  font-weight: 600;
 }
 
 .message-block blockquote {
@@ -1042,6 +1062,259 @@ summary:focus-visible,
 
   .message-block--tint {
     padding: var(--space-5);
+  }
+}
+
+/* ----------------------------------------------------------------------------
+ * 9b. History layout (About page)
+ * --------------------------------------------------------------------------*/
+.history {
+  display: grid;
+  gap: var(--space-6);
+  align-items: start;
+}
+
+.history > * {
+  min-width: 0;
+}
+
+/* The narrative fills the available column instead of the narrow reading
+   measure used by plain prose blocks. */
+.history__body {
+  max-width: none;
+}
+
+.history__body > p:first-child {
+  font-size: 1.0625rem;
+}
+
+.history__aside {
+  padding: var(--space-5);
+  background: var(--blue-light);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+}
+
+.history__aside-title {
+  margin: 0 0 var(--space-4);
+  font-size: 1.125rem;
+}
+
+.timeline {
+  position: relative;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.timeline__item {
+  position: relative;
+  padding-left: var(--space-6);
+  padding-bottom: var(--space-5);
+}
+
+.timeline__item:last-child {
+  padding-bottom: 0;
+}
+
+.timeline__item::before {
+  content: "";
+  position: absolute;
+  top: 0.4rem;
+  left: 0.2rem;
+  width: 0.625rem;
+  height: 0.625rem;
+  border-radius: 50%;
+  background: var(--blue);
+  box-shadow: 0 0 0 3px var(--white);
+}
+
+.timeline__item::after {
+  content: "";
+  position: absolute;
+  top: 1.25rem;
+  bottom: 0;
+  left: 0.5rem;
+  width: 2px;
+  background: var(--border);
+}
+
+.timeline__item:last-child::after {
+  display: none;
+}
+
+.timeline__year {
+  display: block;
+  font-weight: 700;
+  color: var(--blue-dark);
+  font-size: 0.9375rem;
+  letter-spacing: 0.02em;
+}
+
+.timeline__text {
+  margin: var(--space-1) 0 0;
+  color: var(--muted);
+  font-size: 0.9375rem;
+}
+
+@media (min-width: 992px) {
+  .history {
+    grid-template-columns: minmax(0, 1fr) 340px;
+    gap: var(--space-7);
+  }
+}
+
+/* ----------------------------------------------------------------------------
+ * 9c. Academic organisation (About page)
+ * --------------------------------------------------------------------------*/
+.org {
+  display: grid;
+  gap: var(--space-6);
+  align-items: start;
+}
+
+.org > * {
+  min-width: 0;
+}
+
+.org__body .eyebrow {
+  margin-bottom: var(--space-2);
+}
+
+.org__intro p:last-child {
+  margin-bottom: 0;
+}
+
+.org__media img {
+  width: 100%;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow);
+  aspect-ratio: 16 / 9;
+  object-fit: cover;
+}
+
+.org-tracks__head {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  margin-bottom: var(--space-4);
+}
+
+.org-tracks__head::after {
+  content: "";
+  flex: 1 1 auto;
+  height: 1px;
+  background: var(--border);
+}
+
+.org-tracks__title {
+  margin: 0;
+  font-size: 0.8125rem;
+  font-weight: 700;
+  letter-spacing: 0.09em;
+  text-transform: uppercase;
+  color: var(--blue);
+}
+
+.org-tracks__list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: var(--space-3);
+}
+
+.org-track__item {
+  margin: 0;
+}
+
+.org-track {
+  display: flex;
+  align-items: center;
+  gap: var(--space-4);
+  padding: var(--space-4);
+  background: var(--white);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-sm);
+  text-decoration: none;
+  color: var(--text);
+  transition: border-color 0.15s ease, box-shadow 0.15s ease,
+    transform 0.15s ease;
+}
+
+.org-track:hover {
+  border-color: var(--blue);
+  box-shadow: var(--shadow);
+  transform: translateY(-2px);
+}
+
+.org-track__num {
+  display: grid;
+  place-items: center;
+  width: 2.5rem;
+  height: 2.5rem;
+  flex: 0 0 auto;
+  border-radius: var(--radius);
+  background: var(--blue-light);
+  color: var(--blue);
+  font-weight: 700;
+  font-size: 0.875rem;
+}
+
+.org-track__name {
+  min-width: 0;
+  font-weight: 600;
+  color: var(--blue-dark);
+  overflow-wrap: anywhere;
+}
+
+.org-track__arrow {
+  margin-left: auto;
+  flex: 0 0 auto;
+  font-size: 1.25rem;
+  line-height: 1;
+  color: var(--blue);
+  transition: transform 0.15s ease;
+}
+
+.org-track:hover .org-track__arrow {
+  transform: translateX(3px);
+}
+
+.org-track--static {
+  box-shadow: none;
+}
+
+.org-track--static:hover {
+  border-color: var(--border);
+  box-shadow: none;
+  transform: none;
+}
+
+.org-track--static .org-track__arrow {
+  display: none;
+}
+
+@media (min-width: 768px) {
+  .org {
+    grid-template-columns: minmax(0, 1fr) 360px;
+  }
+
+  .org-tracks {
+    grid-column: 1 / -1;
+  }
+
+  .org-tracks__list {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
+@media (min-width: 992px) {
+  .org {
+    grid-template-columns: minmax(0, 1.15fr) minmax(320px, 0.85fr);
+    gap: var(--space-7);
   }
 }
 
@@ -1404,8 +1677,8 @@ summary:focus-visible,
 
 .avatar {
   flex: 0 0 auto;
-  width: 64px;
-  height: 64px;
+  width: 100px;
+  height: 100px;
   border-radius: 50%;
   display: grid;
   place-items: center;
@@ -1462,6 +1735,15 @@ summary:focus-visible,
   overflow-wrap: anywhere;
 }
 
+.staff-card__research {
+  margin: 0;
+  padding-bottom: var(--space-1);
+  color: var(--muted);
+  font-size: 0.9375rem;
+  line-height: 1.6;
+  overflow-wrap: anywhere;
+}
+
 .staff-card__tags {
   display: flex;
   flex-wrap: wrap;
@@ -1479,6 +1761,107 @@ summary:focus-visible,
   font-size: 0.75rem;
   font-weight: 600;
   overflow-wrap: anywhere;
+}
+
+/* The Head of Department oversees every specialisation, so this tag carries
+   more weight than the individual specialisation tags. */
+.tag--hod {
+  background: var(--blue-dark);
+  border-color: var(--blue-dark);
+  color: var(--white);
+}
+
+/* Large screens: each staff card spans the full row and the Contact and
+   details panel moves to its right, open and without its toggle. Small
+   screens keep the collapsible summary. */
+@media (min-width: 992px) {
+  .staff-grid.grid--3 {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .staff-card--full {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(320px, 1.15fr);
+    column-gap: var(--space-6);
+    align-items: start;
+  }
+
+  .staff-card--full > .staff-card__head {
+    grid-column: 1;
+    grid-row: 1;
+  }
+
+  .staff-card--full > .staff-card__tags {
+    grid-column: 1;
+    grid-row: 2;
+  }
+
+  .staff-card--full > .staff-card__profile {
+    grid-column: 1;
+    grid-row: 3;
+  }
+
+  .staff-card--full > .staff-card__side {
+    grid-column: 2;
+    grid-row: 1 / span 3;
+    align-self: stretch;
+    border-left: 1px solid var(--border);
+    padding-left: var(--space-5);
+  }
+
+  /* Contact and details stays permanently open; Research interests keeps its
+     own toggle so it can still be collapsed. */
+  .staff-card--full > .staff-card__side > details.disclosure:not(.disclosure--research) {
+    border-top: 0;
+    padding-top: 0;
+  }
+
+  .staff-card--full
+    > .staff-card__side
+    > details.disclosure:not(.disclosure--research)
+    > summary {
+    display: none;
+  }
+
+  .staff-card--full
+    > .staff-card__side
+    > details.disclosure:not(.disclosure--research)
+    > .staff-card__meta
+    dt {
+    margin-bottom: 0.25rem;
+  }
+
+  .staff-card--full
+    > .staff-card__side
+    > details.disclosure:not(.disclosure--research)
+    > .staff-card__meta
+    dt:not(:first-of-type) {
+    margin-top: var(--space-4);
+  }
+
+  .staff-card--full
+    > .staff-card__side
+    > details.disclosure:not(.disclosure--research)
+    > .staff-card__meta
+    dd {
+    margin: 0;
+    padding-bottom: var(--space-3);
+    border-bottom: 1px solid var(--border);
+    line-height: 1.55;
+  }
+
+  .staff-card--full
+    > .staff-card__side
+    > details.disclosure:not(.disclosure--research)
+    > .staff-card__meta
+    dd:last-child {
+    padding-bottom: 0;
+    border-bottom: 0;
+  }
+
+  .staff-card--full > .staff-card__side > .disclosure--research {
+    margin-top: var(--space-4);
+  }
 }
 
 details.disclosure {

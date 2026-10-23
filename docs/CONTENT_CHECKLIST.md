@@ -150,10 +150,10 @@ Legend: ☐ = outstanding, ✔ = supplied (tick when done).
 ## Placeholder inventory (search and replace)
 
 This list is generated from the content files themselves, so it is exactly what
-is still waiting for the department. At the time of writing there are **189
+is still waiting for the department. At the time of writing there are **188
 placeholders in 85 different forms**.
 
-**`assets/js/content.js`** (11)
+**`assets/js/content.js`** (10)
 
 - `[Dean's Name]`
 - `[Insert the approved introduction to the Faculty of Technology here. …]`
@@ -163,7 +163,6 @@ placeholders in 85 different forms**.
 - `[Describe how the department is organised academically, …]`
 - `[Insert the approved vision statement of the department here. …]`
 - `[Insert the approved mission statement of the department here. …]`
-- `[Insert the approved history of the department here, …]`
 - `[Concise description of this laboratory or facility.]` (×2 — one per facility)
 
 **`assets/js/staff.js`** (34)

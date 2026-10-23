@@ -48,14 +48,14 @@ window.DEPARTMENT_STAFF = {
     // HOD Details - make sure the ID:head-of-department
     {
       id: "head-of-department",
-      name: "[Head of Department Name]",
-      designation: "[Designation]",
+      name: "Dr (Ms.) T H K Nawarathna",
+      designation: "Head of Department",
       category: "head",
-      qualifications: "[Qualifications]",
-      photo: "",
-      specialisationIds: ["automobile-technology", "construction-technology", "electro-technology"],
-      email: "[head email address]",
-      researchInterests: "[Research interests]",
+      qualifications: "Ph.D. (Hokkaido, Japan), M.Eng & B.Sc. Eng. (Hons) (Moratuwa, SL)",
+      photo: "assets/images/staff/Eng-DrHiranya.jpg",
+      specialisationIds: ["construction-technology"],
+      email: "hiranya@tech.jfn.ac.lk",
+      researchInterests: "",
       isHeadOfDepartment: true
     },
 

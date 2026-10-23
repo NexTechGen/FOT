@@ -13,16 +13,20 @@
  *   faculty.label / .heading / .intro / .image / .imageAlt
  *       The Faculty of Technology block on the home page: a short label, the
  *       heading, one or two paragraphs, a picture and its description.
- *   dean.name / .title / .photo / .photoAlt / .message
- *       The Dean's message on the About page. Use the approved text only.
+ *   dean.name / .title / .qualifications / .email / .photo / .photoAlt /
+ *   .message
+ *       The Dean's message on the About page, with the name, title,
+ *       qualifications and email shown beneath it. Use the approved text only.
  *   department.heading / .intro / .image / .imageAlt / .focus
  *       The department introduction on the home page.
  *   hod.title / .message
  *       The Head of Department message on the About page.
  *   about.organisation.heading / .intro / .image / .imageAlt
  *       The "Academic organisation" block on the About page.
- *   about.vision / .mission / .history
- *       The approved vision statement, mission statement and history.
+ *   about.vision / .mission / .history / .historyMilestones
+ *       The approved vision statement, mission statement and history. The
+ *       history is a list of paragraphs; historyMilestones is an optional list
+ *       of { year, text } entries shown beside it as a timeline.
  *   facilities[] — id / name / description / image / imageAlt /
  *   specialisationIds
  *       One laboratory or facility: a unique code, its name, a one or two
@@ -71,15 +75,13 @@ window.DEPARTMENT_CONTENT = Object.assign(window.DEPARTMENT_CONTENT || {}, {
   // 3. Message from the Dean (About page) — keep it separate from the Head of
   //    Department message below.
   dean: {
-    name: "[Dean's Name]",
+    name: "Dr T. Ketheesan",
     title: "Dean, Faculty of Technology",
-    photo: "assets/images/placeholder-portrait.svg",
+    qualifications: "Ph.D. in Computer Vision (DCU, Ire), B.Sc. Special in Computer Science (Hons) (UoJ)",
+    email: "deantech@univ.jfn.ac.lk",
+    photo: "assets/images/staff/Dr-T-etheesan.jpg",
     photoAlt: "Placeholder portrait of the Dean, Faculty of Technology",
-    message: [
-      "[Insert the approved Dean's message here. This text must be provided " +
-      "and approved by the Dean's office before it is published. Do not write " +
-      "a welcome message on the Dean's behalf.]"
-    ]
+    message: ["It is my great pleasure to welcome you to the Department of Engineering Technology, Faculty of Technology, University of Jaffna. Our department offers a four-year Bachelor of Engineering Technology Honours degree programme with specialisations in Automobile, Construction, and Electro Technology. With dedicated academic staff, practical learning, and a commitment to excellence, we aim to produce skilled, innovative, and responsible engineering technologists who contribute to industrial development and the technological advancement of Sri Lanka."]
   },
 
   // 4. Department introduction (home page section 3)
@@ -115,22 +117,49 @@ window.DEPARTMENT_CONTENT = Object.assign(window.DEPARTMENT_CONTENT || {}, {
   about: {
     organisation: {
       heading: "Academic organisation",
-      intro: [
-        "[Describe how the department is organised academically, for example " +
-        "its specialisations and teaching units.]"
-      ],
+      intro: ["The Department of Engineering Technology is academically organised into three specialisations: Automobile Technology, Construction Technology, and Electro Technology. The four-year Bachelor of Engineering Technology Honours degree programme combines common foundational studies during the first three semesters with specialised courses from the fourth semester onwards, providing students with theoretical knowledge, practical experience, and technical skills relevant to their chosen field."],
       image: "assets/images/FOT-image-02.png",
       imageAlt: "Faculty of Technology"
     },
     vision:
-      "[Insert the approved vision statement of the department here. Do not " +
-      "publish a vision statement that has not been officially approved.]",
-    mission:
-      "[Insert the approved mission statement of the department here. Do not " +
-      "publish a mission statement that has not been officially approved.]",
+      "To be a leading centre of fostering and promoting technological studies and research.",
+    mission:"To produce knowledgeable and skillful technocrats who excel in innovative application of technological skills and expertise for the progress of technology in the country.",
     history: [
-      "[Insert the approved history of the department here, including only " +
-      "verified dates and milestones.]"
+      "The Faculty of Technology, University of Jaffna, was established in " +
+      "2016 as the 10th faculty of the university, created to accommodate " +
+      "students of the newly introduced G.C.E. Advanced Level Technology " +
+      "stream. Sri Lanka needed technology professionals who could keep pace " +
+      "with global trends and changing industrial knowledge, so the university " +
+      "took the initiative to open undergraduate and postgraduate pathways for " +
+      "the technology stream, filling a long-standing gap in the national " +
+      "education system.",
+      "The faculty is located in Ariviyal Nagar (“city of knowledge”), " +
+      "Kilinochchi, alongside the Faculty of Engineering and the Faculty of " +
+      "Agriculture. It admitted its first batch in 2016 and was preparing to " +
+      "admit its fifth batch in 2021.",
+      "Engineering Technology is one of its two Honours degree programmes, " +
+      "covering Construction, Electro and Automobile disciplines in line with " +
+      "international standards. Information and Communication Technology was " +
+      "planned to be added from the 2021/2022 academic year.",
+      "A 30-acre building complex with advanced laboratory facilities was " +
+      "nearing completion and due to open within months. With support from the " +
+      "Vice-Chancellor, the faculty aims to produce academically sound, skilled " +
+      "graduates and to become a centre of excellence in teaching, research " +
+      "and development."
+    ],
+    historyMilestones: [
+      {
+        year: "2016",
+        text: "Established as the 10th faculty of the University of Jaffna and admitted its first batch of students."
+      },
+      {
+        year: "2021",
+        text: "Preparing to admit its fifth batch of students."
+      },
+      {
+        year: "2021/2022",
+        text: "Information and Communication Technology planned to be introduced as a second Honours degree programme."
+      }
     ]
   },
 

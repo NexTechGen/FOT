@@ -76,17 +76,22 @@
     </section>
 
     <section class="section section--tint" id="academic-organisation" aria-labelledby="organisation-heading">
-      <div class="container split">
-        <div class="split__body">
+      <div class="container org">
+        <div class="org__body">
+          <span class="eyebrow">Academic structure</span>
           <h2 id="organisation-heading" data-render="about-organisation-heading">Academic organisation</h2>
-          <div class="prose" data-render="about-organisation">
+          <div class="prose org__intro" data-render="about-organisation">
             <p>[Describe how the department is organised academically, for example its specialisations and teaching units.]</p>
           </div>
-
-          <div data-render="specialisation-links"></div>
         </div>
-        <div class="split__media">
+        <div class="org__media">
           <img data-render="about-organisation-image" src="../assets/images/FOT-image-02.png" alt="Faculty of Technology" width="1200" height="800" loading="lazy" decoding="async">
+        </div>
+        <div class="org-tracks">
+          <div class="org-tracks__head">
+            <h3 class="org-tracks__title">Specialisation pathways</h3>
+          </div>
+          <div data-render="specialisation-links"></div>
         </div>
       </div>
     </section>
@@ -126,8 +131,14 @@
           <span class="eyebrow">Background</span>
           <h2 id="history-heading">Department history</h2>
         </div>
-        <div class="prose" data-render="about-history">
-          <p>[Insert the approved history of the department here, including only verified dates and milestones.]</p>
+        <div class="history">
+          <div class="prose history__body" data-render="about-history">
+            <p>[Insert the approved history of the department here, including only verified dates and milestones.]</p>
+          </div>
+          <aside class="history__aside" aria-label="Key milestones">
+            <h3 class="history__aside-title">Milestones</h3>
+            <ol class="timeline" data-render="about-history-milestones"></ol>
+          </aside>
         </div>
       </div>
     </section>
