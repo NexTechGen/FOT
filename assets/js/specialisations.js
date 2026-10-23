@@ -1,9 +1,8 @@
 /* specialisations.js — specialisation pages
  * What this file is for: the three specialisations (Automobile Technology,
- *   Construction Technology, Electro Technology) plus the academic overview
- *   tiles on the home page.
+ *   Construction Technology, Electro Technology).
  * 
- * What you can edit: the specialisation names, text and images, and the tiles.
+ * What you can edit: the specialisation names, text and images.
  *   If you rename a specialisation, the menu and footer of every page need the
  *   same update by the webperson. The staff on each specialisation come from
  *   staff.js automatically.
@@ -37,12 +36,6 @@
  *                     E-Resources "Programme Documents" section: id, title,
  *                     format, size and url (leave url blank until the file
  *                     exists).
- * 
- * The academic overview tiles (home page) — each tile has a title, a
- *   description, an icon and a link. Only set "url" to a page that exists.
- *   Icon names: "award", "book-open", "download", "file-text", "folder-open",
- *   "globe", "graduation-cap", "layers", "list-checks", "mail", "map-pin",
- *   "phone", "users".
  * 
  * Anything in [square brackets] is a placeholder to replace.
  * Full help: see docs/ADMIN_GUIDE.md
@@ -259,37 +252,5 @@ window.DEPARTMENT_CONTENT.specialisations = [
         url: ""
       }
     ]
-  }
-];
-
-/* Academic overview tiles (home page). Each tile has a title, some text, a
- * link and an optional icon. Only set "url" to a page that exists. Icon names:
- * "graduation-cap", "book-open", "layers", "list-checks", "folder-open",
- * "file-text", "award", "users", "download".
- */
-window.DEPARTMENT_CONTENT.academicOverview = [
-  {
-    title: "Vision and mission",
-    description: "Our direction, aims and core values as a department.",
-    icon: "file-text",
-    url: "pages/about.html#vision-mission"
-  },
-  {
-    title: "Our Research",
-    description: "Research activities, projects and publications from the department.",
-    icon: "book-open",
-    url: "pages/research.html"
-  },
-  {
-    title: "Academic organisation",
-    description: "How the department is organised and its academic structure.",
-    icon: "layers",
-    url: "pages/about.html#academic-organisation"
-  },
-  {
-    title: "E-Resources",
-    description: "Guides, forms, handbooks and other useful student documents.",
-    icon: "download",
-    url: "pages/downloads.html"
   }
 ];

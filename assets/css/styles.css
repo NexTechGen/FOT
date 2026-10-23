@@ -1500,6 +1500,16 @@ details.disclosure summary::marker {
   color: var(--blue);
 }
 
+/* Arrow cue after the "Contact and details" label; points down when open. */
+.disclosure__cue {
+  margin-left: var(--space-2);
+  transition: transform 0.2s ease;
+}
+
+details[open] .disclosure__cue {
+  transform: rotate(90deg);
+}
+
 /* Filter bar — stacked on phones, wraps on tablets, comfortable row on lg */
 .filter-bar {
   display: flex;
@@ -2618,7 +2628,7 @@ tbody tr:last-child td {
 }
 
 /* md and up: the brand block takes a full-width row of its own, the four link
-   sections (Contact us, Quick links, Specialisations, External links) share
+   sections (Quick links, Specialisations, External links, Contact us) share
    the row below in equal columns with equal gaps. */
 @media (min-width: 768px) {
   .footer__top {
@@ -2628,8 +2638,8 @@ tbody tr:last-child td {
   }
 }
 
-/* Structural hook for the four footer columns (Contact us, Quick links,
-   Specialisations, External links). No decorative treatment - the columns sit
+/* Structural hook for the four footer columns (Quick links, Specialisations,
+   External links, Contact us). No decorative treatment - the columns sit
    directly on the dark background. */
 .footer__col {
   min-width: 0;

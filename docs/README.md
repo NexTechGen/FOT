@@ -42,8 +42,8 @@ department-website/
 │   ├── css/
 │   │   └── styles.css              # All styling (mobile-first)
 │   ├── js/
-│   │   ├── content.js              # EDITABLE core content: identity, dean/HoD messages, about, facilities, contact
-│   │   ├── specialisations.js      # EDITABLE: specialisations, academic overview
+│   │   ├── content.js              # EDITABLE core content: identity, dean/HoD messages, about, facilities, academic overview, contact
+│   │   ├── specialisations.js      # EDITABLE: specialisations
 │   │   ├── research.js             # EDITABLE: research publications
 │   │   ├── news.js                 # EDITABLE: news and announcements
 │   │   ├── downloads.js            # EDITABLE: E-Resources / downloads sections
@@ -139,8 +139,8 @@ All editable, repeated content lives in these files (each loads after `content.j
 and merges into the same `window.DEPARTMENT_CONTENT` object):
 
 - `assets/js/content.js` — core content: institutional identity, Dean's and Head of Department
-  messages, the About page, facilities and contact details.
-- `assets/js/specialisations.js` — the three specialisations and the academic overview tiles.
+  messages, the About page, facilities, academic overview tiles and contact details.
+- `assets/js/specialisations.js` — the three specialisations.
 - `assets/js/research.js` — research publications.
 - `assets/js/news.js` — news and announcements.
 - `assets/js/downloads.js` — E-Resources / downloads sections.
@@ -321,7 +321,7 @@ The specialisation page file (`pages/automobile-technology.html`) and its `pageU
 ### 3.11 Edit the Academic overview tiles
 
 The four cards in the home page **Academic overview** section are driven by the
-`academicOverview` array in `assets/js/specialisations.js`. Each entry has:
+`academicOverview` array in `assets/js/content.js`. Each entry has:
 
 ```js
 {

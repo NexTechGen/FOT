@@ -79,7 +79,7 @@ Legend: ☐ = outstanding, ✔ = supplied (tick when done).
 
 ## 6. Academic overview
 
-- File: `assets/js/specialisations.js`
+- File: `assets/js/content.js`
 - ☐ Confirm the four **Academic overview** cards on the home page (`academicOverview`); each card
   has an optional `icon` (see §3.11 of `README.md`).
 

@@ -415,6 +415,16 @@
       .filter(Boolean);
   }
 
+  /** Whether a staff member coordinates a specialisation. */
+  function isSpecialisationCoordinator(member) {
+    for (var i = 0; i < SPECIALISATIONS.length; i += 1) {
+      if (SPECIALISATIONS[i].coordinatorStaffId === member.id) {
+        return true;
+      }
+    }
+    return false;
+  }
+
   /** Staff assigned to a specialisation (derived — never duplicated). */
   function staffForSpecialisation(spId, options) {
     options = options || {};
@@ -513,11 +523,15 @@
     card.appendChild(head);
 
     var affiliations = specialisationsForStaff(member);
-    if (affiliations.length) {
+    var showCoordinatorTag = variant === "full" && isSpecialisationCoordinator(member);
+    if (affiliations.length || showCoordinatorTag) {
       var tags = el("div", { cls: "staff-card__tags" });
       affiliations.forEach(function (sp) {
         tags.appendChild(el("span", { cls: "tag", text: sp.name }));
       });
+      if (showCoordinatorTag) {
+        tags.appendChild(el("span", { cls: "tag", text: "Specialisation Coordinator" }));
+      }
       card.appendChild(tags);
     }
 
@@ -536,7 +550,12 @@
 
     var details = document.createElement("details");
     details.className = "disclosure";
-    var summary = el("summary", { text: "Contact and details" });
+    var summary = el("summary", {
+      children: [
+        document.createTextNode("Contact and details"),
+        el("span", { cls: "disclosure__cue", text: "\u2192", attrs: { "aria-hidden": "true" } })
+      ]
+    });
     details.appendChild(summary);
 
     var dl = el("dl", { cls: "staff-card__meta" });
@@ -2054,22 +2073,6 @@
       var coord = getStaffById(sp.coordinatorStaffId);
       if (coord) {
         var card = buildStaffCard(coord, "compact");
-        var head = card.querySelector(".staff-card__head");
-        var roleText = "Specialisation Coordinator";
-        // The card already shows the member's designation; only add the
-        // coordinator role label when it is not already displayed.
-        var alreadyShown = false;
-        Array.prototype.forEach.call(
-          head.querySelectorAll(".staff-card__designation"),
-          function (node) {
-            if (node.textContent.trim() === roleText) {
-              alreadyShown = true;
-            }
-          }
-        );
-        if (!alreadyShown) {
-          head.appendChild(el("p", { cls: "staff-card__designation", text: roleText }));
-        }
         coordinator.appendChild(card);
       } else {
         coordinator.appendChild(

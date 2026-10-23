@@ -138,8 +138,8 @@ so you can always look at the top of the file for a reminder.
 
 Controls: university/faculty/department names, the homepage welcome text and image,
 the Dean's message, the Head of Department message, the About page (vision /
-mission / history), facilities, and all contact details (address, email, phone,
-map, social links).
+mission / history), facilities, the academic overview tiles, and all contact
+details (address, email, phone, map, social links).
 
 - To change a **message**, edit the text inside the `[ … ]` in `dean.message` or
   `hod.message`.
@@ -188,6 +188,7 @@ map, social links).
 | `about.mission` | The mission statement — one paragraph | The approved mission statement |
 | `about.history` | The history — a **list** of paragraphs | The approved history, with verified dates only |
 | `facilities` | A **list**: one `{ … }` block per laboratory or facility | See the table below |
+| `academicOverview` | A **list**: one `{ … }` block per academic overview tile | See the table below |
 | `contact.address` | The postal address — one entry per line | The address parts, written without commas or full stops |
 | `contact.email` | The department email address | The official address; it becomes a `mailto:` link automatically |
 | `contact.phone` | The telephone number | The official number; it becomes a `tel:` link automatically |
@@ -204,6 +205,15 @@ map, social links).
 | `image` | The picture — a file in `assets/images/` |
 | `imageAlt` | The picture's description |
 | `specialisationIds` | The codes of the specialisations that use it (Section 4.7) |
+
+#### The Academic overview tiles (home page)
+
+| Field | What it is | What to put in it |
+|---|---|---|
+| `title` | The tile heading | A short heading, e.g. `"E-Resources"` |
+| `description` | One short line under the heading | One sentence |
+| `icon` | The small picture on the tile | Optional. One of: `award`, `book-open`, `download`, `file-text`, `folder-open`, `globe`, `graduation-cap`, `layers`, `list-checks`, `mail`, `map-pin`, `phone`, `users` |
+| `url` | The page the tile links to | e.g. `"pages/about.html#vision-mission"`. Only use a page that exists |
 
 #### The contact details — what you may publish or hide
 
@@ -225,8 +235,8 @@ map, social links).
 
 ### 4.2 `specialisations.js` — specialisations
 
-Controls the three specialisations (cards, nav/footer links, each specialisation
-page) and the homepage "Academic overview" tiles.
+Controls the three specialisations (cards, nav/footer links and each
+specialisation page).
 
 - To add a specialisation: copy a whole `{ … }` block, paste it after the last one,
   give it a **new** `id` (e.g. `"marine-technology"`), then edit the text.
@@ -273,15 +283,6 @@ curriculum: [
 | `format` | The file type, e.g. `"PDF"` |
 | `size` | The size shown to readers, e.g. `"1.2 MB"`, or `""` |
 | `url` | Where the file is — put it in `assets/documents/` and give the path, e.g. `"assets/documents/handbook.pdf"`, or `""` until it exists |
-
-#### The Academic overview tiles (home page)
-
-| Field | What it is | What to put in it |
-|---|---|---|
-| `title` | The tile heading | A short heading, e.g. `"E-Resources"` |
-| `description` | One short line under the heading | One sentence |
-| `icon` | The small picture on the tile | Optional. One of: `award`, `book-open`, `download`, `file-text`, `folder-open`, `globe`, `graduation-cap`, `layers`, `list-checks`, `mail`, `map-pin`, `phone`, `users` |
-| `url` | The page the tile links to | e.g. `"pages/about.html#vision-mission"`. Only use a page that exists |
 
 ### 4.3 `research.js` — publications
 
@@ -588,7 +589,7 @@ When in doubt, back up first and make one small change at a time.
 | Laboratories & facilities | `content.js` → `facilities` |
 | Address, email, phone, map, social links | `content.js` → `contact` |
 | Specialisation names, text, images | `specialisations.js` |
-| Homepage academic tiles | `specialisations.js` → `academicOverview` |
+| Homepage academic tiles | `content.js` → `academicOverview` |
 | Research / publications | `research.js` |
 | News & announcements | `news.js` |
 | E-Resources / downloads | `downloads.js` |

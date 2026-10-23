@@ -86,8 +86,8 @@ window.DEPARTMENT_STAFF = {
     },
     {
       id: "coordinator-electro-technology",
-      name: "[Coordinator 03 Name]",
-      designation: "Specialisation Coordinator",
+      name: "Akila Jeyasinghe Devenarayana",
+      designation: "Sinior Lecturer",
       category: "academic",
       qualifications: "[Qualifications]",
       photo: "",

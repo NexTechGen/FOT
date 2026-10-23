@@ -28,6 +28,9 @@
  *       One laboratory or facility: a unique code, its name, a one or two
  *       sentence description, a picture, the picture description and the
  *       specialisation codes that use it.
+ *   academicOverview[] — title / description / icon / url
+ *       One academic overview tile on the home page: its title, a short
+ *       description, an optional icon name and the page it links to.
  *   contact.address / .email / .phone / .mapEmbedUrl / .social
  *       The Contact page and the footer "Contact us" column: the address
  *       lines, the email, the phone, a Google Maps embed address, and the
@@ -131,8 +134,7 @@ window.DEPARTMENT_CONTENT = Object.assign(window.DEPARTMENT_CONTENT || {}, {
     ]
   },
 
-
-  // 9. Laboratories and facilities (home page section 6 and facilities page)
+  // 9. Laboratories and facilities (home page section 6 and facilities page) 
   facilities: [
     {
       id: "lab-01",
@@ -140,7 +142,7 @@ window.DEPARTMENT_CONTENT = Object.assign(window.DEPARTMENT_CONTENT || {}, {
       description: "[Concise description of this laboratory or facility.]",
       image: "assets/images/placeholder-lab.svg",
       imageAlt: "Placeholder image for the Engineering Workshop",
-      specialisationIds: ["automobile-technology", "construction-technology", "electro-technology"]
+      specialisationIds: ["automobile-technology"]
     },
     {
       id: "lab-02",
@@ -148,11 +150,106 @@ window.DEPARTMENT_CONTENT = Object.assign(window.DEPARTMENT_CONTENT || {}, {
       description: "[Concise description of this laboratory or facility.]",
       image: "assets/images/placeholder-lab.svg",
       imageAlt: "Placeholder image for the Automobile Electronics and Mechatronics Laboratory",
-      specialisationIds: ["automobile-technology", "electro-technology"]
+      specialisationIds: ["automobile-technology"]
+    },
+    {
+      id: "lab-03",
+      name: "Engineering Workshop",
+      description: "[Concise description of this laboratory or facility.]",
+      image: "assets/images/placeholder-lab.svg",
+      imageAlt: "Placeholder image for the Engineering Workshop",
+      specialisationIds: ["automobile-technology"]
+    },
+    {
+      id: "lab-04",
+      name: "Automobile Electronics and Mechatronics Laboratory",
+      description: "[Concise description of this laboratory or facility.]",
+      image: "assets/images/placeholder-lab.svg",
+      imageAlt: "Placeholder image for the Automobile Electronics and Mechatronics Laboratory",
+      specialisationIds: ["electro-technology"]
+    },
+    {
+      id: "lab-05",
+      name: "Engineering Workshop",
+      description: "[Concise description of this laboratory or facility.]",
+      image: "assets/images/placeholder-lab.svg",
+      imageAlt: "Placeholder image for the Engineering Workshop",
+      specialisationIds: ["electro-technology"]
+    },
+    {
+      id: "lab-06",
+      name: "Automobile Electronics and Mechatronics Laboratory",
+      description: "[Concise description of this laboratory or facility.]",
+      image: "assets/images/placeholder-lab.svg",
+      imageAlt: "Placeholder image for the Automobile Electronics and Mechatronics Laboratory",
+      specialisationIds: ["electro-technology"]
+    },
+    {
+      id: "lab-07",
+      name: "Engineering Workshop",
+      description: "[Concise description of this laboratory or facility.]",
+      image: "assets/images/placeholder-lab.svg",
+      imageAlt: "Placeholder image for the Engineering Workshop",
+      specialisationIds: ["construction-technology"]
+    },
+    {
+      id: "lab-08",
+      name: "Automobile Electronics and Mechatronics Laboratory",
+      description: "[Concise description of this laboratory or facility.]",
+      image: "assets/images/placeholder-lab.svg",
+      imageAlt: "Placeholder image for the Automobile Electronics and Mechatronics Laboratory",
+      specialisationIds: ["construction-technology"]
+    },
+    {
+      id: "lab-09",
+      name: "Engineering Workshop",
+      description: "[Concise description of this laboratory or facility.]",
+      image: "assets/images/placeholder-lab.svg",
+      imageAlt: "Placeholder image for the Engineering Workshop",
+      specialisationIds: ["construction-technology"]
+    },
+    {
+      id: "lab-10",
+      name: "Automobile Electronics and Mechatronics Laboratory",
+      description: "[Concise description of this laboratory or facility.]",
+      image: "assets/images/placeholder-lab.svg",
+      imageAlt: "Placeholder image for the Automobile Electronics and Mechatronics Laboratory",
+      specialisationIds: ["construction-technology"]
     }
   ],
 
-  // 12. Contact details (Contact page and the footer "Contact us" column).
+  // 10. Academic overview tiles (home page section 5). Each tile has a title,
+  // a description, an optional icon and a link. Icon names:
+  // "graduation-cap", "book-open", "layers", "list-checks", "folder-open",
+  // "file-text", "award", "users", "download".
+  academicOverview: [
+    {
+      title: "Vision and mission",
+      description: "Our direction, aims and core values as a department.",
+      icon: "file-text",
+      url: "pages/about.html#vision-mission"
+    },
+    {
+      title: "Our Research",
+      description: "Research activities, projects and publications from the department.",
+      icon: "book-open",
+      url: "pages/research.html"
+    },
+    {
+      title: "Academic organisation",
+      description: "How the department is organised and its academic structure.",
+      icon: "layers",
+      url: "pages/about.html#academic-organisation"
+    },
+    {
+      title: "E-Resources",
+      description: "Guides, forms, handbooks and other useful student documents.",
+      icon: "download",
+      url: "pages/downloads.html"
+    }
+  ],
+
+  // 11. Contact details (Contact page and the footer "Contact us" column).
   contact: {
     address: ["Ariviyal Nagar", "Kilinochchi", "Sri Lanka"],
     email: "tech@univ.jfn.ac.lk",
