@@ -95,7 +95,7 @@ live site as soon as the edited data file is uploaded — nothing else is requir
 | `assets/js/staff.js` | All staff records | **Yes** |
 | `assets/js/site/main.js` | The engine that draws the pages | **No — never edit** |
 | `assets/css/styles.css` | Colours, fonts and layout | Only a designer |
-| `assets/images/` | Logos, photos, placeholders | Upload images here |
+| `assets/images/` | Images, grouped into `logos/`, `staff/`, `campus/`, `placeholders/` and `specialisations/` | Upload images to the matching folder |
 | `assets/documents/` | PDFs and downloadable files | Upload files here |
 | `pages/*.html` | One file per inner page (structure only) | Rarely (see §8) |
 | `index.html`, `404.html` | Home page and not-found page | Rarely |
@@ -166,25 +166,25 @@ details (address, email, phone, map, social links).
 | `faculty.label` | The small label above the faculty block on the home page | A short label, e.g. `"University of Jaffna"` |
 | `faculty.heading` | The heading of the faculty block | e.g. `"Faculty of Technology"` |
 | `faculty.intro` | The faculty introduction — a **list**, so each quoted line is one paragraph | Replace the text inside the `[ … ]`. To add a paragraph, add another quoted line inside the same square brackets |
-| `faculty.image` | The faculty picture | A file in `assets/images/`, e.g. `"assets/images/faculty.jpg"` |
+| `faculty.image` | The faculty picture | A file in `assets/images/campus/`, e.g. `"assets/images/campus/faculty.jpg"` |
 | `faculty.imageAlt` | The picture's description (read aloud by screen readers) | A short sentence describing the picture |
 | `dean.name` | The Dean's full name | e.g. `"Dr. A. B. Perera"` |
 | `dean.title` | The Dean's job title | e.g. `"Dean, Faculty of Technology"` |
 | `dean.qualifications` | The Dean's degrees and qualifications | e.g. `"Ph.D. (…), B.Sc. (…)"` |
 | `dean.email` | The Dean's official email address | It becomes a `mailto:` link automatically |
-| `dean.photo` | The Dean's photograph | A file in `assets/images/`, e.g. `"assets/images/dean.jpg"` |
+| `dean.photo` | The Dean's photograph | A file in `assets/images/staff/`, e.g. `"assets/images/staff/dean.jpg"` |
 | `dean.photoAlt` | The photograph's description | A short sentence |
 | `dean.message` | The Dean's message — a **list** of paragraphs | Replace the text inside the `[ … ]` with the approved message |
 | `department.heading` | The "Welcome to …" heading on the home page | The approved welcome heading |
 | `department.intro` | The department introduction — a **list** of paragraphs | The approved introduction |
-| `department.image` | The department picture | A file in `assets/images/` |
+| `department.image` | The department picture | A file in `assets/images/campus/` |
 | `department.imageAlt` | The picture's description | A short sentence |
 | `department.focus` | The short "focus" sentence under the introduction | One or two sentences |
 | `hod.title` | The Head of Department's job title | e.g. `"Head, Department of Engineering Technology"` |
 | `hod.message` | The Head of Department message — a **list** of paragraphs | Replace the text inside the `[ … ]` with the approved message |
 | `about.organisation.heading` | The "Academic organisation" heading on the About page | The official heading |
 | `about.organisation.intro` | The paragraph under it — a **list** | How the department is organised academically |
-| `about.organisation.image` | Its picture | A file in `assets/images/` |
+| `about.organisation.image` | Its picture | A file in `assets/images/campus/` |
 | `about.organisation.imageAlt` | The picture's description | A short sentence |
 | `about.vision` | The vision statement — one paragraph | The approved vision statement |
 | `about.mission` | The mission statement — one paragraph | The approved mission statement |
@@ -202,12 +202,15 @@ details (address, email, phone, map, social links).
 
 | Field | What it is |
 |---|---|
-| `id` | A unique code, e.g. `"lab-01"`. Used by `laboratoryIds` in `specialisations.js` |
+| `id` | A unique code, e.g. `"lab-01"` |
 | `name` | The name of the laboratory or facility |
 | `description` | One or two sentences |
 | `image` | The picture — a file in `assets/images/` |
 | `imageAlt` | The picture's description |
-| `specialisationIds` | The codes of the specialisations that use it (Section 4.7) |
+| `specialisationIds` | The codes of the specialisations that use it (Section 4.7). These facilities appear on those specialisation pages |
+
+The laboratory list on each specialisation page comes from these
+`specialisationIds`; nothing needs to be added to `specialisations.js`.
 
 #### The Academic overview tiles (home page)
 
@@ -253,27 +256,46 @@ specialisation page).
 | `id` | The specialisation's own code | A new unique code, e.g. `"marine-technology"` (Section 4.7) |
 | `name` | The name shown on the cards, in the menu, in the footer and on the page | The official name |
 | `pageUrl` | The page that shows this specialisation | e.g. `"pages/automobile-technology.html"`. A **new** specialisation also needs its own page file in `pages/` — ask your webperson for that |
-| `description` | One or two sentences, used on the cards | The official summary |
+| `description` | One or two sentences, used on the cards and at the top of the specialisation page | The official summary |
 | `image` | The picture on the card | A file in `assets/images/` |
 | `imageAlt` | The picture's description | A short sentence |
 | `coordinatorStaffId` | The coordinator of this specialisation | That person's staff code, e.g. `"coordinator-automobile-technology"` (Section 4.7) |
-| `intro` | The introduction at the top of the specialisation page | One or two sentences |
 | `overview` | A **list** of paragraphs about the specialisation | Each quoted line is one paragraph |
-| `curriculum` | The subjects, grouped by year and semester | See the table below |
-| `curriculumNote` | The note printed under the curriculum | e.g. "Curriculum shown is indicative…" |
-| `laboratoryIds` | The laboratories used by this specialisation | The laboratory codes from `content.js`, e.g. `["lab-01", "lab-02"]` |
+| `curriculum` | One entry per curriculum year; with more than one a year dropdown appears | See the block below |
 | `research.summary` | A short description of research and project activity | One or two sentences |
 | `downloads` | The files shown on this page and collected into "Programme Documents" | See the table below |
 
-**The curriculum block** — a **list** of year/semester groups. Each group has a
-`title` (the heading) and an `items` list; each item has a `name`, a `code` and
-`doc` (the PDF path, or `""` when there is no file yet):
+**The curriculum block** — a **list** of curriculum years. Each entry has a
+`year` and `sections`. Each section has a `title` (the year/semester heading)
+and an `items` list; each item has a `name` and a `code`. An elective item can
+instead have an `options` list, each option with a `name` and a `code`; the
+options display as i), ii), … under the module name. Years are listed in
+ascending order (2023, then 2024) and the earliest year is shown by default.
+When there is more than one year, a dropdown lets the visitor switch between
+them; with a single year, no dropdown is shown.
 
 ```js
 curriculum: [
-  { title: "Year 01 / Semester 01", items: [
-    { name: "Subject name", code: "Subject code", doc: "" }
-  ] }
+  {
+    year: "2024",
+    sections: [
+      { title: "Year 01 / Semester 01", items: [
+        { name: "Subject name", code: "Subject code" },
+        { name: "Elective Module I:", options: [
+          { name: "Advanced Engineering Materials", code: "ETA440TE2" },
+          { name: "Aerodynamics for Automobile Technology", code: "ETA441TE2" }
+        ] }
+      ] }
+    ]
+  },
+  {
+    year: "2023",
+    sections: [
+      { title: "Year 01 / Semester 01", items: [
+        { name: "Subject name", code: "Subject code" }
+      ] }
+    ]
+  }
 ]
 ```
 
@@ -422,7 +444,7 @@ appear in. A group with **no members is hidden**.
 | `designation` | Their job title or designation | e.g. `"Senior Lecturer"` |
 | `category` | Which group they belong to | `"head"`, `"academic"`, `"technical"` or `"admin"` — it must match one of the `categories` ids above, or the person will not show up |
 | `qualifications` | Degrees, qualifications and professional memberships | e.g. `"M.Sc. (Eng), Ph.D."` |
-| `photo` | Their photograph | A file in `assets/images/`, e.g. `"assets/images/perera.jpg"`, or `""` for none |
+| `photo` | Their photograph | A file in `assets/images/staff/`, e.g. `"assets/images/staff/perera.jpg"`, or `""` for none |
 | `specialisationIds` | The specialisations they teach or work in | The specialisation codes, e.g. `["automobile-technology"]` (Section 4.7) |
 | `email` | Their official email address | e.g. `"a.perera@tech.univ.jfn.ac.lk"`, or `""` for none |
 | `researchInterests` | A short line on their research interests | e.g. `"Vehicle dynamics, tribology"`, or `""` |
@@ -476,8 +498,13 @@ glance.
 - **Documents (PDFs, forms, handbooks):** upload to `assets/documents/`, then set
   the matching `url` (e.g. `"assets/documents/handbook.pdf"`). An empty `url`
   shows "Not yet available" — never a dead link.
-- **Images (photos, logos):** upload to `assets/images/`, then set the matching
-  `image` / `photo` field to the file path (e.g. `"assets/images/dean.jpg"`).
+- **Images (photos, logos):** upload to the matching folder inside `assets/images/`
+  (`logos/`, `staff/`, `campus/`, `placeholders/` or `specialisations/`), then set the matching
+  `image` / `photo` field to the file name or path.
+- Image values are **relative to `assets/images/`**, e.g. `photo: "dean.jpg"` means
+  `assets/images/staff/dean.jpg` (staff photos default to the `staff/` folder),
+  and `image: "specialisations/dean.jpg"` means
+  `assets/images/specialisations/dean.jpg`. Full paths starting with `assets/` still work.
 - Paths are **relative to the site root** and start with `assets/`.
 - **Links to other pages** are also written from the site root, e.g.
   `"pages/staff.html"` (not `"staff.html"`). The site works out the correct
@@ -500,7 +527,7 @@ waiting for the department.
 |---|---|
 | `content.js` | `[Dean's Name]`; the approved faculty introduction `[Insert the approved introduction to the Faculty of Technology here. …]`; the optional second paragraph `[Optional second paragraph. …]`; the approved Dean's message `[Insert the approved Dean's message here. …]`; the approved Head of Department message `[Insert the approved message from the Head of the Department of Engineering Technology here. …]`; the academic organisation text `[Describe how the department is organised academically, …]`; `[Insert the approved vision statement of the department here. …]`; `[Insert the approved mission statement of the department here. …]`; `[Concise description of this laboratory or facility.]` (×2) |
 | `staff.js` | **Names:** `[Head of Department Name]`, `[Coordinator 01 Name]`, `[Coordinator 02 Name]`, `[Coordinator 03 Name]`, `[Academic Staff 01 Name]`, `[Academic Staff 02 Name]`, `[Technical Staff 01 Name]`, `[Administrative Staff 01 Name]`. **Emails:** `[head email address]`, `[coordinator 01 email address]`, `[coordinator 02 email address]`, `[coordinator 03 email address]`, `[academic staff 01 email address]`, `[academic staff 02 email address]`, `[technical staff 01 email address]`, `[administrative staff 01 email address]`. **Details:** `[Designation]` (×5), `[Qualifications]` (×7), `[Research interests]` (×6) |
-| `specialisations.js` | `[Short description of the first/second/third specialisation. One or two sentences.]`; `[Introduction to Automobile/Construction/Electro Technology. …]`; `[Overview paragraph one/two for this specialisation.]`; `[Year 01 / Semester 01]`–`[Year 04 / Semester 02]`; `[Subject name 01]`–`[Subject name 16]`; `[Subject code 01]`–`[Subject code 16]`; `[Curriculum shown is indicative. …]`; `[Brief description of research and project activity in this specialisation.]` |
+| `specialisations.js` | `[Short description of the first/second/third specialisation. One or two sentences.]`; `[Introduction to Automobile/Construction/Electro Technology. …]`; `[Overview paragraph one/two for this specialisation.]`; `[Year 01 / Semester 01]`–`[Year 04 / Semester 02]`; `[Subject name 1]`–`[Subject name 48]` and `[Subject code 1]`–`[Subject code 48]` (2024, all 48 slots); `[Subject name 13]`–`[Subject name 48]` and `[Subject code 13]`–`[Subject code 48]` (2023, after the 12 real Year 1 subjects); `[Brief description of research and project activity in this specialisation.]` |
 | `research.js` | `[Research or publication title]`, `[Author names, co-authors]`, `[Journal article / Conference paper / Thesis]`, `[Journal or conference name]` |
 | `downloads.js` | `[Application / admissions form]`, `[Student handbook]` |
 | `news.js` | None — the one announcement is already written. Add new items with real wording, not placeholders |

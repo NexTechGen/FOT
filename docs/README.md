@@ -66,13 +66,13 @@ Every page links to others with plain relative `.html` URLs (e.g. `about.html`,
 `<body>` carries a `data-base` attribute (`""` at the site root, `"../"` inside `pages/`) that the
 scripts use to build correct asset and content paths.
 
-The official University of Jaffna logo (`assets/images/UOJ-Logo-Color-scaled.png`) is the header
-brand mark, and `assets/images/UOJ-Logo-Black-White-scaled.png` is the footer mark. Both have been
+The official University of Jaffna logo (`assets/images/logos/UOJ-Logo-Color-scaled.png`) is the header
+brand mark, and `assets/images/logos/UOJ-Logo-Black-White-scaled.png` is the footer mark. Both have been
 optimised to match their rendered sizes (the header mark displays at 40–48 px and the footer mark at
 72 px) so they stay sharp on high-density screens without shipping the full-resolution originals.
 The footer mark is monochrome black artwork; it is rendered white against the dark footer with
 `filter: brightness(0) invert(1)` (`.footer__logo` in `assets/css/styles.css`). The favicon
-(`assets/images/UOJ-Logo-Color-scaled.ico`) is linked from the `<head>` of every page. On desktop
+(`assets/images/logos/UOJ-Logo-Color-scaled.ico`) is linked from the `<head>` of every page. On desktop
 the blue navigation bar is `position: sticky` and stays pinned to the top of
 the viewport, while the masthead scrolls out of view. On mobile (below `lg`) the roles reverse: the
 masthead — with the "Menu" button — is sticky, and the breadcrumbs bar (on every page except the
@@ -204,7 +204,7 @@ change the fields:
   designation: "Senior Lecturer",
   category: "academic",                // "head" | "academic" | "technical" | "admin"
   qualifications: "BSc (Hons), MSc, PhD",
-  photo: "assets/images/staff-full-name.jpg",   // or "" to show initials
+  photo: "assets/images/staff/full-name.jpg",   // or "" to show initials
   specialisationIds: ["automobile-technology", "electro-technology"],  // may belong to more than one
   email: "name@example.ac.lk",
   researchInterests: "Your research interests",
@@ -222,8 +222,9 @@ Find the person's `id` in `assets/js/staff.js` and change the relevant field, e.
 
 ### 3.3 Replace a staff photo
 
-1. Put the image in `assets/images/` (JPG or PNG, roughly square, e.g. `400×400`).
-2. Set the person's `photo` field to the path, e.g. `"assets/images/staff-full-name.jpg"`.
+1. Put the image in `assets/images/staff/` (JPG or PNG, roughly square, e.g. `400×400`).
+2. Set the person's `photo` field to the file name or path, e.g. `"full-name.jpg"` or
+   `"staff/full-name.jpg"` (relative to `assets/images/`).
 3. Leave `photo` as `""` to fall back to an initials avatar (useful before a photo is available).
 
 ### 3.4 Assign staff to specialisations
@@ -249,7 +250,7 @@ The Dean's message is shown on the **About** page (not the home page). In
 dean: {
   name: "Prof Full Name",
   title: "Dean, Faculty of Technology",
-  photo: "assets/images/dean.jpg",        // or leave the placeholder
+  photo: "assets/images/staff/dean.jpg",        // or leave the placeholder
   photoAlt: "Portrait of the Dean",
   message: [
     "First approved paragraph.",

@@ -22,13 +22,13 @@
  *   category           Which group they belong to: "head", "academic",
  *                      "technical" or "admin".
  *   qualifications     Degrees, qualifications and professional memberships.
- *   photo              The photo file name in assets/images, or "" for none.
+ *   photo              The photo file name (assets/images/staff is added
+ *                      automatically), or "" for none.
  *   specialisationIds  The specialisation codes they teach or work in, from
  *                      specialisations.js.
- *   email              Their official email address, or "".
- *   researchInterests  A short line on their research interests, or "".
- *   isHeadOfDepartment "true" for the Head of Department only, "false" for
- *                      everyone else.
+  *   email              Their official email address, or "".
+  *   isHeadOfDepartment "true" for the Head of Department only, "false" for
+  *                      everyone else.
  * 
  * Anything in [square brackets] is a placeholder to replace.
  * Full help: see docs/ADMIN_GUIDE.md
@@ -38,10 +38,11 @@ window.DEPARTMENT_STAFF = {
 
   // Staff group headings and their order. A group with no members is hidden.
   categories: [
-    { id: "head",      label: "Head of Department" },
-    { id: "academic",  label: "Academic Staff" },
-    { id: "technical", label: "Technical Staff" },
-    { id: "admin",     label: "Administrative & Support Staff" }
+    { id: "head",                label: "Head of Department" },
+    { id: "coordinator",         label: "Specialisation Coordinators" },
+    { id: "academic",            label: "Academic Staff" },
+    { id: "technical",           label: "Technical Staff" },
+    { id: "admin",               label: "Administrative & Support Staff" }
   ],
 
   members: [
@@ -52,48 +53,44 @@ window.DEPARTMENT_STAFF = {
       designation: "Head of Department",
       category: "head",
       qualifications: "Ph.D. (Hokkaido, Japan), M.Eng & B.Sc. Eng. (Hons) (Moratuwa, SL)",
-      photo: "assets/images/staff/Eng-DrHiranya.jpg",
+      photo: "Eng-DrHiranya.jpg",
       specialisationIds: ["construction-technology"],
       email: "hiranya@tech.jfn.ac.lk",
-      researchInterests: "",
       isHeadOfDepartment: true
     },
 
     // Specialisation coordinator sections
     {
       id: "coordinator-automobile-technology",
-      name: "[Coordinator 01 Name]",
-      designation: "Specialisation Coordinator",
-      category: "academic",
-      qualifications: "[Qualifications]",
-      photo: "",
+      name: "Eng. J. Joy Mathavan",
+      designation: "Senior Lecturer Gr II",
+      category: "coordinator",
+      qualifications: "M.Sc. (Mech. Eng. - USM, Malaysia), B. Tech (Mech. Eng. - MNIT, Jaipur, India)",
+      photo: "Eng-J-Joy-Mathavan.jpg",
       specialisationIds: ["automobile-technology"],
-      email: "[coordinator 01 email address]",
-      researchInterests: "[Research interests]",
+      email: "joy@tech.jfn.ac.lk",
       isHeadOfDepartment: false
     },
     {
       id: "coordinator-construction-technology",
-      name: "[Coordinator 02 Name]",
-      designation: "Specialisation Coordinator",
-      category: "academic",
-      qualifications: "[Qualifications]",
-      photo: "",
+      name: "Dr (Ms.) T H K Nawarathna",
+      designation: "Senior Lecturer Gr II",
+      category: "coordinator",
+      qualifications: "Ph.D. (Hokkaido, Japan), M.Eng & B.Sc. Eng. (Hons) (Moratuwa, SL)",
+      photo: "Eng-DrHiranya.jpg",
       specialisationIds: ["construction-technology"],
-      email: "[coordinator 02 email address]",
-      researchInterests: "[Research interests]",
+      email: "hiranya@tech.jfn.ac.lk",
       isHeadOfDepartment: false
     },
     {
       id: "coordinator-electro-technology",
-      name: "Akila Jeyasinghe Devenarayana",
-      designation: "Sinior Lecturer",
-      category: "academic",
-      qualifications: "[Qualifications]",
-      photo: "",
+      name: "Dr. (Eng) Akila Eranda Jayasinghe",
+      designation: "Senior Lecturer Gr II",
+      category: "coordinator",
+      qualifications: "Ph.D (RMIT), B.Sc. Eng. (Hons) (Jaffna, SL)",
+      photo: "Akila-Eranda-Jayasinghe.png",
       specialisationIds: ["electro-technology"],
-      email: "[coordinator 03 email address]",
-      researchInterests: "[Research interests]",
+      email: "jakila@tech.jfn.ac.lk",
       isHeadOfDepartment: false
     },
 
@@ -107,19 +104,6 @@ window.DEPARTMENT_STAFF = {
       photo: "",
       specialisationIds: ["automobile-technology", "construction-technology"],
       email: "[academic staff 01 email address]",
-      researchInterests: "[Research interests]",
-      isHeadOfDepartment: false
-    },
-    {
-      id: "academic-staff-02",
-      name: "[Academic Staff 02 Name]",
-      designation: "[Designation]",
-      category: "academic",
-      qualifications: "[Qualifications]",
-      photo: "",
-      specialisationIds: ["electro-technology"],
-      email: "[academic staff 02 email address]",
-      researchInterests: "[Research interests]",
       isHeadOfDepartment: false
     },
 
@@ -133,7 +117,6 @@ window.DEPARTMENT_STAFF = {
       photo: "",
       specialisationIds: ["automobile-technology"],
       email: "[technical staff 01 email address]",
-      researchInterests: "",
       isHeadOfDepartment: false
     },
 
@@ -146,9 +129,7 @@ window.DEPARTMENT_STAFF = {
       qualifications: "",
       photo: "",
       specialisationIds: [],
-      email: "[administrative staff 01 email address]",
-      researchInterests: "",
-      isHeadOfDepartment: false
+      email: "[administrative staff 01 email address]"
     }
   ]
 };

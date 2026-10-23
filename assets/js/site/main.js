@@ -78,6 +78,35 @@
     return base + value;
   }
 
+  /**
+   * Resolve an image path. Image values are relative to assets/images, so
+   * content files can use "photo.jpg" or "staff/photo.jpg" instead of
+   * repeating the full path. A bare file name is looked up in the field's
+   * conventional folder. Full paths and URLs are left unchanged.
+   */
+  function imagePath(path, folder) {
+    if (path == null) {
+      return "";
+    }
+    var value = String(path).trim();
+    if (!value || hasControlChars(value)) {
+      return "";
+    }
+    if (
+      urlScheme(value) ||
+      value.slice(0, 2) === "//" ||
+      value.charAt(0) === "/" ||
+      value.charAt(0) === "#" ||
+      value.slice(0, 7) === "assets/"
+    ) {
+      return resolve(value, "image");
+    }
+    if (value.indexOf("/") === -1 && value.indexOf("\\") === -1) {
+      value = (folder ? folder + "/" : "") + value;
+    }
+    return resolve("assets/images/" + value, "image");
+  }
+
   /** Create an element. opts: { text, cls, attrs, children } */
   function el(tag, opts) {
     var node = document.createElement(tag);
@@ -458,7 +487,7 @@
 
   function staffAvatar(member) {
     var wrap = el("span", { cls: "avatar" });
-    var photoSrc = resolve(member.photo, "image");
+    var photoSrc = imagePath(member.photo, "staff");
     if (photoSrc) {
       var img = el("img", {
         attrs: {
@@ -526,17 +555,13 @@
     // The Head of Department oversees every specialisation, so always show
     // all three in their tags regardless of their own list.
     var affiliations = isHead ? SPECIALISATIONS.slice() : specialisationsForStaff(member);
-    var showCoordinatorTag = variant === "full" && isSpecialisationCoordinator(member);
-    if (affiliations.length || showCoordinatorTag) {
+    if (affiliations.length) {
       var tags = el("div", { cls: "staff-card__tags" });
       affiliations.forEach(function (sp) {
         // The Head of Department oversees all three, so their specialisation
         // tags are highlighted in the stronger style.
         tags.appendChild(el("span", { cls: isHead ? "tag tag--hod" : "tag", text: sp.name }));
       });
-      if (showCoordinatorTag) {
-        tags.appendChild(el("span", { cls: "tag", text: "Specialisation Coordinator" }));
-      }
       card.appendChild(tags);
     }
 
@@ -579,22 +604,6 @@
     details.appendChild(dl);
 
     var side = el("div", { cls: "staff-card__side", children: [details] });
-    if (member.researchInterests) {
-      var research = document.createElement("details");
-      research.className = "disclosure disclosure--research";
-      research.appendChild(
-        el("summary", {
-          children: [
-            document.createTextNode("Research interests"),
-            el("span", { cls: "disclosure__cue", text: "\u2192", attrs: { "aria-hidden": "true" } })
-          ]
-        })
-      );
-      research.appendChild(
-        el("p", { cls: "staff-card__research", text: member.researchInterests })
-      );
-      side.appendChild(research);
-    }
     card.appendChild(side);
     syncStaffDisclosure(details);
 
@@ -653,8 +662,8 @@
     var block = el("div", { cls: "message-block" + (options.tint ? " message-block--tint" : "") });
 
     var media = el("div", { cls: "message-block__media" });
-    var placeholder = resolve("assets/images/placeholder-portrait.svg", "image");
-    var imgSrc = resolve(options.photo, "image") || placeholder;
+    var placeholder = imagePath("placeholder.svg", "placeholders");
+    var imgSrc = imagePath(options.photo, "staff") || placeholder;
     var portrait = el("img", {
       attrs: {
         src: imgSrc,
@@ -714,13 +723,79 @@
     return block;
   }
 
+  function initialiseFacilitiesCarousel(target, scroller) {
+    var cards = Array.prototype.slice.call(scroller.children);
+    if (cards.length < 2) {
+      return;
+    }
+
+    var wrap = target.classList && target.classList.contains("fac-scroller-wrap")
+      ? target
+      : scroller.parentNode;
+
+    var dots = el("div", {
+      cls: "fac-dots",
+      attrs: { role: "group", "aria-label": "Choose a facility" }
+    });
+
+    var buttons = [];
+    cards.forEach(function (_, index) {
+      var btn = el("button", {
+        cls: "fac-dots__btn",
+        attrs: {
+          type: "button",
+          "aria-label": "Go to facility " + (index + 1)
+        }
+      });
+      btn.addEventListener("click", function () {
+        var max = scroller.scrollWidth - scroller.clientWidth;
+        var offset = max <= 0 ? 0 : (max * index) / (cards.length - 1);
+        scroller.scrollTo({ left: offset, behavior: "smooth" });
+        setActive(index);
+      });
+      buttons.push(btn);
+      dots.appendChild(btn);
+    });
+
+    function setActive(index) {
+      buttons.forEach(function (button, i) {
+        if (i === index) {
+          button.setAttribute("aria-current", "true");
+        } else {
+          button.removeAttribute("aria-current");
+        }
+      });
+    }
+
+    function update() {
+      var max = scroller.scrollWidth - scroller.clientWidth;
+      if (max <= 0) {
+        setActive(0);
+        return;
+      }
+      var index = Math.round((scroller.scrollLeft / max) * (cards.length - 1));
+      if (index < 0) index = 0;
+      if (index > cards.length - 1) index = cards.length - 1;
+      setActive(index);
+    }
+
+    scroller.addEventListener("scroll", update, { passive: true });
+    window.addEventListener("resize", update);
+    setActive(0);
+    if (wrap) {
+      wrap.appendChild(dots);
+    } else {
+      target.appendChild(dots);
+    }
+  }
+
   function specialisationCard(sp) {
     var card = el("article", { cls: "card" });
 
     var media = el("div", { cls: "card__media", children: [
       el("img", {
         attrs: {
-          src: resolve(sp.image, "image") || resolve("assets/images/placeholder-department.svg", "image"),
+          src: imagePath(sp.image, "specialisations") || imagePath("placeholder.svg", "placeholders"),
           alt: sp.imageAlt || ("Image for " + sp.name),
           width: "800",
           height: "500",
@@ -756,7 +831,7 @@
     card.appendChild(
       el("img", {
         attrs: {
-          src: resolve(facility.image, "image") || resolve("assets/images/placeholder-lab.svg", "image"),
+          src: imagePath(facility.image, "facilities") || imagePath("placeholder.svg", "placeholders"),
           alt: facility.imageAlt || ("Image for " + facility.name),
           width: "800",
           height: "450",
@@ -843,7 +918,7 @@
       return;
     }
     var faculty = CONTENT.faculty || {};
-    var src = resolve(faculty.image, "image");
+    var src = imagePath(faculty.image, "campus");
     targets.forEach(function (target) {
       if (src) {
         target.setAttribute("src", src);
@@ -883,7 +958,7 @@
       return;
     }
     var department = CONTENT.department || {};
-    var src = resolve(department.image, "image");
+    var src = imagePath(department.image, "campus");
     targets.forEach(function (target) {
       if (src) {
         target.setAttribute("src", src);
@@ -1025,7 +1100,7 @@
 
     var orgImage = document.querySelector('[data-render="about-organisation-image"]');
     if (orgImage) {
-      var src = resolve(org.image, "image");
+      var src = imagePath(org.image, "campus");
       if (src) {
         orgImage.setAttribute("src", src);
       }
@@ -1227,6 +1302,32 @@
     });
   }
 
+  // The home page shows a short list per specialisation rather than just the
+  // first few facilities overall, so every specialisation is represented.
+  function facilitiesPerSpecialisation(limit) {
+    var seen = {};
+    var picked = [];
+    SPECIALISATIONS.forEach(function (sp) {
+      var count = 0;
+      FACILITIES.forEach(function (facility) {
+        if (count >= limit) {
+          return;
+        }
+        if ((facility.specialisationIds || []).indexOf(sp.id) === -1) {
+          return;
+        }
+        var key = facility.id || facility.name;
+        if (seen[key]) {
+          return;
+        }
+        seen[key] = true;
+        picked.push(facility);
+        count += 1;
+      });
+    });
+    return picked;
+  }
+
   function renderFacilities() {
     var targets = document.querySelectorAll('[data-render="facilities"]');
     if (!targets.length) {
@@ -1234,18 +1335,28 @@
     }
     targets.forEach(function (target) {
       clear(target);
+      var perSpecialisationAttr = target.getAttribute("data-per-specialisation");
+      var perSpecialisation = perSpecialisationAttr ? parseInt(perSpecialisationAttr, 10) : NaN;
       var attr = target.getAttribute("data-limit");
       var limit = attr ? parseInt(attr, 10) : NaN;
-      var items = isFinite(limit) && limit > 0 ? FACILITIES.slice(0, limit) : FACILITIES.slice();
+      var items;
+      if (isFinite(perSpecialisation) && perSpecialisation > 0) {
+        items = facilitiesPerSpecialisation(perSpecialisation);
+      } else if (isFinite(limit) && limit > 0) {
+        items = FACILITIES.slice(0, limit);
+      } else {
+        items = FACILITIES.slice();
+      }
       if (!items.length) {
         target.appendChild(emptyState("Facilities coming soon", "Laboratory and facility information has not been published yet."));
         return;
       }
-      var list = el("div", { cls: "feature-list" });
+      var list = el("div", { cls: "feature-list fac-scroller" });
       items.forEach(function (facility) {
         list.appendChild(facilityCard(facility));
       });
       target.appendChild(list);
+      initialiseFacilitiesCarousel(target, list);
     });
   }
 
@@ -2096,14 +2207,13 @@
 
     setText("breadcrumb-name", sp.name);
     setText("title", sp.name);
-    setText("intro", sp.intro || "");
-    setText("curriculum-note", sp.curriculumNote || "");
+    setText("intro", sp.description || "");
 
     var imageTarget = document.querySelector('[data-sp="image"]');
     if (imageTarget) {
       imageTarget.setAttribute(
         "src",
-        resolve(sp.image, "image") || resolve("assets/images/placeholder-department.svg", "image")
+        imagePath(sp.image, "specialisations") || imagePath("placeholder.svg", "placeholders")
       );
       imageTarget.setAttribute("alt", sp.imageAlt || ("Image for " + sp.name));
     }
@@ -2117,46 +2227,128 @@
       });
     }
 
-    // Curriculum
+    // Curriculum — one version per year, chosen with a dropdown when several
+    // years are supplied. The first entry is shown by default.
     var curriculum = document.querySelector('[data-sp="curriculum"]');
     if (curriculum) {
       clear(curriculum);
-      var sections = sp.curriculum || [];
-      if (!sections.length) {
+      var versions = (sp.curriculum || []).filter(function (entry) {
+        return entry && Array.isArray(entry.sections);
+      });
+      if (!versions.length && Array.isArray(sp.curriculum) && sp.curriculum.length) {
+        versions = [{ year: "", sections: sp.curriculum }];
+      }
+      versions.sort(function (a, b) {
+        return (parseInt(a.year, 10) || 0) - (parseInt(b.year, 10) || 0);
+      });
+
+      if (!versions.length) {
         curriculum.appendChild(
           el("p", { text: "Curriculum information has not been supplied yet." })
         );
       } else {
-        sections.forEach(function (block) {
-          var wrap = el("div", { cls: "mt-4" });
-          wrap.appendChild(el("h3", { text: block.title }));
-          var ul = el("ul", { cls: "checklist" });
-          (block.items || []).forEach(function (item) {
-            var li = el("li");
-            if (typeof item === "string") {
-              li.textContent = item;
-            } else if (item && typeof item === "object") {
-              var label = item.name || "";
-              if (item.code) {
-                label += (label ? " - " : "") + item.code;
-              }
-              li.textContent = label;
-              var docHref = resolve(item.doc, "link");
-              if (docHref) {
-                li.appendChild(
-                  el("a", {
-                    cls: "checklist__doc",
-                    text: "Download curriculum",
-                    attrs: { href: docHref, target: "_blank", rel: "noopener" }
-                  })
-                );
-              }
+        var groups = el("div", { cls: "curriculum-groups" });
+
+        var renderSubject = function (target, entry) {
+          var name = entry.name || "";
+          if (entry.code) {
+            target.className = "has-code";
+            target.appendChild(el("span", { cls: "checklist__name", text: name }));
+            target.appendChild(el("span", { cls: "checklist__code", text: entry.code }));
+          } else {
+            target.textContent = name;
+          }
+        };
+
+        var renderSections = function (sections) {
+          clear(groups);
+          if (!sections.length) {
+            groups.appendChild(
+              el("p", { text: "Curriculum information has not been supplied yet." })
+            );
+            return;
+          }
+          sections.forEach(function (block, index) {
+            var details = el("details", { cls: "doc-group curriculum-group" });
+            if (index === 0) {
+              details.open = true;
             }
-            ul.appendChild(li);
+            details.addEventListener("toggle", function () {
+              if (!details.open) {
+                return;
+              }
+              groups.querySelectorAll(".curriculum-group").forEach(function (other) {
+                if (other !== details) {
+                  other.open = false;
+                }
+              });
+            });
+            details.appendChild(
+              el("summary", {
+                cls: "doc-group__summary",
+                children: [
+                  el("span", { cls: "doc-group__label", text: block.title })
+                ]
+              })
+            );
+            var ul = el("ul", { cls: "checklist" });
+            (block.items || []).forEach(function (item) {
+              var li = el("li");
+              if (typeof item === "string") {
+                li.textContent = item;
+              } else if (item && typeof item === "object") {
+                renderSubject(li, item);
+                if (Array.isArray(item.options) && item.options.length) {
+                  var sublist = el("ol", { cls: "checklist checklist--sub" });
+                  item.options.forEach(function (option) {
+                    var sub = el("li");
+                    if (typeof option === "string") {
+                      sub.textContent = option;
+                    } else if (option && typeof option === "object") {
+                      renderSubject(sub, option);
+                    }
+                    sublist.appendChild(sub);
+                  });
+                  li.appendChild(sublist);
+                }
+              }
+              ul.appendChild(li);
+            });
+            details.appendChild(ul);
+            groups.appendChild(details);
           });
-          wrap.appendChild(ul);
-          curriculum.appendChild(wrap);
-        });
+        };
+
+        if (versions.length > 1) {
+          var toolbar = el("div", { cls: "curriculum-toolbar" });
+          toolbar.appendChild(
+            el("label", {
+              cls: "curriculum-toolbar__label",
+              text: "Curriculum year",
+              attrs: { for: "curriculum-year" }
+            })
+          );
+          var selectWrap = el("div", { cls: "curriculum-select" });
+          var select = el("select", { attrs: { id: "curriculum-year" } });
+          versions.forEach(function (version, index) {
+            select.appendChild(
+              el("option", {
+                text: version.year || ("Curriculum " + (index + 1)),
+                attrs: { value: String(index) }
+              })
+            );
+          });
+          select.addEventListener("change", function () {
+            var selected = versions[parseInt(this.value, 10)] || versions[0];
+            renderSections(selected.sections);
+          });
+          selectWrap.appendChild(select);
+          toolbar.appendChild(selectWrap);
+          curriculum.appendChild(toolbar);
+        }
+
+        curriculum.appendChild(groups);
+        renderSections(versions[0].sections);
       }
     }
 
@@ -2166,7 +2358,7 @@
       clear(coordinator);
       var coord = getStaffById(sp.coordinatorStaffId);
       if (coord) {
-        var card = buildStaffCard(coord, "compact");
+        var card = buildStaffCard(coord, "full");
         coordinator.appendChild(card);
       } else {
         coordinator.appendChild(
@@ -2179,7 +2371,11 @@
     var staffHolder = document.querySelector('[data-sp="staff"]');
     if (staffHolder) {
       clear(staffHolder);
+      var hod = getHeadOfDepartment();
       var associated = staffForSpecialisation(sp.id, { excludeId: sp.coordinatorStaffId });
+      associated = associated.filter(function (member) {
+        return !(hod && member.id === hod.id);
+      });
       if (!associated.length) {
         staffHolder.appendChild(
           el("p", { cls: "placeholder-note", text: "Staff assignments for this specialisation have not been published yet." })
@@ -2197,7 +2393,9 @@
     var labsHolder = document.querySelector('[data-sp="labs"]');
     if (labsHolder) {
       clear(labsHolder);
-      var labs = (sp.laboratoryIds || []).map(getFacilityById).filter(Boolean);
+      var labs = FACILITIES.filter(function (facility) {
+        return (facility.specialisationIds || []).indexOf(sp.id) !== -1;
+      });
       if (!labs.length) {
         labsHolder.appendChild(
           el("p", { cls: "placeholder-note", text: "Related laboratories have not been published yet." })

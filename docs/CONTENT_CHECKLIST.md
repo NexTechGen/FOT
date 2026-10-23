@@ -20,10 +20,10 @@ Legend: ☐ = outstanding, ✔ = supplied (tick when done).
 
 ## 1. Identity and branding
 
-- ✔ **Official university logo** — supplied (`assets/images/UOJ-Logo-Color-scaled.png`) and used as
+- ✔ **Official university logo** — supplied   (`assets/images/logos/UOJ-Logo-Color-scaled.png`) and used as
   the header brand mark on every page. The black-and-white variant
-  (`assets/images/UOJ-Logo-Black-White-scaled.png`) is the footer mark, and
-  `assets/images/UOJ-Logo-Color-scaled.ico` is the page favicon.
+  (`assets/images/logos/UOJ-Logo-Black-White-scaled.png`) is the footer mark, and
+  `assets/images/logos/UOJ-Logo-Color-scaled.ico` is the page favicon.
 - ✔ **Official brand colours** — the palette in `assets/css/styles.css` now uses the official
   University of Jaffna blue `#233C98` (as used on `jfn.ac.lk`). Confirm the derived shades
   (`#172B75`, `#EAEEF5`) are acceptable before launch.
@@ -190,7 +190,6 @@ placeholders in 85 different forms**.
 - `[Year 01 / Semester 01]` – `[Year 04 / Semester 02]`
 - `[Subject name 01]` – `[Subject name 16]`
 - `[Subject code 01]` – `[Subject code 16]`
-- `[Curriculum shown is indicative. …]`
 - `[Brief description of research and project activity in this specialisation.]`
 
 Each of these repeats in all three specialisations.

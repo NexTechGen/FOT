@@ -31,7 +31,8 @@
  *   specialisationIds
  *       One laboratory or facility: a unique code, its name, a one or two
  *       sentence description, a picture, the picture description and the
- *       specialisation codes that use it.
+ *       specialisation codes that use it. A bare image file name is read from
+ *       assets/images/facilities.
  *   academicOverview[] — title / description / icon / url
  *       One academic overview tile on the home page: its title, a short
  *       description, an optional icon name and the page it links to.
@@ -61,14 +62,8 @@ window.DEPARTMENT_CONTENT = Object.assign(window.DEPARTMENT_CONTENT || {}, {
   faculty: {
     label: "University of Jaffna",
     heading: "Faculty of Technology",
-    intro: [
-      "[Insert the approved introduction to the Faculty of Technology here. " +
-      "Describe the faculty's purpose, the disciplines it brings together and " +
-      "its role within the University of Jaffna.]",
-      "[Optional second paragraph. Keep it concise and factual — do not add " +
-      "statistics, dates or accreditation claims that have not been approved.]"
-    ],
-    image: "assets/images/FOT-image-02.png",
+    intro: ["The Faculty of Technology, University of Jaffna, established in 2016, provides quality higher education in diverse technological disciplines. Through its departments, the faculty promotes practical learning, research, and innovation to develop skilled graduates who contribute to Sri Lanka’s technological and industrial development.","The faculty is dedicated to academic excellence, professional development, and technological advancement through quality education and practical experience."],
+    image: "FOT-image-02.png",
     imageAlt: "Placeholder image representing the Faculty of Technology campus"
   },
 
@@ -79,7 +74,7 @@ window.DEPARTMENT_CONTENT = Object.assign(window.DEPARTMENT_CONTENT || {}, {
     title: "Dean, Faculty of Technology",
     qualifications: "Ph.D. in Computer Vision (DCU, Ire), B.Sc. Special in Computer Science (Hons) (UoJ)",
     email: "deantech@univ.jfn.ac.lk",
-    photo: "assets/images/staff/Dr-T-etheesan.jpg",
+    photo: "Dr-T-etheesan.jpg",
     photoAlt: "Placeholder portrait of the Dean, Faculty of Technology",
     message: ["It is my great pleasure to welcome you to the Department of Engineering Technology, Faculty of Technology, University of Jaffna. Our department offers a four-year Bachelor of Engineering Technology Honours degree programme with specialisations in Automobile, Construction, and Electro Technology. With dedicated academic staff, practical learning, and a commitment to excellence, we aim to produce skilled, innovative, and responsible engineering technologists who contribute to industrial development and the technological advancement of Sri Lanka."]
   },
@@ -93,7 +88,7 @@ window.DEPARTMENT_CONTENT = Object.assign(window.DEPARTMENT_CONTENT || {}, {
       "develop engineering technologists who contribute to national development " +
       "by sharing technical knowledge and applying it to practical problems."
     ],
-    image: "assets/images/FOT-image.png",
+    image: "FOT-image.png",
     imageAlt: "Faculty of Technology",
     focus:
       "Through academic study, practical learning, and research, the department " +
@@ -118,7 +113,7 @@ window.DEPARTMENT_CONTENT = Object.assign(window.DEPARTMENT_CONTENT || {}, {
     organisation: {
       heading: "Academic organisation",
       intro: ["The Department of Engineering Technology is academically organised into three specialisations: Automobile Technology, Construction Technology, and Electro Technology. The four-year Bachelor of Engineering Technology Honours degree programme combines common foundational studies during the first three semesters with specialised courses from the fourth semester onwards, providing students with theoretical knowledge, practical experience, and technical skills relevant to their chosen field."],
-      image: "assets/images/FOT-image-02.png",
+      image: "FOT-image-02.png",
       imageAlt: "Faculty of Technology"
     },
     vision:
@@ -169,7 +164,7 @@ window.DEPARTMENT_CONTENT = Object.assign(window.DEPARTMENT_CONTENT || {}, {
       id: "lab-01",
       name: "Engineering Workshop",
       description: "[Concise description of this laboratory or facility.]",
-      image: "assets/images/placeholder-lab.svg",
+      image: "placeholders/placeholder.svg",
       imageAlt: "Placeholder image for the Engineering Workshop",
       specialisationIds: ["automobile-technology"]
     },
@@ -177,7 +172,7 @@ window.DEPARTMENT_CONTENT = Object.assign(window.DEPARTMENT_CONTENT || {}, {
       id: "lab-02",
       name: "Automobile Electronics and Mechatronics Laboratory",
       description: "[Concise description of this laboratory or facility.]",
-      image: "assets/images/placeholder-lab.svg",
+      image: "placeholders/placeholder.svg",
       imageAlt: "Placeholder image for the Automobile Electronics and Mechatronics Laboratory",
       specialisationIds: ["automobile-technology"]
     },
@@ -185,7 +180,7 @@ window.DEPARTMENT_CONTENT = Object.assign(window.DEPARTMENT_CONTENT || {}, {
       id: "lab-03",
       name: "Engineering Workshop",
       description: "[Concise description of this laboratory or facility.]",
-      image: "assets/images/placeholder-lab.svg",
+      image: "placeholders/placeholder.svg",
       imageAlt: "Placeholder image for the Engineering Workshop",
       specialisationIds: ["automobile-technology"]
     },
@@ -193,7 +188,7 @@ window.DEPARTMENT_CONTENT = Object.assign(window.DEPARTMENT_CONTENT || {}, {
       id: "lab-04",
       name: "Automobile Electronics and Mechatronics Laboratory",
       description: "[Concise description of this laboratory or facility.]",
-      image: "assets/images/placeholder-lab.svg",
+      image: "placeholders/placeholder.svg",
       imageAlt: "Placeholder image for the Automobile Electronics and Mechatronics Laboratory",
       specialisationIds: ["electro-technology"]
     },
@@ -201,7 +196,7 @@ window.DEPARTMENT_CONTENT = Object.assign(window.DEPARTMENT_CONTENT || {}, {
       id: "lab-05",
       name: "Engineering Workshop",
       description: "[Concise description of this laboratory or facility.]",
-      image: "assets/images/placeholder-lab.svg",
+      image: "placeholders/placeholder.svg",
       imageAlt: "Placeholder image for the Engineering Workshop",
       specialisationIds: ["electro-technology"]
     },
@@ -209,7 +204,7 @@ window.DEPARTMENT_CONTENT = Object.assign(window.DEPARTMENT_CONTENT || {}, {
       id: "lab-06",
       name: "Automobile Electronics and Mechatronics Laboratory",
       description: "[Concise description of this laboratory or facility.]",
-      image: "assets/images/placeholder-lab.svg",
+      image: "placeholders/placeholder.svg",
       imageAlt: "Placeholder image for the Automobile Electronics and Mechatronics Laboratory",
       specialisationIds: ["electro-technology"]
     },
@@ -217,7 +212,7 @@ window.DEPARTMENT_CONTENT = Object.assign(window.DEPARTMENT_CONTENT || {}, {
       id: "lab-07",
       name: "Engineering Workshop",
       description: "[Concise description of this laboratory or facility.]",
-      image: "assets/images/placeholder-lab.svg",
+      image: "placeholders/placeholder.svg",
       imageAlt: "Placeholder image for the Engineering Workshop",
       specialisationIds: ["construction-technology"]
     },
@@ -225,7 +220,7 @@ window.DEPARTMENT_CONTENT = Object.assign(window.DEPARTMENT_CONTENT || {}, {
       id: "lab-08",
       name: "Automobile Electronics and Mechatronics Laboratory",
       description: "[Concise description of this laboratory or facility.]",
-      image: "assets/images/placeholder-lab.svg",
+      image: "placeholders/placeholder.svg",
       imageAlt: "Placeholder image for the Automobile Electronics and Mechatronics Laboratory",
       specialisationIds: ["construction-technology"]
     },
@@ -233,7 +228,7 @@ window.DEPARTMENT_CONTENT = Object.assign(window.DEPARTMENT_CONTENT || {}, {
       id: "lab-09",
       name: "Engineering Workshop",
       description: "[Concise description of this laboratory or facility.]",
-      image: "assets/images/placeholder-lab.svg",
+      image: "placeholders/placeholder.svg",
       imageAlt: "Placeholder image for the Engineering Workshop",
       specialisationIds: ["construction-technology"]
     },
@@ -241,7 +236,7 @@ window.DEPARTMENT_CONTENT = Object.assign(window.DEPARTMENT_CONTENT || {}, {
       id: "lab-10",
       name: "Automobile Electronics and Mechatronics Laboratory",
       description: "[Concise description of this laboratory or facility.]",
-      image: "assets/images/placeholder-lab.svg",
+      image: "placeholders/placeholder.svg",
       imageAlt: "Placeholder image for the Automobile Electronics and Mechatronics Laboratory",
       specialisationIds: ["construction-technology"]
     }

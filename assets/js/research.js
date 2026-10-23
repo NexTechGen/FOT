@@ -31,14 +31,24 @@ window.DEPARTMENT_CONTENT.research = {
   intro: "",
   items: [
     {
-      title: "[Research or publication title]",
-      authors: "[Author names, co-authors]",
-      type: "[Journal article / Conference paper / Thesis]",
-      venue: "[Journal or conference name]",
-      year: "2026",
+      title: "STC-Net: Electroluminescence-Based Solar Cell Crack Segmentation for Power Loss Estimation",
+      authors: "Akila Eranda Jayasinghe",
+      type: "Conference paper",
+      venue: "ResearchGate",
+      year: "August 2026",
       status: "Published",
-      specialisationIds: ["automobile-technology"],
-      url: ""
-    }
+      specialisationIds: ["electro-technology"],
+      url: "https://www.researchgate.net/publication/414487822_STC-Net_Electroluminescence-Based_Solar_Cell_Crack_Segmentation_for_Power_Loss_Estimation"
+    },
+    {
+      title: "Model-Based Lithium-ion Battery Impedance Analysis, Degradation and Health Assessment under Dynamic Cycling",
+      authors: "Akila Eranda Jayasinghe",
+      type: "Thesis",
+      venue: "ResearchGate",
+      year: "December 2025",
+      status: "Published",
+      specialisationIds: ["electro-technology"],
+      url: "https://www.researchgate.net/publication/411854387_Model-Based_Lithium-ion_Battery_Impedance_Analysis_Degradation_and_Health_Assessment_under_Dynamic_Cycling"
+    },
   ]
 };
