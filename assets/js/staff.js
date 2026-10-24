@@ -58,7 +58,7 @@ window.DEPARTMENT_STAFF = {
       photo: "Eng-DrHiranya.jpg",
       specialisationIds: ["construction-technology"],
       email: "hiranya@tech.jfn.ac.lk",
-      phone: "",
+      phone: "+94 21 222 6803",
       isHeadOfDepartment: true,
       onStudyLeave: false
     },
@@ -73,7 +73,7 @@ window.DEPARTMENT_STAFF = {
       photo: "Eng-J-Joy-Mathavan.jpg",
       specialisationIds: ["automobile-technology"],
       email: "joy@tech.jfn.ac.lk",
-      phone: "",
+      phone: "+94 21 222 6803",
       isHeadOfDepartment: false,
       onStudyLeave: false
     },
@@ -86,7 +86,7 @@ window.DEPARTMENT_STAFF = {
       photo: "Eng-DrHiranya.jpg",
       specialisationIds: ["construction-technology"],
       email: "hiranya@tech.jfn.ac.lk",
-      phone: "",
+      phone: "+94 21 222 6803",
       isHeadOfDepartment: false,
       onStudyLeave: false
     },
@@ -99,7 +99,7 @@ window.DEPARTMENT_STAFF = {
       photo: "Akila-Eranda-Jayasinghe.png",
       specialisationIds: ["electro-technology"],
       email: "jakila@tech.jfn.ac.lk",
-      phone: "",
+      phone: "+94 21 222 6803",
       isHeadOfDepartment: false,
       onStudyLeave: false
     },
@@ -114,6 +114,7 @@ window.DEPARTMENT_STAFF = {
       photo: "seralathan.jpg",
       specialisationIds: ["automobile-technology"],
       email: "seralathan@tech.jfn.ac.lk",
+      phone: "+94 21 222 6803",
       isHeadOfDepartment: false,
       onStudyLeave: true
     },
@@ -126,6 +127,7 @@ window.DEPARTMENT_STAFF = {
       photo: "ET-EngSam.jpg",
       specialisationIds: ["automobile-technology"],
       email: "samt@tech.jfn.ac.lk",
+      phone: "+94 21 222 6803",
       isHeadOfDepartment: false,
       onStudyLeave: true
     },
@@ -138,6 +140,7 @@ window.DEPARTMENT_STAFF = {
       photo: "yasitha1.jpg",
       specialisationIds: ["automobile-technology"],
       email: "yasitha@tech.jfn.ac.lk",
+      phone: "+94 21 222 6803",
       isHeadOfDepartment: false,
       onStudyLeave: false
     },
@@ -150,6 +153,7 @@ window.DEPARTMENT_STAFF = {
       photo: "daisan.jpg",
       specialisationIds: ["automobile-technology"],
       email: "daisan@tech.jfn.ac.lk",
+      phone: "+94 21 222 6803",
       isHeadOfDepartment: false,
       onStudyLeave: true
     },
@@ -162,6 +166,7 @@ window.DEPARTMENT_STAFF = {
       photo: "khan1.jpg",
       specialisationIds: ["automobile-technology"],
       email: "khan@tech.jfn.ac.lk",
+      phone: "+94 21 222 6803",
       isHeadOfDepartment: false,
       onStudyLeave: true
     },
@@ -174,6 +179,7 @@ window.DEPARTMENT_STAFF = {
       photo: "Rishi.jpg",
       specialisationIds: ["automobile-technology"],
       email: "rishiheshan@tech.jfn.ac.lk",
+      phone: "+94 21 222 6803",
       isHeadOfDepartment: false,
       onStudyLeave: false
     },
@@ -188,6 +194,7 @@ window.DEPARTMENT_STAFF = {
       photo: "ET-EngNithu.jpg",
       specialisationIds: ["construction-technology"],
       email: "mnithurshan@tech.jfn.ac.lk",
+      phone: "+94 21 222 6803",
       isHeadOfDepartment: false,
       onStudyLeave: false
     },
@@ -200,6 +207,7 @@ window.DEPARTMENT_STAFF = {
       photo: "Dr-Jeyamohan.jpeg",
       specialisationIds: ["construction-technology"],
       email: "jeya@tech.jfn.ac.lk",
+      phone: "+94 21 222 6803",
       isHeadOfDepartment: false,
       onStudyLeave: false
     },
@@ -214,6 +222,7 @@ window.DEPARTMENT_STAFF = {
       photo: "",
       specialisationIds: [],
       email: "[technical staff 01 email address]",
+      phone: "+94 21 222 6803",
       isHeadOfDepartment: false,
       onStudyLeave: false
     },
@@ -229,6 +238,7 @@ window.DEPARTMENT_STAFF = {
       photo: "",
       specialisationIds: [],
       email: "[administrative staff 01 email address]",
+      phone: "+94 21 222 6803",
       onStudyLeave: false
     }
   ]
