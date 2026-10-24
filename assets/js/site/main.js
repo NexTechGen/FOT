@@ -599,7 +599,7 @@
     var dl = el("dl", { cls: "staff-card__meta" });
     addMetaRow(dl, "Qualifications", member.qualifications ? el("span", { text: member.qualifications }) : null);
     if (member.phone) {
-      addMetaRow(dl, "Phone number", el("a", { text: member.phone, attrs: { href: "tel:" + String(member.phone).replace(/\s+/g, "") } }));
+      addMetaRow(dl, "Contact Number", el("a", { text: member.phone, attrs: { href: "tel:" + String(member.phone).replace(/\s+/g, "") } }));
     }
     addMetaRow(dl, "Email", emailNode(member.email));
     details.appendChild(dl);
