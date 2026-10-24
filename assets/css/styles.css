@@ -1689,9 +1689,9 @@ summary:focus-visible,
 
 .avatar {
   flex: 0 0 auto;
-  width: 100px;
-  height: 100px;
-  border-radius: 50%;
+  width: 130px;
+  height: 150px;
+  border-radius: 12px;
   display: grid;
   place-items: center;
   overflow: hidden;
@@ -1781,6 +1781,12 @@ summary:focus-visible,
   background: var(--blue-dark);
   border-color: var(--blue-dark);
   color: var(--white);
+}
+
+.tag--leave {
+  background: #fff3cd;
+  border-color: #ffe69c;
+  color: #856404;
 }
 
 /* Large screens: each staff card spans the full row and the Contact and
@@ -2282,6 +2288,11 @@ details[open] .disclosure__cue {
     position: sticky;
     top: var(--header-sticky-offset);
     z-index: 90;
+  }
+
+  [data-sp="coordinator"] .staff-card--full .disclosure,
+  [data-sp="coordinator"] .staff-card--full .staff-card__side {
+    display: none !important;
   }
 }
 

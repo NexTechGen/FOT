@@ -548,6 +548,9 @@
         el("p", { cls: "staff-card__designation", text: member.designation || "" })
       ]
     });
+    if (member.onStudyLeave) {
+      nameWrap.appendChild(el("span", { cls: "tag tag--leave", text: "On Study Leave" }));
+    }
     head.appendChild(nameWrap);
     card.appendChild(head);
 
@@ -2531,6 +2534,9 @@
     var all = STAFF.members || [];
 
     var results = all.filter(function (member) {
+      if (spFilter && member.category === "head") {
+        return false;
+      }
       var haystack = ((member.name || "") + " " + (member.designation || "")).toLowerCase();
       if (query && haystack.indexOf(query) === -1) {
         return false;

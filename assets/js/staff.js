@@ -29,7 +29,8 @@
   *   email              Their official email address, or "".
   *   isHeadOfDepartment "true" for the Head of Department only, "false" for
   *                      everyone else.
- * 
+  *   onStudyLeave       true if the staff member is on study leave, false otherwise.
+  * 
  * Anything in [square brackets] is a placeholder to replace.
  * Full help: see docs/ADMIN_GUIDE.md
  */
@@ -56,7 +57,8 @@ window.DEPARTMENT_STAFF = {
       photo: "Eng-DrHiranya.jpg",
       specialisationIds: ["construction-technology"],
       email: "hiranya@tech.jfn.ac.lk",
-      isHeadOfDepartment: true
+      isHeadOfDepartment: true,
+      onStudyLeave: false
     },
 
     // Specialisation coordinator sections
@@ -69,7 +71,8 @@ window.DEPARTMENT_STAFF = {
       photo: "Eng-J-Joy-Mathavan.jpg",
       specialisationIds: ["automobile-technology"],
       email: "joy@tech.jfn.ac.lk",
-      isHeadOfDepartment: false
+      isHeadOfDepartment: false,
+      onStudyLeave: false
     },
     {
       id: "coordinator-construction-technology",
@@ -80,7 +83,8 @@ window.DEPARTMENT_STAFF = {
       photo: "Eng-DrHiranya.jpg",
       specialisationIds: ["construction-technology"],
       email: "hiranya@tech.jfn.ac.lk",
-      isHeadOfDepartment: false
+      isHeadOfDepartment: false,
+      onStudyLeave: false
     },
     {
       id: "coordinator-electro-technology",
@@ -91,20 +95,108 @@ window.DEPARTMENT_STAFF = {
       photo: "Akila-Eranda-Jayasinghe.png",
       specialisationIds: ["electro-technology"],
       email: "jakila@tech.jfn.ac.lk",
-      isHeadOfDepartment: false
+      isHeadOfDepartment: false,
+      onStudyLeave: false
     },
 
-    // Academic Staff section
+    // Academic Staff section - Automobile Technology
     {
       id: "academic-staff-01",
-      name: "[Academic Staff 01 Name]",
-      designation: "[Designation]",
+      name: "Eng. S. Seralathan",
+      designation: "Lecturer",
       category: "academic",
-      qualifications: "[Qualifications]",
-      photo: "",
-      specialisationIds: ["automobile-technology", "construction-technology"],
-      email: "[academic staff 01 email address]",
-      isHeadOfDepartment: false
+      qualifications: "B.Sc. in Engineering, (Peradeniya, SL), M.Sc. (Reading) (Moratuwa, SL)",
+      photo: "seralathan.jpg",
+      specialisationIds: ["automobile-technology"],
+      email: "seralathan@tech.jfn.ac.lk",
+      isHeadOfDepartment: false,
+      onStudyLeave: true
+    },
+    {
+      id: "academic-staff-02",
+      name: "Eng. T. Sam Niroshan",
+      designation: "Lecturer",
+      category: "academic",
+      qualifications: "B.Sc. Eng. (Hons) (Moratuwa, SL), M.Eng. (Reading) (Moratuwa, SL)",
+      photo: "ET-EngSam.jpg",
+      specialisationIds: ["automobile-technology"],
+      email: "samt@tech.jfn.ac.lk",
+      isHeadOfDepartment: false,
+      onStudyLeave: true
+    },
+    {
+      id: "academic-staff-03",
+      name: "Mr V. Yasitha Madusanka",
+      designation: "Lecturer",
+      category: "academic",
+      qualifications: "BET (Hons) in Automobile Tech. (Jaffna, SL)",
+      photo: "yasitha1.jpg",
+      specialisationIds: ["automobile-technology"],
+      email: "yasitha@tech.jfn.ac.lk",
+      isHeadOfDepartment: false,
+      onStudyLeave: false
+    },
+    {
+      id: "academic-staff-04",
+      name: "Mr G. Daisan",
+      designation: "Lecturer",
+      category: "academic",
+      qualifications: "B.E in Aeronautical. Eng. (Anna, IN) M.Sc. in Aerospace. Eng. (WUT, PL) PPL (A) (Flying Academy, AT & CZ) Reading",
+      photo: "daisan.jpg",
+      specialisationIds: ["automobile-technology"],
+      email: "daisan@tech.jfn.ac.lk",
+      isHeadOfDepartment: false,
+      onStudyLeave: true
+    },
+    {
+      id: "academic-staff-05",
+      name: "Mr Sangeeth Khan",
+      designation: "Lecturer",
+      category: "academic",
+      qualifications: "BET (Hons) in Automobile Technology",
+      photo: "khan1.jpg",
+      specialisationIds: ["automobile-technology"],
+      email: "khan@tech.jfn.ac.lk",
+      isHeadOfDepartment: false,
+      onStudyLeave: true
+    },
+    {
+      id: "academic-staff-06",
+      name: "Mr. N. Rishiheshan",
+      designation: "Lecturer",
+      category: "academic",
+      qualifications: "BET (Hons) in Automobile Technology(USJ), Dip in English(USJ), ETecIE (SL)",
+      photo: "Rishi.jpg",
+      specialisationIds: ["automobile-technology"],
+      email: "rishiheshan@tech.jfn.ac.lk",
+      isHeadOfDepartment: false,
+      onStudyLeave: false
+    },
+
+    // Academic Staff section - Construction Technology
+    {
+      id: "academic-staff-07",
+      name: "Dr (Eng). M. Nithurshan",
+      designation: "Senior Lecturer Gr II",
+      category: "academic",
+      qualifications: "M.Sc. Eng. in GeoTech. Eng. (Peradeniya, SL), B.Sc. Eng. (Hons). (Peradeniya, SL)",
+      photo: "ET-EngNithu.jpg",
+      specialisationIds: ["construction-technology"],
+      email: "mnithurshan@tech.jfn.ac.lk",
+      isHeadOfDepartment: false,
+      onStudyLeave: false
+    },
+    {
+      id: "academic-staff-08",
+      name: "Dr. (Eng). K. Jeyamohan",
+      designation: "Senior Lecturer Gr II",
+      category: "academic",
+      qualifications: "PhD (QUT), M.Sc. in Structural Eng. (Peradeniya, SL), B.Sc. (Hons) in Civil Eng. (Peradeniya, SL)",
+      photo: "Dr-Jeyamohan.jpeg",
+      specialisationIds: ["construction-technology"],
+      email: "jeya@tech.jfn.ac.lk",
+      isHeadOfDepartment: false,
+      onStudyLeave: false
     },
 
     // Technical staff Section
@@ -115,10 +207,12 @@ window.DEPARTMENT_STAFF = {
       category: "technical",
       qualifications: "[Qualifications]",
       photo: "",
-      specialisationIds: ["automobile-technology"],
+      specialisationIds: [],
       email: "[technical staff 01 email address]",
-      isHeadOfDepartment: false
+      isHeadOfDepartment: false,
+      onStudyLeave: false
     },
+    
 
     // administrative Staff Section
     {
@@ -129,7 +223,8 @@ window.DEPARTMENT_STAFF = {
       qualifications: "",
       photo: "",
       specialisationIds: [],
-      email: "[administrative staff 01 email address]"
+      email: "[administrative staff 01 email address]",
+      onStudyLeave: false
     }
   ]
 };
