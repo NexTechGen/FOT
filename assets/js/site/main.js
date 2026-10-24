@@ -493,8 +493,8 @@
         attrs: {
           src: photoSrc,
           alt: "Portrait of " + member.name,
-          width: "64",
-          height: "64",
+          width: "120",
+          height: "140",
           loading: "lazy",
           decoding: "async"
         }
@@ -567,16 +567,6 @@
     card.appendChild(head);
 
     if (variant === "compact") {
-      if (member.phone) {
-        var phone = el("p", { cls: "staff-card__meta" });
-        phone.appendChild(el("a", { text: member.phone, attrs: { href: "tel:" + String(member.phone).replace(/\s+/g, "") } }));
-        card.appendChild(phone);
-      }
-      if (isRealEmail(member.email)) {
-        var contact = el("p", { cls: "staff-card__meta" });
-        contact.appendChild(el("a", { text: member.email, attrs: { href: "mailto:" + member.email } }));
-        card.appendChild(contact);
-      }
       var compactProfile = staffProfileLink(member);
       if (compactProfile) {
         card.appendChild(compactProfile);
@@ -650,9 +640,9 @@
     if (!document.body.getAttribute("data-specialisation")) {
       return null;
     }
-    return el("p", { cls: "staff-card__profile", children: [
+    return el("div", { cls: "staff-card__profile", children: [
       el("a", {
-        cls: "link-more",
+        cls: "btn btn--outline staff-card__profile-btn",
         text: "View staff profile",
         attrs: { href: resolve("pages/staff.html") + "#profile-" + member.id }
       })
@@ -1054,9 +1044,9 @@
 
     var link = null;
     if (hod) {
-      link = el("p", { cls: "mt-0", children: [
+      link = el("div", { cls: "mt-0", children: [
         el("a", {
-          cls: "link-more",
+          cls: "btn btn--outline staff-card__profile-btn",
           text: "View staff profile",
           attrs: { href: resolve("pages/staff.html") + "#profile-" + hod.id }
         })
@@ -2223,6 +2213,13 @@
     var overview = document.querySelector('[data-sp="overview"]');
     if (overview) {
       clear(overview);
+      if (imageTarget && window.matchMedia && window.matchMedia("(max-width: 991.98px)").matches) {
+        if (imageTarget.parentNode && imageTarget.parentNode !== overview) {
+          imageTarget.parentNode.removeChild(imageTarget);
+        }
+        imageTarget.classList.add("sp-overview__image");
+        overview.appendChild(imageTarget);
+      }
       (sp.overview || []).forEach(function (paragraph) {
         overview.appendChild(el("p", { text: paragraph }));
       });
@@ -2421,7 +2418,18 @@
       var spItems = (RESEARCH.items || []).filter(function (entry) {
         return researchEntryHasSpecialisation(entry, sp.id);
       });
-      researchHolder.appendChild(researchSection(spItems, false));
+      researchHolder.appendChild(researchSection(spItems.slice(0, 3), false));
+      if (spItems.length > 0) {
+        var seeMore = el("div", { cls: "mt-4" });
+        seeMore.appendChild(
+          el("a", {
+            cls: "btn btn--outline",
+            text: "See more",
+            attrs: { href: "research.html" }
+          })
+        );
+        researchHolder.appendChild(seeMore);
+      }
     }
 
     // Downloads — the specialisation's own related downloads.
@@ -2488,17 +2496,21 @@
     var categories = STAFF.categories || [];
     var grouped = [];
     var rankDesignation = function (d) {
+      var designationOrder = (STAFF && STAFF.designationOrder) || {};
+      if (d && designationOrder.hasOwnProperty(d)) {
+        return designationOrder[d];
+      }
       var s = (d || "").toLowerCase();
-      if (s.indexOf("senior lecturer gr iii") !== -1 || s.indexOf("gr iii") !== -1) {
+      if (s.indexOf("senior lecturer gr ii") !== -1 || s.indexOf("gr ii") !== -1) {
         return 0;
       }
-      if (s.indexOf("senior lecturer gr ii") !== -1 || s.indexOf("gr ii") !== -1) {
+      if (s.indexOf("senior lecturer gr i") !== -1 || s.indexOf("gr i") !== -1) {
         return 1;
       }
-      if (s.indexOf("senior lecturer gr i") !== -1 || s.indexOf("gr i") !== -1) {
+      if (s.indexOf("lecturer") !== -1 && s.indexOf("senior lecturer") === -1) {
         return 2;
       }
-      if (s.indexOf("lecturer") !== -1) {
+      if (s.indexOf("senior lecturer gr iii") !== -1 || s.indexOf("gr iii") !== -1) {
         return 3;
       }
       return 9;

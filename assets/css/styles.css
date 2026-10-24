@@ -1518,13 +1518,20 @@ summary:focus-visible,
   min-width: 0;
 }
 
-.split__media img {
+.split__media img,
+.sp-overview__image {
   width: 100%;
   border-radius: var(--radius-lg);
   border: 1px solid var(--border);
   background: var(--blue-light);
   aspect-ratio: 16 / 9;
   object-fit: cover;
+}
+
+/* On small screens the specialisation image moves into the overview prose. */
+.sp-overview__image {
+  display: block;
+  margin-bottom: var(--space-5);
 }
 
 .split__body > :last-child {
@@ -1692,8 +1699,8 @@ summary:focus-visible,
 
 .avatar {
   flex: 0 0 auto;
-  width: 130px;
-  height: 150px;
+  width: 120px;
+  height: 140px;
   border-radius: 12px;
   display: grid;
   place-items: center;
@@ -1735,6 +1742,11 @@ summary:focus-visible,
 /* "View staff profile" link on the specialisation pages */
 .staff-card__profile {
   margin: var(--space-4) 0 0;
+  width: 100%;
+}
+
+.staff-card__profile-btn {
+  width: 100%;
 }
 
 .staff-card__meta dt {

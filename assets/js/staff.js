@@ -38,6 +38,15 @@
 
 window.DEPARTMENT_STAFF = {
 
+  // Designation order for Academic Staff (key = exact designation value)
+  // Lower number appears first. Add/edit values here to control order.
+  designationOrder: {
+    "Senior Lecturer Gr II": 0,
+    "Senior Lecturer Gr I": 1,
+    "Lecturer": 2,
+    " Lecturer (Probationary)": 3
+  },
+
   // Staff group headings and their order. A group with no members is hidden.
   categories: [
     { id: "head",                label: "Head of Department" },
@@ -316,6 +325,19 @@ window.DEPARTMENT_STAFF = {
       phone: "+94 12 345 6789",
       isHeadOfDepartment: false,
       onStudyLeave: true
+    },
+    {
+      id: "academic-staff-17",
+      name: "Rajkumar Thilaksani",
+      designation: "Lecturer (Probationary)",
+      category: "academic",
+      qualifications: "B.E.T (Hons) UOJ, M.Sc. (Reading) (UOP)",
+      photo: "Thilaksani-R.png",
+      specialisationIds: ["electro-technology"],
+      email: "thilaksani@tech.jfn.ac.lk",
+      phone: "+94 76 529 4956",
+      isHeadOfDepartment: false,
+      onStudyLeave: false
     },
 
     // Technical staff Section
