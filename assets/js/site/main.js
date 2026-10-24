@@ -2487,11 +2487,35 @@
 
     var categories = STAFF.categories || [];
     var grouped = [];
+    var rankDesignation = function (d) {
+      var s = (d || "").toLowerCase();
+      if (s.indexOf("senior lecturer gr iii") !== -1 || s.indexOf("gr iii") !== -1) {
+        return 0;
+      }
+      if (s.indexOf("senior lecturer gr ii") !== -1 || s.indexOf("gr ii") !== -1) {
+        return 1;
+      }
+      if (s.indexOf("senior lecturer gr i") !== -1 || s.indexOf("gr i") !== -1) {
+        return 2;
+      }
+      if (s.indexOf("lecturer") !== -1) {
+        return 3;
+      }
+      return 9;
+    };
     var addSection = function (label, group) {
       var section = el("section", { cls: "mt-6" });
       section.appendChild(el("h2", { text: label }));
+      var sorted = group.slice().sort(function (a, b) {
+        var ra = rankDesignation(a.designation);
+        var rb = rankDesignation(b.designation);
+        if (ra !== rb) {
+          return ra - rb;
+        }
+        return (a.name || "").localeCompare(b.name || "");
+      });
       var grid = el("div", { cls: "grid grid--3 staff-grid" });
-      group.forEach(function (member) {
+      sorted.forEach(function (member) {
         grid.appendChild(buildStaffCard(member, "full"));
       });
       section.appendChild(grid);
