@@ -27,6 +27,7 @@
  *   specialisationIds  The specialisation codes they teach or work in, from
  *                      specialisations.js.
   *   email              Their official email address, or "".
+  *   phone              Their phone number, or "".
   *   isHeadOfDepartment "true" for the Head of Department only, "false" for
   *                      everyone else.
   *   onStudyLeave       true if the staff member is on study leave, false otherwise.
@@ -57,6 +58,7 @@ window.DEPARTMENT_STAFF = {
       photo: "Eng-DrHiranya.jpg",
       specialisationIds: ["construction-technology"],
       email: "hiranya@tech.jfn.ac.lk",
+      phone: "",
       isHeadOfDepartment: true,
       onStudyLeave: false
     },
@@ -71,6 +73,7 @@ window.DEPARTMENT_STAFF = {
       photo: "Eng-J-Joy-Mathavan.jpg",
       specialisationIds: ["automobile-technology"],
       email: "joy@tech.jfn.ac.lk",
+      phone: "",
       isHeadOfDepartment: false,
       onStudyLeave: false
     },
@@ -83,6 +86,7 @@ window.DEPARTMENT_STAFF = {
       photo: "Eng-DrHiranya.jpg",
       specialisationIds: ["construction-technology"],
       email: "hiranya@tech.jfn.ac.lk",
+      phone: "",
       isHeadOfDepartment: false,
       onStudyLeave: false
     },
@@ -95,6 +99,7 @@ window.DEPARTMENT_STAFF = {
       photo: "Akila-Eranda-Jayasinghe.png",
       specialisationIds: ["electro-technology"],
       email: "jakila@tech.jfn.ac.lk",
+      phone: "",
       isHeadOfDepartment: false,
       onStudyLeave: false
     },

@@ -541,6 +541,11 @@
     var card = el("article", { cls: "staff-card" });
     card.id = "profile-" + member.id;
 
+    var isHead = !!member.isHeadOfDepartment;
+    // The Head of Department oversees every specialisation, so always show
+    // all three in their tags regardless of their own list.
+    var affiliations = isHead ? SPECIALISATIONS.slice() : specialisationsForStaff(member);
+
     var head = el("div", { cls: "staff-card__head", children: [staffAvatar(member)] });
     var nameWrap = el("div", {
       children: [
@@ -548,27 +553,25 @@
         el("p", { cls: "staff-card__designation", text: member.designation || "" })
       ]
     });
+    if (affiliations.length) {
+      var tags = el("div", { cls: "staff-card__tags" });
+      affiliations.forEach(function (sp) {
+        tags.appendChild(el("span", { cls: isHead ? "tag tag--hod" : "tag", text: sp.name }));
+      });
+      nameWrap.appendChild(tags);
+    }
     if (member.onStudyLeave) {
       nameWrap.appendChild(el("span", { cls: "tag tag--leave", text: "On Study Leave" }));
     }
     head.appendChild(nameWrap);
     card.appendChild(head);
 
-    var isHead = !!member.isHeadOfDepartment;
-    // The Head of Department oversees every specialisation, so always show
-    // all three in their tags regardless of their own list.
-    var affiliations = isHead ? SPECIALISATIONS.slice() : specialisationsForStaff(member);
-    if (affiliations.length) {
-      var tags = el("div", { cls: "staff-card__tags" });
-      affiliations.forEach(function (sp) {
-        // The Head of Department oversees all three, so their specialisation
-        // tags are highlighted in the stronger style.
-        tags.appendChild(el("span", { cls: isHead ? "tag tag--hod" : "tag", text: sp.name }));
-      });
-      card.appendChild(tags);
-    }
-
     if (variant === "compact") {
+      if (member.phone) {
+        var phone = el("p", { cls: "staff-card__meta" });
+        phone.appendChild(el("a", { text: member.phone, attrs: { href: "tel:" + String(member.phone).replace(/\s+/g, "") } }));
+        card.appendChild(phone);
+      }
       if (isRealEmail(member.email)) {
         var contact = el("p", { cls: "staff-card__meta" });
         contact.appendChild(el("a", { text: member.email, attrs: { href: "mailto:" + member.email } }));
@@ -595,13 +598,8 @@
 
     var dl = el("dl", { cls: "staff-card__meta" });
     addMetaRow(dl, "Qualifications", member.qualifications ? el("span", { text: member.qualifications }) : null);
-    if (affiliations.length) {
-      var affiliationNames = affiliations
-        .map(function (sp) {
-          return sp.name;
-        })
-        .join(", ");
-      addMetaRow(dl, "Specialisations", el("span", { text: affiliationNames }));
+    if (member.phone) {
+      addMetaRow(dl, "Phone number", el("a", { text: member.phone, attrs: { href: "tel:" + String(member.phone).replace(/\s+/g, "") } }));
     }
     addMetaRow(dl, "Email", emailNode(member.email));
     details.appendChild(dl);

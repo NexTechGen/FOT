@@ -1667,6 +1667,9 @@ summary:focus-visible,
 /* Lets long names/designations wrap instead of pushing the avatar out. */
 .staff-card__head > div {
   min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
 }
 
 [data-sp="coordinator"] {
@@ -2294,6 +2297,22 @@ details[open] .disclosure__cue {
   [data-sp="coordinator"] .staff-card--full .staff-card__side {
     display: none !important;
   }
+
+  .staff-card--full .disclosure summary {
+    font-size: 0.9rem;
+  }
+}
+
+@media (max-width: 991.98px) {
+  [data-sp="coordinator"] .staff-card--full .disclosure,
+  [data-sp="coordinator"] .staff-card--full .staff-card__side {
+    display: none !important;
+  }
+
+  .staff-card--full .disclosure summary {
+    font-size: 0.9rem;
+  }
+}
 }
 
 .page-head {
