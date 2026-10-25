@@ -889,17 +889,28 @@
       if (doc.size) {
         meta.appendChild(el("span", { text: doc.size }));
       }
-      meta.appendChild(
-        el("a", {
-          cls: "link-more",
-          text: "Open document",
-          attrs: { href: docHref, target: "_blank", rel: "noopener" }
-        })
-      );
     } else {
       meta.appendChild(el("span", { cls: "badge badge--muted", text: "Not yet available" }));
     }
     row.appendChild(meta);
+
+    if (docHref) {
+      // Stretched link: the whole row is the click target, while the anchor
+      // itself carries the accessible name for keyboard and screen readers.
+      row.classList.add("doc--link");
+      row.appendChild(
+        el("a", {
+          cls: "doc__link",
+          attrs: { href: docHref, target: "_blank", rel: "noopener" },
+          children: [
+            el("span", {
+              cls: "visually-hidden",
+              text: "Open " + doc.title + (doc.format ? " (" + doc.format + ")" : "")
+            })
+          ]
+        })
+      );
+    }
     return row;
   }
 

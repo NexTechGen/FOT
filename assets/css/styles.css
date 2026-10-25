@@ -2933,6 +2933,37 @@ tbody tr:last-child td {
   min-width: 0;
 }
 
+/* Clickable document card: the whole row opens the file, so the card itself
+   gains a pointer cursor and a hover/focus highlight instead of a text link. */
+.doc--link {
+  position: relative;
+  cursor: pointer;
+  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+}
+
+.doc--link:hover,
+.doc--link:focus-within {
+  border-color: var(--blue);
+  box-shadow: var(--shadow-sm);
+}
+
+.doc--link:hover .doc__title,
+.doc--link:focus-within .doc__title {
+  text-decoration: underline;
+}
+
+/* Transparent overlay that makes the padded card area clickable too. */
+.doc__link {
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+}
+
+.doc__link:focus-visible {
+  outline: 3px solid var(--focus);
+  outline-offset: 2px;
+}
+
 .doc__title {
   font-weight: 600;
   color: var(--blue-dark);
