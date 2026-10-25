@@ -2289,7 +2289,7 @@
     }
 
     // Curriculum — one version per year, chosen with a dropdown when several
-    // years are supplied. The newest year is shown by default.
+    // years are supplied. The lowest year is shown by default.
     var curriculum = document.querySelector('[data-sp="curriculum"]');
     if (curriculum) {
       clear(curriculum);
@@ -2299,9 +2299,9 @@
       if (!versions.length && Array.isArray(sp.curriculum) && sp.curriculum.length) {
         versions = [{ year: "", sections: sp.curriculum }];
       }
-      // Newest year first so the current curriculum is the default choice.
+      // Lowest year first so the earliest curriculum is the default choice.
       versions.sort(function (a, b) {
-        return (parseInt(b.year, 10) || 0) - (parseInt(a.year, 10) || 0);
+        return (parseInt(a.year, 10) || 0) - (parseInt(b.year, 10) || 0);
       });
 
       if (!versions.length) {
