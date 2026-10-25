@@ -1,4 +1,4 @@
-﻿/* specialisations.js — specialisation pages
+/* specialisations.js — specialisation pages
  * What this file is for: the three specialisations (Automobile Technology,
  *   Construction Technology, Electro Technology).
  * 
@@ -35,8 +35,9 @@
  *   research.summary  A short description of research and project activity.
  *   downloads         The files shown on this page and collected into the
  *                     E-Resources "Programme Documents" section: id, title,
- *                     format, size and url (leave url blank until the file
- *                     exists).
+ *                     format, size and url. Put the file in assets/documents
+ *                     and give just its name here (e.g. "handbook.pdf"); leave
+ *                     url blank until the file exists.
  * 
  * Anything in [square brackets] is a placeholder to replace.
  * Full help: see docs/ADMIN_GUIDE.md
@@ -211,14 +212,15 @@ window.DEPARTMENT_CONTENT.specialisations = [
         "Research and project activity in Automobile Technology focuses on vehicle systems, automotive electronics, fault diagnosis, sustainable mobility, and emerging automotive technologies."
     },
     // Related downloads: shown on this page and collected into the E-Resources
-    // "Programme Documents" section. Leave `url` blank until the file exists.
+    // "Programme Documents" section. Put the file in assets/documents and give
+    // just its name here; leave `url` blank until the file exists.
     downloads: [
       {
         id: "automobile-technology-doc-01",
-        title: "Automobile Technology — Programme document",
+        title: "Automobile Technology — Programme document 2020",
         format: "PDF",
         size: "",
-        url: ""
+        url: "Auto-Tech-2020-batch.pdf"
       }
     ]
   },
@@ -383,14 +385,15 @@ window.DEPARTMENT_CONTENT.specialisations = [
         "Research and project activity in Construction Technology focuses on sustainable building materials, structural systems, construction management, resilient infrastructure, and practical challenges in the built environment."
     },
     // Related downloads: shown on this page and collected into the E-Resources
-    // "Programme Documents" section. Leave `url` blank until the file exists.
+    // "Programme Documents" section. Put the file in assets/documents and give
+    // just its name here; leave `url` blank until the file exists.
     downloads: [
       {
         id: "construction-technology-doc-01",
-        title: "Construction Technology — Programme document",
+        title: "Construction Technology — Programme document 2020",
         format: "PDF",
         size: "",
-        url: ""
+        url: "Cons-Tech-2020-batch.pdf"
       }
     ]
   },
@@ -557,14 +560,15 @@ window.DEPARTMENT_CONTENT.specialisations = [
         "Research and project activity in Electro Technology focuses on electrical power, electronics, industrial automation, control systems, renewable energy, and reliable electrical technologies."
     },
     // Related downloads: shown on this page and collected into the E-Resources
-    // "Programme Documents" section. Leave `url` blank until the file exists.
+    // "Programme Documents" section. Put the file in assets/documents and give
+    // just its name here; leave `url` blank until the file exists.
     downloads: [
       {
         id: "electro-technology-doc-01",
-        title: "Electro Technology — Programme document",
+        title: "Electro Technology — Programme document 2020",
         format: "PDF",
         size: "",
-        url: ""
+        url: "Electro-Tech-2020-batch.pdf"
       }
     ]
   }

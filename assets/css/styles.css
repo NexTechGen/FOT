@@ -605,6 +605,7 @@ summary:focus-visible,
   flex-direction: column;
   gap: 4px;
   width: 18px;
+  transition: transform 0.3s ease;
 }
 
 .nav-toggle__bars span {
@@ -612,6 +613,19 @@ summary:focus-visible,
   height: 2px;
   background: currentColor;
   border-radius: 2px;
+  transition: transform 0.3s ease, opacity 0.3s ease;
+}
+
+.nav-toggle[aria-expanded="true"] .nav-toggle__bars span:nth-child(1) {
+  transform: translateY(6px) rotate(45deg);
+}
+
+.nav-toggle[aria-expanded="true"] .nav-toggle__bars span:nth-child(2) {
+  opacity: 0;
+}
+
+.nav-toggle[aria-expanded="true"] .nav-toggle__bars span:nth-child(3) {
+  transform: translateY(-6px) rotate(-45deg);
 }
 
 /* ----------------------------------------------------------------------------
@@ -833,8 +847,10 @@ summary:focus-visible,
     display: block;
   }
 
-  /* Keyboard / no-JS fallback: reveal the sub-menu while focus is inside it. */
-  .has-dropdown:focus-within > .dropdown {
+  /* No-JS fallback: reveal the sub-menu while focus is inside it. When the
+     script is running the toggle button owns this state, otherwise focus
+     would keep the menu open even after the visitor closes it. */
+  body:not(.has-js) .has-dropdown:focus-within > .dropdown {
     display: block;
   }
 
@@ -2004,12 +2020,13 @@ details[open] .disclosure__cue {
   }
 }
 
-/* Filter bar variant for pages with only two filters: the search box gets the
-   extra width it needs and the reset button stays on the same row as the
-   fields instead of dropping onto its own full-width row underneath. */
+/* Filter bar variant for the staff directory: the search box gets the extra
+   width it needs and both filters plus the reset button all stay on the same
+   row instead of dropping onto their own full-width row underneath. */
 @media (min-width: 992px) {
   .filter-bar--inline {
-    grid-template-columns: minmax(260px, 1.6fr) minmax(220px, 1fr) auto;
+    grid-template-columns:
+      minmax(220px, 1.6fr) minmax(170px, 1fr) minmax(170px, 1fr) auto;
   }
 
   .filter-bar--inline .filter-actions {
@@ -2313,18 +2330,6 @@ details[open] .disclosure__cue {
   .staff-card--full .disclosure summary {
     font-size: 0.9rem;
   }
-}
-
-@media (max-width: 991.98px) {
-  [data-sp="coordinator"] .staff-card--full .disclosure,
-  [data-sp="coordinator"] .staff-card--full .staff-card__side {
-    display: none !important;
-  }
-
-  .staff-card--full .disclosure summary {
-    font-size: 0.9rem;
-  }
-}
 }
 
 .page-head {
@@ -3261,6 +3266,11 @@ tbody tr:last-child td {
 
 .callout p:last-child {
   margin-bottom: 0;
+}
+
+/* First callout directly below a page heading needs no extra top gap. */
+.callout--flush {
+  margin-top: 0;
 }
 
 .callout--muted {

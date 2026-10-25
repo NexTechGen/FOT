@@ -44,7 +44,7 @@ window.DEPARTMENT_STAFF = {
     "Senior Lecturer Gr II": 0,
     "Senior Lecturer Gr I": 1,
     "Lecturer": 2,
-    " Lecturer (Probationary)": 3
+    "Lecturer (Probationary)": 3
   },
 
   // Staff group headings and their order. A group with no members is hidden.
@@ -169,7 +169,7 @@ window.DEPARTMENT_STAFF = {
     {
       id: "academic-staff-05",
       name: "Mr Sangeeth Khan",
-      designation: "Lecturer",
+      designation: "Lecturer (Probationary)",
       category: "academic",
       qualifications: "BET (Hons) in Automobile Technology",
       photo: "khan1.jpg",
@@ -182,7 +182,7 @@ window.DEPARTMENT_STAFF = {
     {
       id: "academic-staff-06",
       name: "Mr. N. Rishiheshan",
-      designation: "Lecturer",
+      designation: "Lecturer (Probationary)",
       category: "academic",
       qualifications: "BET (Hons) in Automobile Technology(USJ), Dip in English(USJ), ETecIE (SL)",
       photo: "Rishi.jpg",
@@ -223,7 +223,7 @@ window.DEPARTMENT_STAFF = {
     {
       id: "academic-staff-09",
       name: "Eng R. Athavan",
-      designation: "Lecturers",
+      designation: "Lecturer",
       category: "academic",
       qualifications: "B.E in Civil Engineering (GTU, IN), M.Sc. in Environmental and Water Eng. (Reading) (Peradeniya, SL)",
       photo: "Eng-Athavan.jpg",
@@ -236,7 +236,7 @@ window.DEPARTMENT_STAFF = {
     {
       id: "academic-staff-10",
       name: "Eng. B. Banujan",
-      designation: "Lecturers",
+      designation: "Lecturer",
       category: "academic",
       qualifications: "M.Sc.E. (New Brunswick, CA), DUT (New Brunswick, CA), B.Sc. Eng. (Hons) (Moratuwa, SL)",
       photo: "Eng-B-Banujan.jpeg",
@@ -249,7 +249,7 @@ window.DEPARTMENT_STAFF = {
     {
       id: "academic-staff-11",
       name: "Eng. Ms. S. Thawsika",
-      designation: "Lecturers",
+      designation: "Lecturer",
       category: "academic",
       qualifications: "BSc.Eng (Hons) in Civil. (UOM, SL)",
       photo: "thawsika.jpg",
@@ -262,7 +262,7 @@ window.DEPARTMENT_STAFF = {
     {
       id: "academic-staff-12",
       name: "Eng. Ms S. Venuja",
-      designation: "Lecturers",
+      designation: "Lecturer",
       category: "academic",
       qualifications: "Ph.D. (Reading, University of Peradeniya), B.Sc. (Hons) in Civil Engineering (University of Peradeniya, Sri Lanka)",
       photo: "venuja.jpg",
@@ -349,7 +349,7 @@ window.DEPARTMENT_STAFF = {
       qualifications: "NCT in Mechanical Eng. (Level 5)",
       photo: "luxshman.jpg",
       specialisationIds: ["electro-technology"],
-      email: "luxshman@tech.jfn.ac.lk​",
+      email: "luxshman@tech.jfn.ac.lk",
       phone: "+94 12 345 6789",
       isHeadOfDepartment: false,
       onStudyLeave: false
@@ -362,7 +362,7 @@ window.DEPARTMENT_STAFF = {
       qualifications: "B.Sc. (Hons) in Engineering (OUSL), NDT in Civil Engineering (ITUM) (AM-IESL, AE-ECSL)",
       photo: "Sethurajah-Niruparan.jpg",
       specialisationIds: ["construction-technology"],
-      email: "niruparan@tech.jfn.ac.lk​",
+      email: "niruparan@tech.jfn.ac.lk",
       phone: "+94 12 345 6789",
       isHeadOfDepartment: false,
       onStudyLeave: false

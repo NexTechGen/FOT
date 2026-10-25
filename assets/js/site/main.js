@@ -107,6 +107,33 @@
     return resolve("assets/images/" + value, "image");
   }
 
+  /**
+   * Resolve a downloadable document path. Document values are relative to
+   * assets/documents, so content files can use "handbook.pdf" or
+   * "forms/application.pdf" instead of repeating the full path. A bare file
+   * name is looked up in assets/documents. Full paths and URLs are left
+   * unchanged.
+   */
+  function documentPath(path) {
+    if (path == null) {
+      return "";
+    }
+    var value = String(path).trim();
+    if (!value || hasControlChars(value)) {
+      return "";
+    }
+    if (
+      urlScheme(value) ||
+      value.slice(0, 2) === "//" ||
+      value.charAt(0) === "/" ||
+      value.charAt(0) === "#" ||
+      value.slice(0, 7) === "assets/"
+    ) {
+      return resolve(value, "link");
+    }
+    return resolve("assets/documents/" + value, "link");
+  }
+
   /** Create an element. opts: { text, cls, attrs, children } */
   function el(tag, opts) {
     var node = document.createElement(tag);
@@ -854,7 +881,7 @@
     row.appendChild(el("p", { cls: "doc__title", text: doc.title }));
 
     var meta = el("div", { cls: "doc__meta" });
-    var docHref = resolve(doc.url, "link");
+    var docHref = documentPath(doc.url);
     if (docHref) {
       if (doc.format) {
         meta.appendChild(el("span", { cls: "badge", text: doc.format }));
@@ -1792,7 +1819,7 @@
     var docWrap = dialog.querySelector("#news-modal-doc");
     clear(docWrap);
     var doc = item.doc || {};
-    var docHref = resolve(doc.url, "link");
+    var docHref = documentPath(doc.url);
     if (docHref && doc.title) {
       docWrap.appendChild(
         el("a", {
@@ -2213,20 +2240,45 @@
     var overview = document.querySelector('[data-sp="overview"]');
     if (overview) {
       clear(overview);
-      if (imageTarget && window.matchMedia && window.matchMedia("(max-width: 991.98px)").matches) {
-        if (imageTarget.parentNode && imageTarget.parentNode !== overview) {
-          imageTarget.parentNode.removeChild(imageTarget);
-        }
-        imageTarget.classList.add("sp-overview__image");
-        overview.appendChild(imageTarget);
-      }
       (sp.overview || []).forEach(function (paragraph) {
         overview.appendChild(el("p", { text: paragraph }));
       });
+
+      // On small screens the hero image sits inside the overview prose. Move it
+      // back to its original column when the viewport grows again, otherwise a
+      // resize would leave the media column empty for the rest of the visit.
+      if (imageTarget) {
+        var imageHome = imageTarget.parentNode;
+        var smallQuery = window.matchMedia
+          ? window.matchMedia("(max-width: 991.98px)")
+          : null;
+        var placeImage = function () {
+          var small = smallQuery ? smallQuery.matches : window.innerWidth < 992;
+          if (small) {
+            if (imageTarget.parentNode !== overview) {
+              overview.insertBefore(imageTarget, overview.firstChild);
+            }
+            imageTarget.classList.add("sp-overview__image");
+          } else if (imageHome) {
+            if (imageTarget.parentNode !== imageHome) {
+              imageHome.appendChild(imageTarget);
+            }
+            imageTarget.classList.remove("sp-overview__image");
+          }
+        };
+        placeImage();
+        if (smallQuery) {
+          if (typeof smallQuery.addEventListener === "function") {
+            smallQuery.addEventListener("change", placeImage);
+          } else if (typeof smallQuery.addListener === "function") {
+            smallQuery.addListener(placeImage);
+          }
+        }
+      }
     }
 
     // Curriculum — one version per year, chosen with a dropdown when several
-    // years are supplied. The first entry is shown by default.
+    // years are supplied. The newest year is shown by default.
     var curriculum = document.querySelector('[data-sp="curriculum"]');
     if (curriculum) {
       clear(curriculum);
@@ -2236,8 +2288,9 @@
       if (!versions.length && Array.isArray(sp.curriculum) && sp.curriculum.length) {
         versions = [{ year: "", sections: sp.curriculum }];
       }
+      // Newest year first so the current curriculum is the default choice.
       versions.sort(function (a, b) {
-        return (parseInt(a.year, 10) || 0) - (parseInt(b.year, 10) || 0);
+        return (parseInt(b.year, 10) || 0) - (parseInt(a.year, 10) || 0);
       });
 
       if (!versions.length) {
@@ -2474,7 +2527,7 @@
     if (!members.length) {
       var empty = emptyState(
         "No staff match your search",
-        "Try a different name or clear the specialisation filter."
+        "Try a different name or clear the filters."
       );
       var resetBtn = el("button", {
         cls: "btn btn--outline mt-4",
@@ -2484,9 +2537,12 @@
       resetBtn.addEventListener("click", function () {
         var search = document.getElementById("staff-search");
         var filter = document.getElementById("staff-filter");
+        var designationFilter = document.getElementById("staff-designation-filter");
         if (search) { search.value = ""; }
         if (filter) { filter.value = ""; }
+        if (designationFilter) { designationFilter.value = ""; }
         applyStaffFilter();
+        if (search) { search.focus(); }
       });
       empty.appendChild(resetBtn);
       container.appendChild(empty);
@@ -2501,6 +2557,11 @@
         return designationOrder[d];
       }
       var s = (d || "").toLowerCase();
+      // Check the most specific grades first: "gr iii" contains "gr i" and
+      // "gr ii" contains "gr i", so a looser test would rank them wrongly.
+      if (s.indexOf("gr iii") !== -1) {
+        return 3;
+      }
       if (s.indexOf("senior lecturer gr ii") !== -1 || s.indexOf("gr ii") !== -1) {
         return 0;
       }
@@ -2509,9 +2570,6 @@
       }
       if (s.indexOf("lecturer") !== -1 && s.indexOf("senior lecturer") === -1) {
         return 2;
-      }
-      if (s.indexOf("senior lecturer gr iii") !== -1 || s.indexOf("gr iii") !== -1) {
-        return 3;
       }
       return 9;
     };
@@ -2554,6 +2612,41 @@
     }
   }
 
+  function getUniqueDesignations() {
+    var order = (STAFF && STAFF.designationOrder) || {};
+    var categoryRank = {};
+    (STAFF.categories || []).forEach(function (category, index) {
+      categoryRank[category.id] = index;
+    });
+
+    // Build options from the people who actually exist, not only from
+    // designationOrder, so unlisted titles (Head of Department, Technical
+    // Officer, ...) can still be selected. Placeholder titles are skipped.
+    var ranks = {};
+    (STAFF.members || []).forEach(function (member) {
+      var designation = String(member.designation || "").trim();
+      if (!designation || designation.indexOf("[") !== -1) {
+        return;
+      }
+      var rank = categoryRank.hasOwnProperty(member.category) ? categoryRank[member.category] : 99;
+      if (!ranks.hasOwnProperty(designation) || rank < ranks[designation]) {
+        ranks[designation] = rank;
+      }
+    });
+
+    return Object.keys(ranks).sort(function (a, b) {
+      if (ranks[a] !== ranks[b]) {
+        return ranks[a] - ranks[b];
+      }
+      var oa = order.hasOwnProperty(a) ? order[a] : 99;
+      var ob = order.hasOwnProperty(b) ? order[b] : 99;
+      if (oa !== ob) {
+        return oa - ob;
+      }
+      return a.localeCompare(b);
+    });
+  }
+
   function applyStaffFilter() {
     var directory = document.getElementById("staff-directory");
     if (!directory) {
@@ -2561,10 +2654,12 @@
     }
     var search = document.getElementById("staff-search");
     var filter = document.getElementById("staff-filter");
+    var designationFilter = document.getElementById("staff-designation-filter");
     var count = document.getElementById("staff-count");
 
     var query = search ? search.value.trim().toLowerCase() : "";
     var spFilter = filter ? filter.value : "";
+    var designationFilterValue = designationFilter ? designationFilter.value : "";
     var all = STAFF.members || [];
 
     var results = all.filter(function (member) {
@@ -2576,6 +2671,9 @@
         return false;
       }
       if (spFilter && (member.specialisationIds || []).indexOf(spFilter) === -1) {
+        return false;
+      }
+      if (designationFilterValue && (member.designation || "") !== designationFilterValue) {
         return false;
       }
       return true;
@@ -2596,6 +2694,7 @@
     }
     var search = document.getElementById("staff-search");
     var filter = document.getElementById("staff-filter");
+    var designationFilter = document.getElementById("staff-designation-filter");
     var reset = document.getElementById("staff-reset");
 
     if (filter) {
@@ -2606,16 +2705,29 @@
       });
     }
 
+    if (designationFilter) {
+      clear(designationFilter);
+      designationFilter.appendChild(el("option", { text: "All designations", attrs: { value: "" } }));
+      var designations = getUniqueDesignations();
+      designations.forEach(function (designation) {
+        designationFilter.appendChild(el("option", { text: designation, attrs: { value: designation } }));
+      });
+    }
+
     if (search) {
       search.addEventListener("input", applyStaffFilter);
     }
     if (filter) {
       filter.addEventListener("change", applyStaffFilter);
     }
+    if (designationFilter) {
+      designationFilter.addEventListener("change", applyStaffFilter);
+    }
     if (reset) {
       reset.addEventListener("click", function () {
         if (search) { search.value = ""; }
         if (filter) { filter.value = ""; }
+        if (designationFilter) { designationFilter.value = ""; }
         applyStaffFilter();
         if (search) { search.focus(); }
       });
@@ -2743,8 +2855,11 @@
       var openItem = document.querySelector(".has-dropdown.is-open");
       if (openItem) {
         var button = openItem.querySelector(".nav-sub-toggle");
+        // Check focus before hiding the menu: display:none moves focus to the
+        // body, so testing afterwards would always be false.
+        var hadFocus = document.activeElement && openItem.contains(document.activeElement);
         closeAllDropdowns();
-        if (button && document.activeElement && openItem.contains(document.activeElement)) {
+        if (button && hadFocus) {
           button.focus();
         }
       }

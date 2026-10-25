@@ -18,8 +18,10 @@
  *       format The file type, e.g. "PDF" or "DOCX".
  *       size   The file size shown to readers, e.g. "1.2 MB", or "".
  *       url    Where the file is. Put the file in assets/documents and give
- *              its path here, e.g. "assets/documents/handbook.pdf", or "" if
- *              the file has not been uploaded yet.
+ *              just its name here, e.g. "handbook.pdf" (or a sub-folder path
+ *              like "forms/application.pdf"). Use a full https:// address for
+ *              a file hosted elsewhere, or "" if the file has not been
+ *              uploaded yet.
  * 
  * Anything in [square brackets] is a placeholder to replace.
  * Full help: see docs/ADMIN_GUIDE.md
@@ -33,11 +35,18 @@ window.DEPARTMENT_CONTENT.downloads = [
     title: "Forms",
     documents: [
       {
-        id: "form-admissions",
-        title: "[Application / admissions form]",
+        id: "non-medical-form",
+        title: "Non Medical Submission Form",
         format: "PDF",
         size: "",
-        url: ""
+        url: "NON-MEDICAL-SUBMISSION-FORM.pdf"
+      },
+      {
+        id: "medical-form",
+        title: "Medical Submission Form",
+        format: "PDF",
+        size: "",
+        url: "MEDICAL-SUBMISSION-FORM.pdf"
       }
     ]
   },
@@ -46,11 +55,11 @@ window.DEPARTMENT_CONTENT.downloads = [
     title: "Student Resources",
     documents: [
       {
-        id: "student-handbook",
-        title: "[Student handbook]",
+        id: "student-handbook-2023",
+        title: "Handbook 2023 final",
         format: "PDF",
         size: "",
-        url: ""
+        url: "Handbook2023-final.pdf"
       }
     ]
   }

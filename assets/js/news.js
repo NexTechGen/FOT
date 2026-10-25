@@ -15,7 +15,9 @@
  *   summary    One short sentence shown in the list.
  *   body       The full announcement in plain text. Line breaks are kept.
  *   doc.title  The name of the file to download, e.g. "Examination time table".
- *   doc.url    The link to that file, or "" when there is no file yet.
+ *   doc.url    The file to download. Put it in assets/documents and give just
+ *              its name here (e.g. "timetable.pdf"), or use a full https://
+ *              address, or "" when there is no file yet.
  * 
  * Anything in [square brackets] is a placeholder to replace.
  * Full help: see docs/ADMIN_GUIDE.md
