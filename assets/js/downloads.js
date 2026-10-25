@@ -56,7 +56,7 @@ window.DEPARTMENT_CONTENT.downloads = [
     documents: [
       {
         id: "student-handbook-2023",
-        title: "Handbook 2023 final",
+        title: "Handbook 2022/2023",
         format: "PDF",
         size: "",
         url: "Handbook2023-final.pdf"
